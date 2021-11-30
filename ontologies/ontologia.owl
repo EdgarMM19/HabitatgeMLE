@@ -1,0 +1,840 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#"
+     xml:base="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#demanada_per -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#demanada_per">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#dirigida_a -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#dirigida_a">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Recomanacio"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#es_desplaça_a -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#es_desplaça_a">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#LlocDOcupacio"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#ofereix_a -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#ofereix_a">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#recomana_a -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#recomana_a">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Recomanacio"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#respecte_a -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#respecte_a">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#accepta_compartir -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#accepta_compartir">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#accepta_estats_d_obra -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#accepta_estats_d_obra">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#accepta_habitatge_unifamiliar -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#accepta_habitatge_unifamiliar">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#accepta_plantes -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#accepta_plantes">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#admet_mascotes -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#admet_mascotes">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#caracteristiques_addicionals -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#caracteristiques_addicionals">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Recomanacio"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#caracteristiques_incomplertes -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#caracteristiques_incomplertes">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Recomanacio"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#categoria -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#categoria">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#distancia -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#distancia">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#edats -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#edats">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#es_per_compartir -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#es_per_compartir">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#estat_de_l_obra -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#estat_de_l_obra">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#grau_de_peticio -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#grau_de_peticio">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#grau_de_recomanacio -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#grau_de_recomanacio">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Recomanacio"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#inclou_electrodomestics -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#inclou_electrodomestics">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#inclou_mobles -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#inclou_mobles">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#latitud -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#latitud">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#ElementLocalitzable"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#longitud -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#longitud">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#ElementLocalitzable"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#marge_preu_maxim -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#marge_preu_maxim">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_d_adults -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_d_adults">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_d_ancians -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_d_ancians">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_d_habitants_maxim -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_d_habitants_maxim">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_d_infants_i_adolescents -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_d_infants_i_adolescents">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_banys -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_banys">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_dobles -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_dobles">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_dobles_maxim -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_dobles_maxim">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_dobles_minim -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_dobles_minim">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_maxim -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_maxim">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_minim -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_minim">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_simples -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_simples">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_simples_maxim -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_simples_maxim">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_simples_minim -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_dormitoris_simples_minim">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_joves -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_joves">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_persones -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_persones">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_recomanacions -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#nombre_de_recomanacions">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#numero_de_places_de_garatge -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#numero_de_places_de_garatge">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#piscina -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#piscina">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#planta -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#planta">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#HabitatgeCol·lectiu"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#preu -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#preu">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#preu_maxim -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#preu_maxim">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#preu_minim -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#preu_minim">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#sol -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#sol">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#superficie_habitable -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#superficie_habitable">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#superficie_habitable_maxima -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#superficie_habitable_maxima">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#superficie_habitable_minima -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#superficie_habitable_minima">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_aire_condicionat -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_aire_condicionat">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_ascensor -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_ascensor">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_balco -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_balco">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_bones_vistes -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_bones_vistes">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_calefaccio -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_calefaccio">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_cotxe -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_cotxe">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_jardi -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_jardi">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_terrassa -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_terrassa">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_traster -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#te_traster">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#tipologia -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#tipologia">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#vol_ascensor -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#vol_ascensor">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#vol_traster -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#vol_traster">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#ElementLocalitzable -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#ElementLocalitzable">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#ElementLocalitzable"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#HabitatgeCol·lectiu -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#HabitatgeCol·lectiu">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#HabitatgeUnifamiliar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#HabitatgeUnifamiliar -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#HabitatgeUnifamiliar">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#LlocDOcupacio -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#LlocDOcupacio">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#ElementLocalitzable"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio"/>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#ElementLocalitzable"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Recomanacio -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Recomanacio"/>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Recomanacio"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

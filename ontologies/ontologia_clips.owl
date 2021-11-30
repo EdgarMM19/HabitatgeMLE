@@ -1,0 +1,1215 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges">
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="#ElementLocalitzable"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Habitatge"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HabitatgeCol·lectiu"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HabitatgeUnifamiliar"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LlocDOcupacio"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Oferta"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Peticio"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PuntDInteres"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Recomanacio"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Sol·licitant"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#demanada_per"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#dirigida_a"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#es_desplaça_a"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ofereix_a"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#recomana_a"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#respecte_a"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#accepta_compartir"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#accepta_estats_d_obra"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#accepta_habitatge_unifamiliar"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#accepta_plantes"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#admet_mascotes"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#caracteristiques_addicionals"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#caracteristiques_incomplertes"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#categoria"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#distancia"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#edats"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#es_per_compartir"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#estat_de_l_obra"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#grau_de_peticio"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#grau_de_recomanacio"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#inclou_electrodomestics"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#inclou_mobles"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#latitud"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#longitud"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#marge_preu_maxim"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_d_adults"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_d_ancians"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_d_habitants_maxim"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_d_infants_i_adolescents"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_de_banys"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_de_dormitoris"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles_maxim"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles_minim"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_de_dormitoris_maxim"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_de_dormitoris_minim"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_de_dormitoris_simples"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_de_dormitoris_simples_maxim"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_de_dormitoris_simples_minim"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_de_joves"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_de_persones"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#nombre_de_recomanacions"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#numero_de_places_de_garatge"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#piscina"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#planta"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#preu"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#preu_maxim"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#preu_minim"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#sol"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#superficie_habitable"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#superficie_habitable_maxima"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#superficie_habitable_minima"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#te_aire_condicionat"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#te_ascensor"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#te_balco"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#te_bones_vistes"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#te_calefaccio"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#te_cotxe"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#te_jardi"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#te_terrassa"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#te_traster"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#tipologia"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#vol_ascensor"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#vol_traster"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#ElementLocalitzable"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Habitatge"/>
+        <Class IRI="#ElementLocalitzable"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HabitatgeCol·lectiu"/>
+        <Class IRI="#Habitatge"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HabitatgeUnifamiliar"/>
+        <Class IRI="#Habitatge"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LlocDOcupacio"/>
+        <Class IRI="#ElementLocalitzable"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PuntDInteres"/>
+        <Class IRI="#ElementLocalitzable"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#Habitatge"/>
+        <Class IRI="#Oferta"/>
+        <Class IRI="#Peticio"/>
+        <Class IRI="#PuntDInteres"/>
+        <Class IRI="#Recomanacio"/>
+        <Class IRI="#Sol·licitant"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#HabitatgeCol·lectiu"/>
+        <Class IRI="#HabitatgeUnifamiliar"/>
+    </DisjointClasses>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#demanada_per"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#dirigida_a"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#ofereix_a"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#recomana_a"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#respecte_a"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#demanada_per"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#dirigida_a"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#ofereix_a"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#recomana_a"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#respecte_a"/>
+    </FunctionalObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#demanada_per"/>
+        <Class IRI="#Peticio"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#dirigida_a"/>
+        <Class IRI="#Recomanacio"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#es_desplaça_a"/>
+        <Class IRI="#Sol·licitant"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#ofereix_a"/>
+        <Class IRI="#Oferta"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#recomana_a"/>
+        <Class IRI="#Recomanacio"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#respecte_a"/>
+        <Class IRI="#Peticio"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#demanada_per"/>
+        <Class IRI="#Sol·licitant"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#dirigida_a"/>
+        <Class IRI="#Sol·licitant"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#es_desplaça_a"/>
+        <Class IRI="#LlocDOcupacio"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#ofereix_a"/>
+        <Class IRI="#Habitatge"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#recomana_a"/>
+        <Class IRI="#Oferta"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#respecte_a"/>
+        <Class IRI="#PuntDInteres"/>
+    </ObjectPropertyRange>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#accepta_compartir"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#accepta_estats_d_obra"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#accepta_habitatge_unifamiliar"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#accepta_plantes"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#admet_mascotes"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#caracteristiques_addicionals"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#caracteristiques_incomplertes"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#categoria"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#distancia"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#edats"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#es_per_compartir"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#estat_de_l_obra"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#grau_de_peticio"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#grau_de_recomanacio"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#inclou_electrodomestics"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#inclou_mobles"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#latitud"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#longitud"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#marge_preu_maxim"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_d_adults"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_d_ancians"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_d_habitants_maxim"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_d_infants_i_adolescents"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_de_banys"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_de_dormitoris"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles_maxim"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles_minim"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_de_dormitoris_maxim"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_de_dormitoris_minim"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_de_dormitoris_simples"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_de_dormitoris_simples_maxim"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_de_dormitoris_simples_minim"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_de_joves"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_de_persones"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#nombre_de_recomanacions"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#numero_de_places_de_garatge"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#piscina"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#planta"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#preu"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#preu_maxim"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#preu_minim"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#sol"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#superficie_habitable"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#superficie_habitable_maxima"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#superficie_habitable_minima"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#te_aire_condicionat"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#te_ascensor"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#te_balco"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#te_bones_vistes"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#te_calefaccio"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#te_cotxe"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#te_jardi"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#te_terrassa"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#te_traster"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#tipologia"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#vol_ascensor"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#vol_traster"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#accepta_compartir"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#accepta_habitatge_unifamiliar"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#admet_mascotes"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#categoria"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#distancia"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#es_per_compartir"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#estat_de_l_obra"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#grau_de_peticio"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#grau_de_recomanacio"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#inclou_electrodomestics"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#inclou_mobles"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#latitud"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#longitud"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#marge_preu_maxim"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_d_adults"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_d_ancians"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_d_habitants_maxim"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_d_infants_i_adolescents"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_de_banys"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_de_dormitoris"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles_maxim"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles_minim"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_de_dormitoris_maxim"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_de_dormitoris_minim"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_de_dormitoris_simples"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_de_dormitoris_simples_maxim"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_de_dormitoris_simples_minim"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_de_joves"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_de_persones"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#nombre_de_recomanacions"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#numero_de_places_de_garatge"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#piscina"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#planta"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#preu"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#preu_maxim"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#preu_minim"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#sol"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#superficie_habitable"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#superficie_habitable_maxima"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#superficie_habitable_minima"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#te_aire_condicionat"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#te_ascensor"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#te_balco"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#te_bones_vistes"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#te_calefaccio"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#te_cotxe"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#te_jardi"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#te_terrassa"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#te_traster"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#tipologia"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#vol_ascensor"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#vol_traster"/>
+    </FunctionalDataProperty>
+    <DataPropertyDomain>
+        <DataProperty IRI="#accepta_compartir"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#accepta_estats_d_obra"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#accepta_habitatge_unifamiliar"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#accepta_plantes"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#admet_mascotes"/>
+        <Class IRI="#Oferta"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#caracteristiques_addicionals"/>
+        <Class IRI="#Recomanacio"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#caracteristiques_incomplertes"/>
+        <Class IRI="#Recomanacio"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#categoria"/>
+        <Class IRI="#PuntDInteres"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#distancia"/>
+        <Class IRI="#Peticio"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#edats"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#es_per_compartir"/>
+        <Class IRI="#Oferta"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#estat_de_l_obra"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#grau_de_peticio"/>
+        <Class IRI="#Peticio"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#grau_de_recomanacio"/>
+        <Class IRI="#Recomanacio"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#inclou_electrodomestics"/>
+        <Class IRI="#Oferta"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#inclou_mobles"/>
+        <Class IRI="#Oferta"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#latitud"/>
+        <Class IRI="#ElementLocalitzable"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#longitud"/>
+        <Class IRI="#ElementLocalitzable"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#marge_preu_maxim"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_d_adults"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_d_ancians"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_d_habitants_maxim"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_d_infants_i_adolescents"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_de_banys"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_de_dormitoris"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles_maxim"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles_minim"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_de_dormitoris_maxim"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_de_dormitoris_minim"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_de_dormitoris_simples"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_de_dormitoris_simples_maxim"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_de_dormitoris_simples_minim"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_de_joves"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_de_persones"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#nombre_de_recomanacions"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#numero_de_places_de_garatge"/>
+        <Class IRI="#Oferta"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#piscina"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#planta"/>
+        <Class IRI="#HabitatgeCol·lectiu"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#preu"/>
+        <Class IRI="#Oferta"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#preu_maxim"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#preu_minim"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#sol"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#superficie_habitable"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#superficie_habitable_maxima"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#superficie_habitable_minima"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#te_aire_condicionat"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#te_ascensor"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#te_balco"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#te_bones_vistes"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#te_calefaccio"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#te_cotxe"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#te_jardi"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#te_terrassa"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#te_traster"/>
+        <Class IRI="#Habitatge"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#tipologia"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#vol_ascensor"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#vol_traster"/>
+        <Class IRI="#Sol·licitant"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#accepta_compartir"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#accepta_estats_d_obra"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#accepta_habitatge_unifamiliar"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#accepta_plantes"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#admet_mascotes"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#caracteristiques_addicionals"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#caracteristiques_incomplertes"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#categoria"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#distancia"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#edats"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#es_per_compartir"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#estat_de_l_obra"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#grau_de_peticio"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#grau_de_recomanacio"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#inclou_electrodomestics"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#inclou_mobles"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#latitud"/>
+        <Datatype abbreviatedIRI="xsd:double"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#longitud"/>
+        <Datatype abbreviatedIRI="xsd:double"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#marge_preu_maxim"/>
+        <Datatype abbreviatedIRI="xsd:double"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_d_adults"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_d_ancians"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_d_habitants_maxim"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_d_infants_i_adolescents"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_de_banys"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_de_dormitoris"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles_maxim"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_de_dormitoris_dobles_minim"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_de_dormitoris_maxim"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_de_dormitoris_minim"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_de_dormitoris_simples"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_de_dormitoris_simples_maxim"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_de_dormitoris_simples_minim"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_de_joves"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_de_persones"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#nombre_de_recomanacions"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#numero_de_places_de_garatge"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#piscina"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#planta"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#preu"/>
+        <Datatype abbreviatedIRI="xsd:double"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#preu_maxim"/>
+        <Datatype abbreviatedIRI="xsd:double"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#preu_minim"/>
+        <Datatype abbreviatedIRI="xsd:double"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#sol"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#superficie_habitable"/>
+        <Datatype abbreviatedIRI="xsd:double"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#superficie_habitable_maxima"/>
+        <Datatype abbreviatedIRI="xsd:double"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#superficie_habitable_minima"/>
+        <Datatype abbreviatedIRI="xsd:double"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#te_aire_condicionat"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#te_ascensor"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#te_balco"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#te_bones_vistes"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#te_calefaccio"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#te_cotxe"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#te_jardi"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#te_terrassa"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#te_traster"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#tipologia"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#vol_ascensor"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#vol_traster"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

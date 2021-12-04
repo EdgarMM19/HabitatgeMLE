@@ -783,13 +783,17 @@
 
     <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:Class>
     
 
 
@@ -803,13 +807,17 @@
 
     <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Recomanacio -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Recomanacio"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Recomanacio">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:Class>
     
 
 
@@ -824,12 +832,19 @@
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#ElementLocalitzable"/>
             <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
             <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
             <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Recomanacio"/>
             <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Sol·licitant"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#LlocDOcupacio"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>

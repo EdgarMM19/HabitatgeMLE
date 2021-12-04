@@ -6,6 +6,7 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      ontologyIRI="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges">
+    <Prefix name="" IRI="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#"/>
     <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
     <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
     <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
@@ -254,16 +255,36 @@
         <Class IRI="#ElementLocalitzable"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#Oferta"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Peticio"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#PuntDInteres"/>
         <Class IRI="#ElementLocalitzable"/>
     </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Recomanacio"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Sol·licitant"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
     <DisjointClasses>
-        <Class IRI="#Habitatge"/>
+        <Class IRI="#ElementLocalitzable"/>
         <Class IRI="#Oferta"/>
         <Class IRI="#Peticio"/>
-        <Class IRI="#PuntDInteres"/>
         <Class IRI="#Recomanacio"/>
         <Class IRI="#Sol·licitant"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Habitatge"/>
+        <Class IRI="#LlocDOcupacio"/>
+        <Class IRI="#PuntDInteres"/>
     </DisjointClasses>
     <DisjointClasses>
         <Class IRI="#HabitatgeCol·lectiu"/>

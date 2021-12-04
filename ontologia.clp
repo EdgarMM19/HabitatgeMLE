@@ -1,0 +1,260 @@
+;;; ---------------------------------------------------------
+;;; ontologia-turtle.clp
+;;; Translated by owl2clips
+;;; Translated to CLIPS from ontology ontologia-turtle.owl
+;;; :Date 02/12/2021 18:36:14
+
+(defclass ElementLocalitzable
+    (is-a USER)
+    (role concrete)
+    (pattern-match reactive)
+    (single-slot latitud
+        (type FLOAT)
+        (create-accessor read-write))
+    (single-slot longitud
+        (type FLOAT)
+        (create-accessor read-write))
+)
+
+(defclass Habitatge
+    (is-a ElementLocalitzable)
+    (role concrete)
+    (pattern-match reactive)
+    (single-slot estat_de_l_obra
+        (type STRING)
+        (create-accessor read-write))
+    (single-slot nombre_d_habitants_maxim
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_de_banys
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_de_dormitoris
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_de_dormitoris_dobles
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_de_dormitoris_simples
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot piscina
+        (type STRING)
+        (create-accessor read-write))
+    (single-slot sol
+        (type STRING)
+        (create-accessor read-write))
+    (single-slot superficie_habitable
+        (type FLOAT)
+        (create-accessor read-write))
+    (single-slot te_aire_condicionat
+        (type SYMBOL)
+        (create-accessor read-write))
+    (single-slot te_ascensor
+        (type SYMBOL)
+        (create-accessor read-write))
+    (single-slot te_balco
+        (type SYMBOL)
+        (create-accessor read-write))
+    (single-slot te_bones_vistes
+        (type SYMBOL)
+        (create-accessor read-write))
+    (single-slot te_calefaccio
+        (type SYMBOL)
+        (create-accessor read-write))
+    (single-slot te_jardi
+        (type SYMBOL)
+        (create-accessor read-write))
+    (single-slot te_terrassa
+        (type SYMBOL)
+        (create-accessor read-write))
+    (single-slot te_traster
+        (type SYMBOL)
+        (create-accessor read-write))
+)
+
+(defclass HabitatgeCol·lectiu
+    (is-a Habitatge)
+    (role concrete)
+    (pattern-match reactive)
+    (single-slot planta
+        (type INTEGER)
+        (create-accessor read-write))
+)
+
+(defclass HabitatgeUnifamiliar
+    (is-a Habitatge)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass LlocDOcupacio
+    (is-a ElementLocalitzable)
+    (role concrete)
+    (pattern-match reactive)
+)
+
+(defclass PuntDInteres
+    (is-a ElementLocalitzable)
+    (role concrete)
+    (pattern-match reactive)
+    (single-slot categoria
+        (type STRING)
+        (create-accessor read-write))
+)
+
+(defclass Oferta
+    (is-a USER)
+    (role concrete)
+    (pattern-match reactive)
+    (single-slot ofereix_a
+        (type INSTANCE)
+        (create-accessor read-write))
+    (single-slot admet_mascotes
+        (type SYMBOL)
+        (create-accessor read-write))
+    (single-slot es_per_compartir
+        (type SYMBOL)
+        (create-accessor read-write))
+    (single-slot inclou_electrodomestics
+        (type SYMBOL)
+        (create-accessor read-write))
+    (single-slot inclou_mobles
+        (type SYMBOL)
+        (create-accessor read-write))
+    (single-slot numero_de_places_de_garatge
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot preu
+        (type FLOAT)
+        (create-accessor read-write))
+)
+
+(defclass Peticio
+    (is-a USER)
+    (role concrete)
+    (pattern-match reactive)
+    (single-slot demanada_per
+        (type INSTANCE)
+        (create-accessor read-write))
+    (single-slot respecte_a
+        (type INSTANCE)
+        (create-accessor read-write))
+    (single-slot distancia
+        (type STRING)
+        (create-accessor read-write))
+    (single-slot grau_de_peticio
+        (type STRING)
+        (create-accessor read-write))
+)
+
+(defclass Recomanacio
+    (is-a USER)
+    (role concrete)
+    (pattern-match reactive)
+    (single-slot dirigida_a
+        (type INSTANCE)
+        (create-accessor read-write))
+    (single-slot recomana_a
+        (type INSTANCE)
+        (create-accessor read-write))
+    (multislot caracteristiques_addicionals
+        (type STRING)
+        (create-accessor read-write))
+    (multislot caracteristiques_incomplertes
+        (type STRING)
+        (create-accessor read-write))
+    (single-slot grau_de_recomanacio
+        (type STRING)
+        (create-accessor read-write))
+)
+
+(defclass Sol·licitant
+    (is-a USER)
+    (role concrete)
+    (pattern-match reactive)
+    (multislot es_desplaça_a
+        (type INSTANCE)
+        (create-accessor read-write))
+    (single-slot accepta_compartir
+        (type SYMBOL)
+        (create-accessor read-write))
+    (multislot accepta_estats_d_obra
+        (type STRING)
+        (create-accessor read-write))
+    (single-slot accepta_habitatge_unifamiliar
+        (type SYMBOL)
+        (create-accessor read-write))
+    (multislot accepta_plantes
+        (type INTEGER)
+        (create-accessor read-write))
+    (multislot edats
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot marge_preu_maxim
+        (type FLOAT)
+        (create-accessor read-write))
+    (single-slot nombre_d_adults
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_d_ancians
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_d_infants_i_adolescents
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_de_dormitoris_dobles_maxim
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_de_dormitoris_dobles_minim
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_de_dormitoris_maxim
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_de_dormitoris_minim
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_de_dormitoris_simples_maxim
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_de_dormitoris_simples_minim
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_de_joves
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_de_persones
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot nombre_de_recomanacions
+        (type INTEGER)
+        (create-accessor read-write))
+    (single-slot preu_maxim
+        (type FLOAT)
+        (create-accessor read-write))
+    (single-slot preu_minim
+        (type FLOAT)
+        (create-accessor read-write))
+    (single-slot superficie_habitable_maxima
+        (type FLOAT)
+        (create-accessor read-write))
+    (single-slot superficie_habitable_minima
+        (type FLOAT)
+        (create-accessor read-write))
+    (single-slot te_cotxe
+        (type SYMBOL)
+        (create-accessor read-write))
+    (single-slot tipologia
+        (type STRING)
+        (create-accessor read-write))
+    (single-slot vol_ascensor
+        (type SYMBOL)
+        (create-accessor read-write))
+    (single-slot vol_traster
+        (type SYMBOL)
+        (create-accessor read-write))
+)
+
+(definstances instances
+)

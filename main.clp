@@ -13,37 +13,58 @@
 ;;*    DEFTEMPLATES    *
 ;;**********************
 
-;;**********************
-;;*    DEFCLASSES    *
-;;**********************
+; Restriccions del sol·licitant
+(deftemplate MAIN::restriccions
+    (slot superficie-habitable-minima (type FLOAT))
+)
+
+; Preferencies del sol·licitant
+(deftemplate MAIN::preferencies
+)
+
+; Recomanacions pel sol·licitant
+(deftemplate MAIN::recomanacio
+    (slot oferta 
+        (type INSTANCE))
+    (slot puntuacio
+        (type INTEGER))
+    (multislot justificacions
+        (type STRING))
+)
+
+(deftemplate MAIN::llista-recomanacions
+    (multislot recomanacions (type INSTANCE))
+)
 
 ;;****************************
 ;;* DEFFUNCTIONS - PREGUNTES *
 ;;****************************
 
-(deffunction fes-una-pregunta (?pregunta $?valors-permesos)
-    (printout t ?pregunta)
+(deffunction preguntar (?pregunta $?valors-permesos)
+    (progn$
+        (?var ?valors-permesos)
+        (lowcase ?var))
+    (format t "%s (%s) " ?pregunta (implode$ ?valors-permesos))
     (bind ?resposta (read))
-    (if (lexemep ?resposta)
-        then (bind ?resposta (lowcase ?resposta)))
-    (while (not (member ?resposta ?valors-permesos)) do
-        (printout t ?pregunta)
+    (while (not (member (lowcase ?resposta) ?valors-permesos)) do
+        (format t "%s (%s) " ?pregunta (implode$ ?valors-permesos))
         (bind ?resposta (read))
-        (if (lexemep ?resposta)
-            then (bind ?resposta (lowcase ?resposta))))
-    ?resposta)
+    )
+    ?resposta
+)
 
-(deffunction fes-una-pregunta-si-o-no (?pregunta)
-   (bind ?resposta (fes-una-pregunta ?pregunta si no s n))
+(deffunction preguntar-si-o-no (?pregunta)
+   (bind ?resposta (preguntar ?pregunta si no s n))
    (if (or (eq ?resposta si) (eq ?resposta s))
        then TRUE
-       else FALSE))
+       else FALSE)
+)
 
-(deffunction fes-una-pregunta-numerica (?pregunta ?cota-inferior ?cota-superior)
+(deffunction preguntar-nombre (?pregunta ?cota-inferior ?cota-superior)
     (format t "%s [%d, %d] " ?pregunta ?cota-inferior ?cota-superior)
     (bind ?resposta (read))
     (while (not (and (>= ?resposta ?cota-inferior) (<= ?resposta ?cota-superior))) do
-        (format t "�%s? [%d, %d] " ?pregunta ?cota-inferior ?cota-superior)
+        (format t "%s [%d, %d] " ?pregunta ?cota-inferior ?cota-superior)
         (bind ?resposta (read))
     )
     ?resposta
@@ -76,12 +97,27 @@
 )
 
 (deffacts dades
+    (preferencies)
+    (restriccions)
+    (llista-recomanacions)
+    (superficie-habitable-minima preguntar)
+)
+
+(defrule preguntes::preguntar-superficie-habitable-minima 
+    (declare (salience 10))
+    ?fet <- (superficie-habitable-minima preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?superficie-habitable-minima (preguntar-nombre "Quina superficie habitable minima vols (m2)?" 0 1000))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (superficie-habitable-minima ?superficie-habitable-minima))
 )
 
 (defrule preguntes::passar-a-seleccio "Passa al modul de seleccio"
     (declare (salience -10))
     =>
-    (printout t "Seleccionant ofertes candidates..." crlf)c
+    (printout t "Seleccionant ofertes candidates..." crlf)
     (focus seleccio)
 )
 
@@ -96,6 +132,16 @@
 
 (deffacts seleccio
     (iniciar-seleccio)
+)
+
+(defrule seleccio::afegir-ofertes "Afegir totes les ofertes"
+    (declare (salience 10))
+    ?fet <- (iniciar-seleccio)
+    ?llista-recomanacions <- (llista-recomanacions (recomanacions ?recomanacions))
+    =>
+    (bind $?llista (find-all-instances ((?instancia Oferta)) TRUE))
+    (format t "Ofertes considerades: %d" (length$ llista) crlf)
+    (retract ?fet)
 )
 
 (defrule seleccio::passar-a-construccio
@@ -114,11 +160,8 @@
     (export ?ALL)
 )
 
-(deffacts construccio
-)
-
 (defrule construccio::passar-a-presentacio
-    (declare (salience -100))
+    (declare (salience -10))
     =>
     (printout t "Presentant resultats..." crlf)
     (focus presentacio)
@@ -133,8 +176,11 @@
     (export ?ALL)
 )
 
-(defrule presentacio::mostrar-resultats "Mostra les recomanacions obtingudes"
+(defrule presentacio::mostrar-recomanacions
     =>
+    (printout t crlf)
+    (printout t "Et recomano aquestes ofertes:" crlf)
+    (bind ?i 1)
 )
 
 ;;**********************

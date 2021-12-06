@@ -226,8 +226,9 @@
         (bind ?oferta-abstracta (nth$ ?i ?llista-ofertes-abstractes))
         (if (> (send ?oferta-abstracta get-puntuacio) 0)
             then
-        (printout t ?oferta-abstracta " puntuacio: "(send ?oferta-abstracta get-puntuacio)crlf)
+        (printout t " Oferta amb puntuacio: " (send ?oferta-abstracta get-puntuacio) crlf)
         )
+        (send (send ?oferta-abstracta get-oferta) imprimir)
     )
     (assert (final))
 )
@@ -235,6 +236,10 @@
 ;;**********************
 ;;*  MESSAGE HANDLERS  *
 ;;**********************
+
+;;*****************************
+;;*  OfertaAbstractaHandlers  *
+;;*****************************
 
 (defmessage-handler MAIN::OfertaAbstracta calcula-puntuacio-mida-habitatge (?mida-habitatge-solicitant)
 
@@ -264,4 +269,50 @@
                 else (send ?self put-mida-habitatge Gran)
             )
     )
+)
+
+;;***********************
+;;*  HabitatgeHandlers  *
+;;***********************
+
+(defmessage-handler MAIN::Habitatge imprimir ()
+    ;;;(printout t "Esta situat a " ?self::latitud " " ?self::longitud crlf)
+    (printout t "Te " ?self:nombre_de_dormitoris " dormitors." crlf)
+    (printout t "Te " ?self:nombre_de_banys " banys." crlf)
+    (printout t "Te " ?self:superficie_habitable " m2." crlf)
+)
+;;********************
+;;*  OfertaHandlers  *
+;;********************
+
+(defmessage-handler MAIN::Oferta imprimir ()
+    (printout t "--- Habitatge  ---" crlf)
+    (send ?self:ofereix_a imprimir)
+    (printout t "Costa " ?self:numero_de_places_de_garatge " euros." crlf)
+    (if (eq ?self:admet_mascotes TRUE)
+    then
+    (printout t "Admet mascotes." crlf)
+    else
+    (printout t "No admet mascotes." crlf)
+    )
+    (if (eq ?self:es_per_compartir TRUE)
+    then
+    (printout t "Es per compartir." crlf)
+    else
+    (printout t "No es per compartir." crlf)
+    )
+    (if (eq ?self:inclou_electrodomestics TRUE)
+    then
+    (printout t "Inclou electrodomestics." crlf)
+    else
+    (printout t "No inclou electrodomestics." crlf)
+    )
+    (if (eq ?self:inclou_mobles TRUE)
+    then
+    (printout t "Inclou mobles." crlf)
+    else
+    (printout t "No inclou mobles." crlf)
+    )
+    (printout t "Te " ?self:numero_de_places_de_garatge " places de garatge." crlf)
+    (printout t "--------------------------" crlf)
 )

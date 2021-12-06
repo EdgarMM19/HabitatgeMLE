@@ -9,31 +9,63 @@
 ;;;     (run)
 ;;;======================================================
 
+;;****************
+;;*    MODULS    *
+;;****************
+
+(defmodule MAIN (export ?ALL))
+
+(defmodule preguntes
+    (import MAIN ?ALL)
+    (export ?ALL)
+)
+
+(defmodule abstraccio
+    (import MAIN ?ALL)
+    (import preguntes ?ALL)
+    (export ?ALL)
+)
+
+(defmodule construccio
+    (import MAIN ?ALL)
+    (export ?ALL)
+)
+
+(defmodule presentacio
+    (import MAIN ?ALL)
+    (export ?ALL)
+)
+
 ;;**********************
 ;;*    DEFTEMPLATES    *
 ;;**********************
 
 ; Restriccions del sol·licitant
 (deftemplate MAIN::restriccions
-    (slot superficie-habitable-minima (type FLOAT))
+    (slot superficie-habitable-maxima (type FLOAT) (default 0.0))
 )
 
 ; Preferencies del sol·licitant
 (deftemplate MAIN::preferencies
 )
 
-; Recomanacions pel sol·licitant
-(deftemplate MAIN::recomanacio
-    (slot oferta 
-        (type INSTANCE))
-    (slot puntuacio
-        (type INTEGER))
-    (multislot justificacions
-        (type STRING))
-)
-
 (deftemplate MAIN::llista-recomanacions
     (multislot recomanacions (type INSTANCE))
+)
+
+(deftemplate MAIN::problema-abstracte
+    (slot mida-habitatge (type SYMBOL) (allowed-values Petit Mitja Gran))
+)
+
+;;*******************
+;;*    DEFCLASSES   *
+;;*******************
+
+(defclass OfertaAbstracta (is-a USER) (role concrete)
+	(slot oferta (type INSTANCE) (create-accessor read-write))
+	(slot mida-habitatge (type SYMBOL) (allowed-values Petit Mitja Gran) (create-accessor read-write))
+	(slot puntuacio (type INTEGER) (create-accessor read-write) (default 0))
+	(multislot justificacio-puntuacio (type STRING) (create-accessor read-write))
 )
 
 ;;****************************
@@ -70,15 +102,27 @@
     ?resposta
 )
 
+;;*****************************
+;;* DEFFUNCTIONS - ABSTRACCIO *
+;;*****************************
+
+(deffunction calcular-ofertes-abstractes ()
+	(bind ?llista-ofertes (find-all-instances ((?inst Oferta)) TRUE))
+	(loop-for-count (?i 1 (length$ ?llista-ofertes)) do
+		(bind ?oferta (nth$ ?i ?llista-ofertes))
+		(bind ?ofertaAbstracta (make-instance (sym-cat ofertaAbstracta- (gensym)) of OfertaAbstracta))
+		(send ?ofertaAbstracta put-oferta ?oferta)
+		(send ?ofertaAbstracta calcula-mida-habitatge)
+	)
+)
+
 ;;*****************
 ;;*      MAIN     *
 ;;*****************
 
-(defmodule MAIN (export ?ALL))
-
-(defrule initial_rule "Regla inicial"
-    (initial-fact)
+(defrule MAIN::initial_rule "Missatge inicial"
     =>
+    (calcular-ofertes-abstractes)
     (printout t crlf crlf)
     (printout t "-----------------------------------------------------------" crlf)
     (printout t "---------------Sistema expert d'habitatges ----------------" crlf)
@@ -91,61 +135,56 @@
 ;;*  MODUL DE PREGUNTES  *
 ;;************************
 
-(defmodule preguntes
-    (import MAIN ?ALL)
-    (export ?ALL)
-)
-
 (deffacts dades
-    (preferencies)
     (restriccions)
-    (llista-recomanacions)
-    (superficie-habitable-minima preguntar)
+    (superficie-habitable-maxima preguntar)
 )
 
-(defrule preguntes::preguntar-superficie-habitable-minima 
+(defrule preguntes::preguntar-superficie-habitable-maxima 
     (declare (salience 10))
-    ?fet <- (superficie-habitable-minima preguntar)
+    ?fet <- (superficie-habitable-maxima preguntar)
     ?restriccions <- (restriccions)
     =>
-    (bind ?superficie-habitable-minima (preguntar-nombre "Quina superficie habitable minima vols (m2)?" 0 1000))
+    (bind ?superficie-habitable-maxima (preguntar-nombre "Quina superficie habitable maxima vols (m2)?" 0 1000))
     (printout t crlf)
     (retract ?fet)
-    (modify ?restriccions (superficie-habitable-minima ?superficie-habitable-minima))
+    (modify ?restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
 )
 
 (defrule preguntes::passar-a-seleccio "Passa al modul de seleccio"
     (declare (salience -10))
+    (not (superficie-habitable-maxima preguntar))
     =>
-    (printout t "Seleccionant ofertes candidates..." crlf)
+    (printout t "Abstraient problema..." crlf)
     (focus seleccio)
 )
 
-;;***********************
-;;*  MODUL DE SELECCIO  *
-;;***********************
+;;************************
+;;*  MODUL D'ABSTRACCIO  *
+;;************************
 
-(defmodule seleccio
-    (import MAIN ?ALL)
-    (export ?ALL)
+(deffacts abstraccio
+    (mida-habitatge abstreure)
 )
 
-(deffacts seleccio
-    (iniciar-seleccio)
-)
-
-(defrule seleccio::afegir-ofertes "Afegir totes les ofertes"
-    (declare (salience 10))
-    ?fet <- (iniciar-seleccio)
-    ?llista-recomanacions <- (llista-recomanacions (recomanacions ?recomanacions))
+(defrule abstraccio::abstreure-mida-habitatge
+    ?fet <- (mida-habitatge abstreure)
+    (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
     =>
-    (bind $?llista (find-all-instances ((?instancia Oferta)) TRUE))
-    (format t "Ofertes considerades: %d" (length$ llista) crlf)
+    (if  (< ?superficie-habitable-maxima 70)
+        then (assert (problema-abstracte (mida-habitatge Petit)))
+            else (
+                if (< ?superficie-habitable-maxima 150)
+                    then (assert (problema-abstracte (mida-habitatge Mitja)))
+                else (assert (problema-abstracte (mida-habitatge Gran)))
+            )
+    )
     (retract ?fet)
 )
 
-(defrule seleccio::passar-a-construccio
+(defrule abstraccio::passar-a-construccio
     (declare (salience -10))
+    (not (mida-habitatge abstreure))
     =>
     (printout t "Generant resultats..." crlf)
     (focus construccio)
@@ -155,9 +194,14 @@
 ;;*  MODUL DE CONSTRUCCIO  *
 ;;**************************
 
-(defmodule construccio
-    (import MAIN ?ALL)
-    (export ?ALL)
+(defrule construccio::calcular-puntuacions
+    (problema-abstracte (mida-habitatge ?mida-habitatge))
+	=>
+	(bind ?llista-ofertes-abstractes (find-all-instances ((?inst OfertaAbstracta)) TRUE))
+	(loop-for-count (?i 1 (length$ ?llista-ofertes-abstractes)) do
+		(bind ?oferta-abstracta (nth$ ?i ?llista-ofertes-abstractes))
+		(send ?oferta-abstracta calcula-puntuacio-mida-habitatge ?mida-habitatge)
+	)
 )
 
 (defrule construccio::passar-a-presentacio
@@ -171,18 +215,44 @@
 ;;*  MODUL DE PRESENTACIO  *
 ;;**************************
 
-(defmodule presentacio
-    (import MAIN ?ALL)
-    (export ?ALL)
-)
-
 (defrule presentacio::mostrar-recomanacions
+    (not (final))
+    (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
     =>
     (printout t crlf)
     (printout t "Et recomano aquestes ofertes:" crlf)
-    (bind ?i 1)
+    (assert (final))
 )
 
 ;;**********************
 ;;*  MESSAGE HANDLERS  *
 ;;**********************
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-puntuacio-mida-habitatge (?mida-habitatge)
+
+	(bind ?mida-habitatge (send ?self get-mida-habitatge))
+	(bind ?puntuacio 0)
+	(bind ?justificacio "No te cap bonificacio per la mida de l'habitatge")
+
+	(if (eq (send ?self get-mida-habitatge) ?mida-habitatge)
+		then
+			(bind ?puntuacio 5)
+			(bind ?justificacio "La mida de l'habitatge s'ajusta amb la mida d'habitatge del sol·licitant")
+	)
+
+	(send ?self put-puntuacio (+ ?puntuacio (send ?self get-puntuacio)))
+	(bind ?justificacio (str-cat "+" (str-cat ?justificacio (str-cat " --> " ?justificacio))))
+	(slot-insert$ ?self justificacio-puntuacio (+ 1 (length$ ?self:justificacio-puntuacio)) ?justificacio)
+)
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-mida-habitatge ()
+    (bind ?superficie-habitable-maxima (send ?self:oferta get-superficie-habitable-maxima))
+    (if  (< ?superficie-habitable-maxima 70)
+        then (send ?self put-mida-habitatge Petit)
+            else (
+                if (< ?superficie-habitable-maxima 150)
+                    then (send ?self put-mida-habitatge Mitja)
+                else (send ?self put-mida-habitatge Gran)
+            )
+    )
+)

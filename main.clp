@@ -156,7 +156,7 @@
     (not (superficie-habitable-maxima preguntar))
     =>
     (printout t "Abstraient problema..." crlf)
-    (focus seleccio)
+    (focus abstraccio)
 )
 
 ;;************************
@@ -221,6 +221,14 @@
     =>
     (printout t crlf)
     (printout t "Et recomano aquestes ofertes:" crlf)
+    (bind ?llista-ofertes-abstractes (find-all-instances ((?inst OfertaAbstracta)) TRUE))
+    (loop-for-count (?i 1 (length$ ?llista-ofertes-abstractes)) do
+        (bind ?oferta-abstracta (nth$ ?i ?llista-ofertes-abstractes))
+        (if (> (send ?oferta-abstracta get-puntuacio) 0)
+            then
+        (printout t ?oferta-abstracta " puntuacio: "(send ?oferta-abstracta get-puntuacio)crlf)
+        )
+    )
     (assert (final))
 )
 
@@ -228,13 +236,13 @@
 ;;*  MESSAGE HANDLERS  *
 ;;**********************
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-puntuacio-mida-habitatge (?mida-habitatge)
+(defmessage-handler MAIN::OfertaAbstracta calcula-puntuacio-mida-habitatge (?mida-habitatge-solicitant)
 
 	(bind ?mida-habitatge (send ?self get-mida-habitatge))
 	(bind ?puntuacio 0)
 	(bind ?justificacio "No te cap bonificacio per la mida de l'habitatge")
 
-	(if (eq (send ?self get-mida-habitatge) ?mida-habitatge)
+	(if (eq (send ?self get-mida-habitatge) ?mida-habitatge-solicitant)
 		then
 			(bind ?puntuacio 5)
 			(bind ?justificacio "La mida de l'habitatge s'ajusta amb la mida d'habitatge del sol·licitant")
@@ -246,11 +254,12 @@
 )
 
 (defmessage-handler MAIN::OfertaAbstracta calcula-mida-habitatge ()
-    (bind ?superficie-habitable-maxima (send ?self:oferta get-superficie-habitable-maxima))
-    (if  (< ?superficie-habitable-maxima 70)
+    (bind ?hab_actual (send ?self:oferta get-ofereix_a))
+    (bind ?superficie_habitable (send ?hab_actual get-superficie_habitable))
+    (if  (< ?superficie_habitable 70)
         then (send ?self put-mida-habitatge Petit)
             else (
-                if (< ?superficie-habitable-maxima 150)
+                if (< ?superficie_habitable 150)
                     then (send ?self put-mida-habitatge Mitja)
                 else (send ?self put-mida-habitatge Gran)
             )

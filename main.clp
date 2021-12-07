@@ -43,6 +43,7 @@
 ; Restriccions del sol·licitant
 (deftemplate MAIN::restriccions
     (slot superficie-habitable-maxima (type FLOAT) (default 0.0))
+    (slot presupost (type FLOAT) (default 0.0))
 )
 
 ; Preferencies del sol·licitant
@@ -54,7 +55,8 @@
 )
 
 (deftemplate MAIN::problema-abstracte
-    (slot mida-habitatge (type SYMBOL) (allowed-values Petit Mitja Gran))
+    (slot mida-habitatge (type SYMBOL) (allowed-values Petit Mitja Gran NA) (default NA))
+    (slot presupost (type SYMBOL) (allowed-values Barat Mitja Car NA) (default NA))
 )
 
 ;;*******************
@@ -64,6 +66,7 @@
 (defclass OfertaAbstracta (is-a USER) (role concrete)
 	(slot oferta (type INSTANCE) (create-accessor read-write))
 	(slot mida-habitatge (type SYMBOL) (allowed-values Petit Mitja Gran) (create-accessor read-write))
+    (slot preu (type SYMBOL) (allowed-values Barat Mitja Car) (create-accessor read-write))
 	(slot puntuacio (type INTEGER) (create-accessor read-write) (default 0))
 	(multislot justificacio-puntuacio (type STRING) (create-accessor read-write))
 )
@@ -113,6 +116,7 @@
 		(bind ?ofertaAbstracta (make-instance (sym-cat ofertaAbstracta- (gensym)) of OfertaAbstracta))
 		(send ?ofertaAbstracta put-oferta ?oferta)
 		(send ?ofertaAbstracta calcula-mida-habitatge)
+        (send ?ofertaAbstracta calcula-rang-preu)
 	)
 )
 
@@ -138,6 +142,7 @@
 (deffacts dades
     (restriccions)
     (superficie-habitable-maxima preguntar)
+    (presupost preguntar)
 )
 
 (defrule preguntes::preguntar-superficie-habitable-maxima 
@@ -149,6 +154,17 @@
     (printout t crlf)
     (retract ?fet)
     (modify ?restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
+)
+
+(defrule preguntes::preguntar-presupost
+    (declare (salience 10))
+    ?fet <- (presupost preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?presupost (preguntar-nombre "Quin presupost tens?" 0 5000))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (presupost ?presupost))
 )
 
 (defrule preguntes::passar-a-seleccio "Passa al modul de seleccio"
@@ -165,18 +181,38 @@
 
 (deffacts abstraccio
     (mida-habitatge abstreure)
+    (presupost abstreure)
 )
 
 (defrule abstraccio::abstreure-mida-habitatge
     ?fet <- (mida-habitatge abstreure)
     (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
+    (not (problema-abstracte))
     =>
     (if  (< ?superficie-habitable-maxima 70)
         then (assert (problema-abstracte (mida-habitatge Petit)))
             else (
                 if (< ?superficie-habitable-maxima 150)
                     then (assert (problema-abstracte (mida-habitatge Mitja)))
-                else (assert (problema-abstracte (mida-habitatge Gran)))
+                else
+                    (assert (problema-abstracte (mida-habitatge Gran)))
+            )
+    )
+    (retract ?fet)
+)
+
+(defrule abstraccio::abstreure-presupost
+    ?fet <- (presupost abstreure)
+    (restriccions (presupost ?presupost))
+    ?e <- (problema-abstracte (presupost ?presupost-abs))
+    (test (eq ?presupost-abs NA))
+    =>
+    (if  (< ?presupost 1000)
+        then ( modify ?e (presupost Barat))
+            else (
+                if (< ?presupost 2000)
+                    then (modify ?e (presupost Mitja))
+                else (modify ?e (presupost Car))
             )
     )
     (retract ?fet)
@@ -185,6 +221,7 @@
 (defrule abstraccio::passar-a-construccio
     (declare (salience -10))
     (not (mida-habitatge abstreure))
+    (not (presupost abstreure))
     =>
     (printout t "Generant resultats..." crlf)
     (focus construccio)
@@ -195,12 +232,15 @@
 ;;**************************
 
 (defrule construccio::calcular-puntuacions
+    (declare (salience 10))
     (problema-abstracte (mida-habitatge ?mida-habitatge))
+    (problema-abstracte (presupost ?presupost))
 	=>
 	(bind ?llista-ofertes-abstractes (find-all-instances ((?inst OfertaAbstracta)) TRUE))
 	(loop-for-count (?i 1 (length$ ?llista-ofertes-abstractes)) do
 		(bind ?oferta-abstracta (nth$ ?i ?llista-ofertes-abstractes))
-		(send ?oferta-abstracta calcula-puntuacio-mida-habitatge ?mida-habitatge)
+        (send ?oferta-abstracta calcula-puntuacio-mida-habitatge ?mida-habitatge)
+		(send ?oferta-abstracta calcula-puntuacio-preu ?presupost)
 	)
 )
 
@@ -226,9 +266,9 @@
         (bind ?oferta-abstracta (nth$ ?i ?llista-ofertes-abstractes))
         (if (> (send ?oferta-abstracta get-puntuacio) 0)
             then
-        (printout t " Oferta amb puntuacio: " (send ?oferta-abstracta get-puntuacio) crlf)
-        )
+        (printout t "Oferta amb puntuacio: " (send ?oferta-abstracta get-puntuacio) crlf (send ?oferta-abstracta get-justificacio-puntuacio) crlf)
         (send (send ?oferta-abstracta get-oferta) imprimir)
+        )
     )
     (assert (final))
 )
@@ -247,15 +287,57 @@
 	(bind ?puntuacio 0)
 	(bind ?justificacio "No te cap bonificacio per la mida de l'habitatge")
 
-	(if (eq (send ?self get-mida-habitatge) ?mida-habitatge-solicitant)
+	(if (eq ?mida-habitatge ?mida-habitatge-solicitant)
 		then
 			(bind ?puntuacio 5)
 			(bind ?justificacio "La mida de l'habitatge s'ajusta amb la mida d'habitatge del sol·licitant")
 	)
-
 	(send ?self put-puntuacio (+ ?puntuacio (send ?self get-puntuacio)))
-	(bind ?justificacio (str-cat "+" (str-cat ?justificacio (str-cat " --> " ?justificacio))))
+	(bind ?justificacio (str-cat "+" (str-cat "Mida Habitatge" (str-cat " --> " ?justificacio))))
 	(slot-insert$ ?self justificacio-puntuacio (+ 1 (length$ ?self:justificacio-puntuacio)) ?justificacio)
+)
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-puntuacio-preu (?presupost-solicitant)
+
+    (bind ?preu-habitatge (send ?self get-mida-habitatge))
+    (bind ?puntuacio 0)
+    (bind ?justificacio "No te cap bonificacio pel preu de l'habitatge")
+
+    (if (eq ?presupost-solicitant Car)
+        then (
+            if (eq ?preu-habitatge Car)
+            then
+                (bind ?puntuacio 5)
+                (bind ?justificacio "El presupost es adient")
+            else
+                (bind ?puntuacio 3)
+                (bind ?justificacio "El preu es menor al presupost")
+        )
+    )
+    (if (eq ?presupost-solicitant Mitja)
+        then (if (eq ?preu-habitatge Mitja)
+            then
+                (bind ?puntuacio 5)
+                (bind ?justificacio "El presupost es adient")
+            else
+                (if (eq ?preu-habitatge Barat)
+                then
+                    (bind ?puntuacio 3)
+                    (bind ?justificacio "El preu es menor al presupost")
+                )
+        )
+    )
+    
+    (if (eq ?presupost-solicitant Barat)
+        then (if (eq ?preu-habitatge Barat)
+            then
+                (bind ?puntuacio 5)
+                (bind ?justificacio "El presupost es adient")
+        )
+    )
+    (send ?self put-puntuacio (+ ?puntuacio (send ?self get-puntuacio)))
+    (bind ?justificacio (str-cat "+" (str-cat "Preu habitatge" (str-cat " --> " ?justificacio))))
+    (slot-insert$ ?self justificacio-puntuacio (+ 1 (length$ ?self:justificacio-puntuacio)) ?justificacio)
 )
 
 (defmessage-handler MAIN::OfertaAbstracta calcula-mida-habitatge ()
@@ -271,6 +353,17 @@
     )
 )
 
+(defmessage-handler MAIN::OfertaAbstracta calcula-rang-preu ()
+    (bind ?preu (send ?self:oferta get-preu))
+    (if  (< ?preu 1000)
+        then (send ?self put-preu Barat)
+            else (
+                if (< ?preu 2000)
+                    then (send ?self put-preu Mitja)
+                else (send ?self put-preu Car)
+            )
+    )
+)
 ;;***********************
 ;;*  HabitatgeHandlers  *
 ;;***********************
@@ -286,7 +379,6 @@
 ;;********************
 
 (defmessage-handler MAIN::Oferta imprimir ()
-    (printout t "--- Habitatge  ---" crlf)
     (send ?self:ofereix_a imprimir)
     (printout t "Costa " ?self:numero_de_places_de_garatge " euros." crlf)
     (if (eq ?self:admet_mascotes TRUE)

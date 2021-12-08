@@ -32,17 +32,6 @@
     
 
 
-    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#respecte_a -->
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#respecte_a">
-        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio"/>
-        <rdfs:range rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
-    </owl:ObjectProperty>
-    
-
-
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -81,7 +70,6 @@
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#distancia">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     </owl:DatatypeProperty>
     
@@ -114,7 +102,6 @@
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#grau_de_peticio">
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-        <rdfs:domain rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     </owl:DatatypeProperty>
     
@@ -431,12 +418,6 @@
     
 
 
-    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio -->
-
-    <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Peticio"/>
-    
-
-
     <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres">
@@ -453,6 +434,72 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Caprabo -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Caprabo">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hipermercat</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.39098387985266</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.134638732335127</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#CentreComercialIlla -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#CentreComercialIlla">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zona comercial</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.39098387985266</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.134638732335127</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#CentreComercialMaremagnum -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#CentreComercialMaremagnum">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zona comercial</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.37632103480868</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.18246360236497</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#CentreEsportsUPC -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#CentreEsportsUPC">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zona esportiva</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.38820905065717</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.1133108271820897</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#ClubTennisBarcino -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#ClubTennisBarcino">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zona esportiva</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.40954253025416</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.1385854758277993</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#FerrocarrilPutxet -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#FerrocarrilPutxet">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Parada de transport public</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.406132181200626</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.1389102620469758</longitud>
+    </owl:NamedIndividual>
     
 
 
@@ -701,6 +748,160 @@
     
 
 
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#HospitalDexeus -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#HospitalDexeus">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Centre de salut</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.38525786997681</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.125472266722365</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#HospitalSagratCor -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#HospitalSagratCor">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Centre de salut</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.389264945151496</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.1457533617420514</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#HospitalTeknon -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#HospitalTeknon">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Centre de salut</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.40705245175463</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.1272901328719946</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#JardinsMagali -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#JardinsMagali">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zona verda</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.385068340034614</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.133808446347894</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#JardinsPalauPedralbes -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#JardinsPalauPedralbes">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zona verda</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.38750511146732</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.1188321929080898</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Lidl -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Lidl">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hipermercat</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.38284809100044</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.141567228250443</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Mercadona -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Mercadona">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hipermercat</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.40672765187097</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.134579779124623</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MercatBoqueria -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MercatBoqueria">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Supermercat</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.38224121493596</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.172049963491897</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MercatSantAntoni -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MercatSantAntoni">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Supermercat</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.37909903259165</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.161975181226727</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MetroJaumeI -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MetroJaumeI">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Parada de transport public</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.3839033224606</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.1786349868399144</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MetroLesCorts -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MetroLesCorts">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Parada de transport public</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.38428313867461</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.1308131956599334</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MetroLesseps -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MetroLesseps">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Parada de transport public</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.40653818452237</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.1499169061412893</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MetroMariaCristina -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MetroMariaCristina">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Parada de transport public</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.3878570819902</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.126121839674454</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MetroSantAntoni -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MetroSantAntoni">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Parada de transport public</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.38026029157868</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.1631586646855876</longitud>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta1 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta1">
@@ -791,6 +992,28 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta9">
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge9"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#SalaApolo -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#SalaApolo">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zona d&apos;oci nocturn</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.375592360009804</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.171296373830083</longitud>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#SantsEstacio -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#SantsEstacio">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Parada de transport public</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.38119639315609</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.1416033156081298</longitud>
     </owl:NamedIndividual>
 </rdf:RDF>
 

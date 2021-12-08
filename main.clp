@@ -120,6 +120,14 @@
 	)
 )
 
+;;******************************
+;;* DEFFUNCTIONS - PRESENTACIO *
+;;******************************
+
+(deffunction comparar-ofertes (?oferta1 ?oferta2)
+    (< (send ?oferta1 get-puntuacio) (send ?oferta2 get-puntuacio))
+)
+
 ;;*****************
 ;;*      MAIN     *
 ;;*****************
@@ -262,8 +270,9 @@
     (printout t crlf)
     (printout t "Et recomano aquestes ofertes:" crlf)
     (bind ?llista-ofertes-abstractes (find-all-instances ((?inst OfertaAbstracta)) TRUE))
-    (loop-for-count (?i 1 (length$ ?llista-ofertes-abstractes)) do
-        (bind ?oferta-abstracta (nth$ ?i ?llista-ofertes-abstractes))
+    (bind ?llista-ordenada (sort comparar-ofertes ?llista-ofertes-abstractes))
+    (loop-for-count (?i 1 (length$ ?llista-ordenada)) do
+        (bind ?oferta-abstracta (nth$ ?i ?llista-ordenada))
         (if (> (send ?oferta-abstracta get-puntuacio) 0)
             then
         (printout t "Oferta amb puntuacio: " (send ?oferta-abstracta get-puntuacio) crlf (send ?oferta-abstracta get-justificacio-puntuacio) crlf)
@@ -369,7 +378,7 @@
 ;;***********************
 
 (defmessage-handler MAIN::Habitatge imprimir ()
-    ;;;(printout t "Esta situat a " ?self::latitud " " ?self::longitud crlf)
+    (printout t "Esta situat a " (send ?self get-latitud) " " (send ?self get-longitud) crlf)
     (printout t "Te " ?self:nombre_de_dormitoris " dormitors." crlf)
     (printout t "Te " ?self:nombre_de_banys " banys." crlf)
     (printout t "Te " ?self:superficie_habitable " m2." crlf)

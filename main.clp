@@ -120,6 +120,38 @@
 	)
 )
 
+;;******************************
+;;* DEFFUNCTIONS - PRESENTACIO *
+;;******************************
+
+(deffunction comparar-ofertes (?oferta1 ?oferta2)
+    (< (send ?oferta1 get-puntuacio) (send ?oferta2 get-puntuacio))
+)
+
+(deffunction imprimir-justificacions (?oferta ?superficie-habitable-maxima ?pressupost)
+    (printout t "**************************" crlf)
+    (bind ?num-restriccions 2)
+    (bind ?num-restriccions-satisfetes 0)
+    (bind ?justificacions (create$))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (<= (send ?habitatge get-superficie_habitable) ?superficie-habitable-maxima)
+        then (bind ?num-restriccions-satisfetes (+ ?num-restriccions-satisfetes 1))
+        else (bind ?justificacions (insert$ ?justificacions (+ (length$ ?justificacions) 1) "La superfície habitable de l'oferta és superior a la màxima")))
+    (if (<= (send ?oferta get-preu) ?pressupost)
+        then (bind ?num-restriccions-satisfetes (+ ?num-restriccions-satisfetes 1))
+        else (bind ?justificacions (insert$ ?justificacions (+ (length$ ?justificacions) 1) "El preu de l'oferta és superior al pressupost")))
+    (if (eq ?num-restriccions-satisfetes ?num-restriccions)
+        then (printout t "L'oferta és adequada" crlf)
+        else (if (<= (- ?num-restriccions ?num-restriccions-satisfetes) 2)
+        then (printout t "L'oferta és parcialment adequada" crlf)
+        else (printout t "L'oferta no és adequada" crlf)))
+    (loop-for-count (?i 1 (length$ ?justificacions)) do
+        (bind ?justificacio (nth$ ?i ?justificacions))
+            (printout t ?justificacio crlf)
+    )
+    (printout t "**************************" crlf)
+)
+
 ;;*****************
 ;;*      MAIN     *
 ;;*****************
@@ -258,16 +290,19 @@
 (defrule presentacio::mostrar-recomanacions
     (not (final))
     (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
+    (restriccions (presupost ?pressupost))
     =>
     (printout t crlf)
     (printout t "Et recomano aquestes ofertes:" crlf)
     (bind ?llista-ofertes-abstractes (find-all-instances ((?inst OfertaAbstracta)) TRUE))
-    (loop-for-count (?i 1 (length$ ?llista-ofertes-abstractes)) do
-        (bind ?oferta-abstracta (nth$ ?i ?llista-ofertes-abstractes))
+    (bind ?llista-ordenada (sort comparar-ofertes ?llista-ofertes-abstractes))
+    (loop-for-count (?i 1 (length$ ?llista-ordenada)) do
+        (bind ?oferta-abstracta (nth$ ?i ?llista-ordenada))
         (if (> (send ?oferta-abstracta get-puntuacio) 0)
             then
         (printout t "Oferta amb puntuacio: " (send ?oferta-abstracta get-puntuacio) crlf (send ?oferta-abstracta get-justificacio-puntuacio) crlf)
         (send (send ?oferta-abstracta get-oferta) imprimir)
+        (imprimir-justificacions (send ?oferta-abstracta get-oferta) ?superficie-habitable-maxima ?pressupost)
         )
     )
     (assert (final))
@@ -369,18 +404,19 @@
 ;;***********************
 
 (defmessage-handler MAIN::Habitatge imprimir ()
-    ;;;(printout t "Esta situat a " ?self::latitud " " ?self::longitud crlf)
+    (printout t "Esta situat a " (send ?self get-latitud) " " (send ?self get-longitud) crlf)
     (printout t "Te " ?self:nombre_de_dormitoris " dormitors." crlf)
     (printout t "Te " ?self:nombre_de_banys " banys." crlf)
     (printout t "Te " ?self:superficie_habitable " m2." crlf)
 )
+
 ;;********************
 ;;*  OfertaHandlers  *
 ;;********************
 
 (defmessage-handler MAIN::Oferta imprimir ()
     (send ?self:ofereix_a imprimir)
-    (printout t "Costa " ?self:numero_de_places_de_garatge " euros." crlf)
+    (printout t "Costa " ?self:preu " euros." crlf)
     (if (eq ?self:admet_mascotes TRUE)
     then
     (printout t "Admet mascotes." crlf)

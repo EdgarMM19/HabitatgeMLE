@@ -908,9 +908,10 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge1"/>
         <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</admet_mascotes>
+        <es_per_compartir rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</es_per_compartir>
         <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</inclou_electrodomestics>
-        <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</inclou_mobles>
         <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</inclou_mobles>
+        <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</numero_de_places_de_garatge>
         <preu rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2500.0</preu>
     </owl:NamedIndividual>
     
@@ -938,6 +939,10 @@
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge3"/>
         <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</admet_mascotes>
         <es_per_compartir rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</es_per_compartir>
+        <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_electrodomestics>
+        <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</inclou_mobles>
+        <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</numero_de_places_de_garatge>
+        <preu rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1150.0</preu>
     </owl:NamedIndividual>
     
 
@@ -947,6 +952,12 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta4">
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge4"/>
+        <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</admet_mascotes>
+        <es_per_compartir rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</es_per_compartir>
+        <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_electrodomestics>
+        <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_mobles>
+        <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</numero_de_places_de_garatge>
+        <preu rdf:datatype="http://www.w3.org/2001/XMLSchema#double">937.0</preu>
     </owl:NamedIndividual>
     
 
@@ -956,6 +967,12 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta5">
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge5"/>
+        <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</admet_mascotes>
+        <es_per_compartir rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</es_per_compartir>
+        <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_electrodomestics>
+        <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_mobles>
+        <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</numero_de_places_de_garatge>
+        <preu rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1350.0</preu>
     </owl:NamedIndividual>
     
 
@@ -965,6 +982,12 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta6">
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge6"/>
+        <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</admet_mascotes>
+        <es_per_compartir rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</es_per_compartir>
+        <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_electrodomestics>
+        <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</inclou_mobles>
+        <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</numero_de_places_de_garatge>
+        <preu rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1030.0</preu>
     </owl:NamedIndividual>
     
 
@@ -974,6 +997,12 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta7">
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge7"/>
+        <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</admet_mascotes>
+        <es_per_compartir rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</es_per_compartir>
+        <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</inclou_electrodomestics>
+        <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</inclou_mobles>
+        <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</numero_de_places_de_garatge>
+        <preu rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1500.0</preu>
     </owl:NamedIndividual>
     
 
@@ -983,6 +1012,12 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta8">
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge8"/>
+        <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</admet_mascotes>
+        <es_per_compartir rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</es_per_compartir>
+        <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_electrodomestics>
+        <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_mobles>
+        <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</numero_de_places_de_garatge>
+        <preu rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1750.0</preu>
     </owl:NamedIndividual>
     
 
@@ -992,6 +1027,12 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta9">
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge9"/>
+        <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</admet_mascotes>
+        <es_per_compartir rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</es_per_compartir>
+        <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</inclou_electrodomestics>
+        <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</inclou_mobles>
+        <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</numero_de_places_de_garatge>
+        <preu rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2990.0</preu>
     </owl:NamedIndividual>
     
 

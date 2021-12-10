@@ -2,10 +2,9 @@
 ;;;     Cal executar CLIPS des del directori del projecte
 ;;;     i carregar-lo:
 ;;;
-;;;     (load "habitatges.pont")
+;;;     (load "instancies.clp")
 ;;;     (load "main.clp")
 ;;;     (reset)
-;;;     (load-instances "habitatges.pins")
 ;;;     (run)
 ;;;======================================================
 
@@ -44,6 +43,7 @@
 (deftemplate MAIN::restriccions
     (slot superficie-habitable-maxima (type FLOAT) (default 0.0))
     (slot presupost (type FLOAT) (default 0.0))
+    (slot jardi (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
 )
 
 ; Preferencies del sol·licitant
@@ -128,7 +128,7 @@
     (< (send ?oferta1 get-puntuacio) (send ?oferta2 get-puntuacio))
 )
 
-(deffunction imprimir-justificacions (?oferta ?superficie-habitable-maxima ?pressupost)
+(deffunction imprimir-justificacions (?oferta ?superficie-habitable-maxima ?pressupost ?jardi)
     (printout t "**************************" crlf)
     (bind ?num-restriccions 2)
     (bind ?num-restriccions-satisfetes 0)
@@ -140,6 +140,10 @@
     (if (<= (send ?oferta get-preu) ?pressupost)
         then (bind ?num-restriccions-satisfetes (+ ?num-restriccions-satisfetes 1))
         else (bind ?justificacions (insert$ ?justificacions (+ (length$ ?justificacions) 1) "El preu de l'oferta és superior al pressupost")))
+    (if (and (eq (send ?habitatge get-te_jardi) "true") (eq ?jardi TRUE))
+    then
+    (bind ?justificacions (insert$ ?justificacions (+ (length$ ?justificacions) 1) "I te jardi tal com desitjes!"))
+    )
     (if (eq ?num-restriccions-satisfetes ?num-restriccions)
         then (printout t "L'oferta és adequada" crlf)
         else (if (<= (- ?num-restriccions ?num-restriccions-satisfetes) 2)
@@ -175,6 +179,7 @@
     (restriccions)
     (superficie-habitable-maxima preguntar)
     (presupost preguntar)
+    (jardi preguntar)
 )
 
 (defrule preguntes::preguntar-superficie-habitable-maxima 
@@ -197,6 +202,17 @@
     (printout t crlf)
     (retract ?fet)
     (modify ?restriccions (presupost ?presupost))
+)
+
+(defrule preguntes::preguntar-jardi
+    (declare (salience 10))
+    ?fet <- (jardi preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?jardi (preguntar-si-o-no "Voldries jardi?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (jardi ?jardi))
 )
 
 (defrule preguntes::passar-a-seleccio "Passa al modul de seleccio"
@@ -291,6 +307,7 @@
     (not (final))
     (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
     (restriccions (presupost ?pressupost))
+    (restriccions (jardi ?jardi))
     =>
     (printout t crlf)
     (printout t "Et recomano aquestes ofertes:" crlf)
@@ -301,8 +318,8 @@
         (if (> (send ?oferta-abstracta get-puntuacio) 0)
             then
         (printout t "Oferta amb puntuacio: " (send ?oferta-abstracta get-puntuacio) crlf (send ?oferta-abstracta get-justificacio-puntuacio) crlf)
+        (imprimir-justificacions (send ?oferta-abstracta get-oferta) ?superficie-habitable-maxima ?pressupost ?jardi)
         (send (send ?oferta-abstracta get-oferta) imprimir)
-        (imprimir-justificacions (send ?oferta-abstracta get-oferta) ?superficie-habitable-maxima ?pressupost)
         )
     )
     (assert (final))

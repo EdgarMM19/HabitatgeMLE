@@ -1,0 +1,16 @@
+Prototip del SBC d'Habitatges
+
+Autors: Edgar Moreno, Laia Pomar, Maria Prat
+
+Per executar cal obrir un IDE de CLIPS i executar:
+
+(load instancies.clp)
+(load main.clp)
+(reset)
+(run)
+
+Si es vol tornar a executar cal fer:
+(reset)
+(run)
+
+El prototip implementa unes recomanacions bàsiques en funció de tres preguntes a l'usuari i indica l'adequació de les ofertes considerades per a l'usuari.

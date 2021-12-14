@@ -25,6 +25,8 @@
     (export ?ALL)
 )
 
+;;; construir solucio abstracta
+
 (defmodule construccio
     (import MAIN ?ALL)
     (export ?ALL)
@@ -42,8 +44,19 @@
 ; Restriccions del sol·licitant
 (deftemplate MAIN::restriccions
     (slot superficie-habitable-maxima (type FLOAT) (default 0.0))
+    (slot superficie-habitable-minima (type FLOAT) (default 0.0))
     (slot presupost (type FLOAT) (default 0.0))
+    (slot presupost-minim (type FLOAT) (default 0.0))
     (slot jardi (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
+    (slot piscina (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
+    (slot aire-acondicionat (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
+    (slot calefaccio (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
+    (slot terrassa (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
+    (slot traster (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
+    (slot places-garatge (type INTEGER) (default 0))
+    (slot mobilitat-reduida (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+    (slot nombre-habitants (type INTEGER) (range 1 10) (default 1))
+    (slot nombre-parelles (type INTEGER) (range 0 5) (default 1))
 )
 
 ; Preferencies del sol·licitant
@@ -178,12 +191,23 @@
 (deffacts dades
     (restriccions)
     (superficie-habitable-maxima preguntar)
+    (superficie-habitable-minima preguntar)
     (presupost preguntar)
+    (presupost-minim preguntar)
     (jardi preguntar)
+    (piscina preguntar)
+    (aire preguntar)
+    (calefaccio preguntar)
+    (garatge preguntar)
+    (traster preguntar)
+    (mobilitat-reduida preguntar)
+    (habitants preguntar)
+    (parelles preguntar)
+    (terrassa preguntar)
 )
 
 (defrule preguntes::preguntar-superficie-habitable-maxima 
-    (declare (salience 10))
+    (declare (salience 9))
     ?fet <- (superficie-habitable-maxima preguntar)
     ?restriccions <- (restriccions)
     =>
@@ -192,9 +216,18 @@
     (retract ?fet)
     (modify ?restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
 )
-
-(defrule preguntes::preguntar-presupost
+(defrule preguntes::preguntar-superficie-habitable-minima 
     (declare (salience 10))
+    ?fet <- (superficie-habitable-minima preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?superficie-habitable-minima (preguntar-nombre "Quina superficie habitable minima vols (m2)?" 0 1000))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (superficie-habitable-minima ?superficie-habitable-minima))
+)
+(defrule preguntes::preguntar-presupost
+    (declare (salience 50))
     ?fet <- (presupost preguntar)
     ?restriccions <- (restriccions)
     =>
@@ -204,8 +237,19 @@
     (modify ?restriccions (presupost ?presupost))
 )
 
+(defrule preguntes::preguntar-presupost-minim
+    (declare (salience 49))
+    ?fet <- (presupost-minim preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?presupost (preguntar-nombre "Indica el preu minim que t'interessa?" 0 5000))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (presupost-minim ?presupost))
+)
+
 (defrule preguntes::preguntar-jardi
-    (declare (salience 10))
+    (declare (salience 5))
     ?fet <- (jardi preguntar)
     ?restriccions <- (restriccions)
     =>
@@ -214,6 +258,106 @@
     (retract ?fet)
     (modify ?restriccions (jardi ?jardi))
 )
+
+(defrule preguntes::preguntar-piscina
+    (declare (salience 5))
+    ?fet <- (piscina preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?piscina (preguntar-si-o-no "Voldries piscina?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (piscina ?piscina))
+)
+
+(defrule preguntes::preguntar-aire
+    (declare (salience 5))
+    ?fet <- (aire preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?aire (preguntar-si-o-no "Voldries aire acondicionat?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (aire-acondicionat ?aire))
+)
+
+(defrule preguntes::preguntar-calefaccio
+    (declare (salience 5))
+    ?fet <- (calefaccio preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?calefaccio (preguntar-si-o-no "Voldries calefaccio?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (calefaccio ?calefaccio))
+)
+
+(defrule preguntes::preguntar-garatge
+    (declare (salience 4))
+    ?fet <- (garatge preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?places (preguntar-nombre "Indica quantes places de garatge necessitaries?" 0 10))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (places-garatge ?places))
+)
+
+(defrule preguntes::preguntar-traster
+    (declare (salience 5))
+    ?fet <- (traster preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?traster (preguntar-si-o-no "T'interessa tenir traster?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (traster ?traster))
+)
+
+(defrule preguntes::preguntar-mobilitat
+    (declare (salience 5))
+    ?fet <- (mobilitat-reduida preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?mobilitat (preguntar-si-o-no "Algun habitant tindra mobilitat reduida?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (mobilitat-reduida ?mobilitat))
+)
+
+(defrule preguntes::preguntar-terrassa
+    (declare (salience 5))
+    ?fet <- (terrassa preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?terrassa (preguntar-si-o-no "Voldries terrassa?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (terrassa ?terrassa))
+)
+
+(defrule preguntes::preguntar-habitants
+    (declare (salience 15))
+    ?fet <- (habitants preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?habitants (preguntar-nombre "Quants habitants hi haura?" 1 10))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (nombre-habitants ?habitants))
+)
+
+(defrule preguntes::preguntar-parelles
+    (declare (salience 14))
+    ?fet <- (parelles preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?parelles (preguntar-nombre "Quantes parelles hi haura?" 0 5))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (nombre-parelles ?parelles))
+)
+
 
 (defrule preguntes::passar-a-seleccio "Passa al modul de seleccio"
     (declare (salience -10))

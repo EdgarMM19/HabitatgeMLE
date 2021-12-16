@@ -1,3 +1,10 @@
+;;; TODOS:
+;;; Vector de edats?
+;;; banys
+;;; abstreure a full
+;;; llocs
+;;; 
+
 ;;;======================================================
 ;;;     Cal executar CLIPS des del directori del projecte
 ;;;     i carregar-lo:
@@ -448,7 +455,6 @@
     (retract ?fet)
 )
 
-
 (defrule abstraccio::abstreure-presupost-car
     ?fet <- (presupost abstreure)
     (restriccions (presupost ?presupost))
@@ -497,6 +503,19 @@
 (deffacts construccio-abstracta
     
 )
+
+(defrule construccio::calcular-puntuacions
+    (declare (salience 10))
+    (problema-abstracte (mida-habitatge ?mida-habitatge))
+    (problema-abstracte (presupost ?presupost))
+    =>
+    (bind ?llista-ofertes-abstractes (find-all-instances ((?inst OfertaAbstracta)) TRUE))
+    (loop-for-count (?i 1 (length$ ?llista-ofertes-abstractes)) do
+        (bind ?oferta-abstracta (nth$ ?i ?llista-ofertes-abstractes))
+        (send ?oferta-abstracta calcula-puntuacio-mida-habitatge ?mida-habitatge)
+        (send ?oferta-abstracta calcula-puntuacio-preu ?presupost)
+    )
+)
 (defrule construccio-abstracta::passar-a-construccio
     (declare (salience -10))
     =>
@@ -507,18 +526,7 @@
 ;;*  MODUL DE CONSTRUCCIO  *
 ;;**************************
 
-(defrule construccio::calcular-puntuacions
-    (declare (salience 10))
-    (problema-abstracte (mida-habitatge ?mida-habitatge))
-    (problema-abstracte (presupost ?presupost))
-	=>
-	(bind ?llista-ofertes-abstractes (find-all-instances ((?inst OfertaAbstracta)) TRUE))
-	(loop-for-count (?i 1 (length$ ?llista-ofertes-abstractes)) do
-		(bind ?oferta-abstracta (nth$ ?i ?llista-ofertes-abstractes))
-        (send ?oferta-abstracta calcula-puntuacio-mida-habitatge ?mida-habitatge)
-		(send ?oferta-abstracta calcula-puntuacio-preu ?presupost)
-	)
-)
+
 
 (defrule construccio::passar-a-presentacio
     (declare (salience -10))
@@ -562,7 +570,6 @@
 ;;*****************************
 
 (defmessage-handler MAIN::OfertaAbstracta calcula-puntuacio-mida-habitatge (?mida-habitatge-solicitant)
-
 	(bind ?mida-habitatge (send ?self get-mida-habitatge))
 	(bind ?puntuacio 0)
 	(bind ?justificacio "No te cap bonificacio per la mida de l'habitatge")
@@ -655,10 +662,88 @@
     (printout t "Te " ?self:superficie_habitable " m2." crlf)
 )
 
+(defmessage-handler MAIN::Habitatge apte-mobilitat-reduida ()
+    (bind ?apte FALSE)
+    (if (eq ?self:te_ascensor "true")
+        then (bind ?apte TRUE) 
+    )
+    (if (eq (class ?self) HabitatgeUnifamiliar) 
+        then (bind ?apte TRUE)
+        else (if (< (send ?self get-planta) 2)
+            then (bind ?apte TRUE))
+    )
+    ?apte
+)
+
 ;;********************
 ;;*  OfertaHandlers  *
 ;;********************
 
+;;; (slot superficie-habitable-maxima (type FLOAT) (default 0.0))
+;;; (slot superficie-habitable-minima (type FLOAT) (default 0.0))
+;;; (slot presupost (type FLOAT) (default 0.0))
+;;; (slot presupost-minim (type FLOAT) (default 0.0))
+;;; (slot mobilitat-reduida (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+;;; (slot nombre-habitants (type INTEGER) (range 1 10) (default 1))
+;;; (slot nombre-parelles (type INTEGER) (range 0 5) (default 0))
+;;; (slot menors (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+;;; (slot edat (type INTEGER) (default 40))
+
+;;;"Retorna 0 si no adequat, 1 si parcialment adequat 2 si adequat" 
+(defmessage-handler MAIN::Oferta adecuacio (?sup-min ?sup-max ?pres-min ?pres-max ?mob-red ?num-hab ?num-parelles)
+    (bind ?faltes-acceptables 0)
+    (bind ?faltes-inacceptables 0)
+    (bind ?habitatge ?self:ofereix_a)
+
+    (bind ?sup (send ?habitatge get-superficie_habitable))
+    (if (> (- ?sup-min 20) ?sup)
+        then (bind ?faltes-inacceptables 1)
+        else (if (> ?sup-min ?sup) then 
+            (bind ?faltes-acceptables (+ ?faltes-acceptables 1))
+        )
+    )
+    (if (< ?sup-max ?sup) then
+        (bind ?faltes-acceptables (+ ?faltes-acceptables 1))
+    )
+
+    (bind ?preu ?self:preu)
+    (if (< (+ ?pres-max 150) ?preu)
+        then (bind ?faltes-inacceptables 1)
+        else (if (< ?pres-max ?preu) then 
+            (bind ?faltes-acceptables (+ ?faltes-acceptables 1))
+        )
+    )
+    (if (> ?pres-min ?preu) then
+        (bind ?faltes-acceptables (+ ?faltes-acceptables 1))
+    )
+
+    (bind ?capacitat (send ?habitatge get-nombre_d_habitants_maxim))
+    (if (< ?capacitat ?num-hab)
+        then (bind ?faltes-inacceptables 1) )
+
+    (bind ?capacitat-parelles (send ?habitatge get-nombre_de_dormitoris_dobles))
+    (if (< ?capacitat-parelles ?num-parelles)
+        then (bind ?faltes-inacceptables 1) )
+
+
+    (if (and (eq ?mob-red TRUE) (eq (send ?habitatge apte-mobilitat-reduida) FALSE))
+        then (bind ?faltes-inacceptables 1)
+    )
+
+    (bind ?resposta 0)
+    (if (not (eq ?faltes-inacceptables 0))
+        then (bind ?resposta 0)
+        else 
+        (if (eq ?faltes-acceptables 0)
+            then (bind ?resposta 2)
+            else (if (< ?faltes-acceptables 3)
+                then (bind ?resposta 1)
+                else (bind ?resposta 0)
+            )
+        )
+    )
+    ?resposta
+)
 (defmessage-handler MAIN::Oferta imprimir ()
     (send ?self:ofereix_a imprimir)
     (printout t "Costa " ?self:preu " euros." crlf)

@@ -25,7 +25,10 @@
     (export ?ALL)
 )
 
-;;; construir solucio abstracta
+(defmodule construccio-abstracta
+    (import MAIN ?ALL)
+    (export ?ALL)
+)
 
 (defmodule construccio
     (import MAIN ?ALL)
@@ -47,20 +50,22 @@
     (slot superficie-habitable-minima (type FLOAT) (default 0.0))
     (slot presupost (type FLOAT) (default 0.0))
     (slot presupost-minim (type FLOAT) (default 0.0))
+    (slot mobilitat-reduida (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+    (slot nombre-habitants (type INTEGER) (range 1 10) (default 1))
+    (slot nombre-parelles (type INTEGER) (range 0 5) (default 0))
+    (slot menors (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+    (slot edat (type INTEGER) (default 40))
+)
+
+; Preferencies del sol·licitant
+(deftemplate MAIN::preferencies
+    (slot places-garatge (type INTEGER) (default 0))
     (slot jardi (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
     (slot piscina (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
     (slot aire-acondicionat (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
     (slot calefaccio (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
     (slot terrassa (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
     (slot traster (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
-    (slot places-garatge (type INTEGER) (default 0))
-    (slot mobilitat-reduida (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
-    (slot nombre-habitants (type INTEGER) (range 1 10) (default 1))
-    (slot nombre-parelles (type INTEGER) (range 0 5) (default 1))
-)
-
-; Preferencies del sol·licitant
-(deftemplate MAIN::preferencies
 )
 
 (deftemplate MAIN::llista-recomanacions
@@ -190,6 +195,7 @@
 
 (deffacts dades
     (restriccions)
+    (preferencies)
     (superficie-habitable-maxima preguntar)
     (superficie-habitable-minima preguntar)
     (presupost preguntar)
@@ -204,6 +210,8 @@
     (habitants preguntar)
     (parelles preguntar)
     (terrassa preguntar)
+    (menors preguntar)
+    (edat preguntar)
 )
 
 (defrule preguntes::preguntar-superficie-habitable-maxima 
@@ -251,67 +259,67 @@
 (defrule preguntes::preguntar-jardi
     (declare (salience 5))
     ?fet <- (jardi preguntar)
-    ?restriccions <- (restriccions)
+    ?preferencies <- (preferencies)
     =>
     (bind ?jardi (preguntar-si-o-no "Voldries jardi?"))
     (printout t crlf)
     (retract ?fet)
-    (modify ?restriccions (jardi ?jardi))
+    (modify ?preferencies (jardi ?jardi))
 )
 
 (defrule preguntes::preguntar-piscina
     (declare (salience 5))
     ?fet <- (piscina preguntar)
-    ?restriccions <- (restriccions)
+    ?preferencies <- (preferencies)
     =>
     (bind ?piscina (preguntar-si-o-no "Voldries piscina?"))
     (printout t crlf)
     (retract ?fet)
-    (modify ?restriccions (piscina ?piscina))
+    (modify ?preferencies (piscina ?piscina))
 )
 
 (defrule preguntes::preguntar-aire
     (declare (salience 5))
     ?fet <- (aire preguntar)
-    ?restriccions <- (restriccions)
+    ?preferencies <- (preferencies)
     =>
     (bind ?aire (preguntar-si-o-no "Voldries aire acondicionat?"))
     (printout t crlf)
     (retract ?fet)
-    (modify ?restriccions (aire-acondicionat ?aire))
+    (modify ?preferencies (aire-acondicionat ?aire))
 )
 
 (defrule preguntes::preguntar-calefaccio
     (declare (salience 5))
     ?fet <- (calefaccio preguntar)
-    ?restriccions <- (restriccions)
+    ?preferencies <- (preferencies)
     =>
     (bind ?calefaccio (preguntar-si-o-no "Voldries calefaccio?"))
     (printout t crlf)
     (retract ?fet)
-    (modify ?restriccions (calefaccio ?calefaccio))
+    (modify ?preferencies (calefaccio ?calefaccio))
 )
 
 (defrule preguntes::preguntar-garatge
     (declare (salience 4))
     ?fet <- (garatge preguntar)
-    ?restriccions <- (restriccions)
+    ?preferencies <- (preferencies)
     =>
     (bind ?places (preguntar-nombre "Indica quantes places de garatge necessitaries?" 0 10))
     (printout t crlf)
     (retract ?fet)
-    (modify ?restriccions (places-garatge ?places))
+    (modify ?preferencies (places-garatge ?places))
 )
 
 (defrule preguntes::preguntar-traster
     (declare (salience 5))
     ?fet <- (traster preguntar)
-    ?restriccions <- (restriccions)
+    ?preferencies <- (preferencies)
     =>
     (bind ?traster (preguntar-si-o-no "T'interessa tenir traster?"))
     (printout t crlf)
     (retract ?fet)
-    (modify ?restriccions (traster ?traster))
+    (modify ?preferencies (traster ?traster))
 )
 
 (defrule preguntes::preguntar-mobilitat
@@ -328,12 +336,12 @@
 (defrule preguntes::preguntar-terrassa
     (declare (salience 5))
     ?fet <- (terrassa preguntar)
-    ?restriccions <- (restriccions)
+    ?preferencies <- (preferencies)
     =>
     (bind ?terrassa (preguntar-si-o-no "Voldries terrassa?"))
     (printout t crlf)
     (retract ?fet)
-    (modify ?restriccions (terrassa ?terrassa))
+    (modify ?preferencies (terrassa ?terrassa))
 )
 
 (defrule preguntes::preguntar-habitants
@@ -357,11 +365,46 @@
     (retract ?fet)
     (modify ?restriccions (nombre-parelles ?parelles))
 )
+(defrule preguntes::preguntar-edat
+    (declare (salience 13))
+    ?fet <- (edat preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?edat (preguntar-nombre "Quina es la teva edat?" 18 99))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (edat ?edat))
+)
 
+(defrule preguntes::preguntar-menors
+    (declare (salience 13))
+    ?fet <- (menors preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?menors (preguntar-si-o-no "Hi haura menors?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (menors ?menors))
+)
 
 (defrule preguntes::passar-a-seleccio "Passa al modul de seleccio"
     (declare (salience -10))
     (not (superficie-habitable-maxima preguntar))
+    (not (superficie-habitable-minima preguntar))
+    (not (presupost preguntar))
+    (not (presupost-minim preguntar))
+    (not (jardi preguntar))
+    (not (piscina preguntar))
+    (not (aire preguntar))
+    (not (calefaccio preguntar))
+    (not (garatge preguntar))
+    (not (traster preguntar))
+    (not (mobilitat-reduida preguntar))
+    (not (habitants preguntar))
+    (not (parelles preguntar))
+    (not (terrassa preguntar))
+    (not (menors preguntar))
+    (not (edat preguntar))
     =>
     (printout t "Abstraient problema..." crlf)
     (focus abstraccio)
@@ -376,49 +419,90 @@
     (presupost abstreure)
 )
 
-(defrule abstraccio::abstreure-mida-habitatge
+(defrule abstraccio::abstreure-mida-habitatge-gran
     ?fet <- (mida-habitatge abstreure)
     (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
     (not (problema-abstracte))
+    (test (> ?superficie-habitable-maxima 150))
     =>
-    (if  (< ?superficie-habitable-maxima 70)
-        then (assert (problema-abstracte (mida-habitatge Petit)))
-            else (
-                if (< ?superficie-habitable-maxima 150)
-                    then (assert (problema-abstracte (mida-habitatge Mitja)))
-                else
-                    (assert (problema-abstracte (mida-habitatge Gran)))
-            )
-    )
+    (assert (problema-abstracte (mida-habitatge Gran)))
+    (retract ?fet)
+)
+(defrule abstraccio::abstreure-mida-habitatge-mitja
+    ?fet <- (mida-habitatge abstreure)
+    (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
+    (not (problema-abstracte))
+    (test (> ?superficie-habitable-maxima 69))
+    (test (< ?superficie-habitable-maxima 151))
+    =>
+    (assert (problema-abstracte (mida-habitatge Mitja)))
+    (retract ?fet)
+)
+(defrule abstraccio::abstreure-mida-habitatge-petit
+    ?fet <- (mida-habitatge abstreure)
+    (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
+    (not (problema-abstracte))
+    (test (< ?superficie-habitable-maxima 70))
+    =>
+    (assert (problema-abstracte (mida-habitatge Petit)))
     (retract ?fet)
 )
 
-(defrule abstraccio::abstreure-presupost
+
+(defrule abstraccio::abstreure-presupost-car
     ?fet <- (presupost abstreure)
     (restriccions (presupost ?presupost))
     ?e <- (problema-abstracte (presupost ?presupost-abs))
     (test (eq ?presupost-abs NA))
+    (test (> ?presupost 2000))
     =>
-    (if  (< ?presupost 1000)
-        then ( modify ?e (presupost Barat))
-            else (
-                if (< ?presupost 2000)
-                    then (modify ?e (presupost Mitja))
-                else (modify ?e (presupost Car))
-            )
-    )
+    (modify ?e (presupost Car)) 
+    (retract ?fet)
+)
+(defrule abstraccio::abstreure-presupost-mitja
+    ?fet <- (presupost abstreure)
+    (restriccions (presupost ?presupost))
+    ?e <- (problema-abstracte (presupost ?presupost-abs))
+    (test (eq ?presupost-abs NA))
+    (test (< ?presupost 2001))
+    (test (> ?presupost 1000))
+    =>
+    (modify ?e (presupost Mitja)) 
+    (retract ?fet)
+)
+(defrule abstraccio::abstreure-presupost-barat
+    ?fet <- (presupost abstreure)
+    (restriccions (presupost ?presupost))
+    ?e <- (problema-abstracte (presupost ?presupost-abs))
+    (test (eq ?presupost-abs NA))
+    (test (< ?presupost 1001))
+    =>
+    (modify ?e (presupost Barat))
     (retract ?fet)
 )
 
-(defrule abstraccio::passar-a-construccio
+(defrule abstraccio::passar-a-construccio-abstracta
     (declare (salience -10))
     (not (mida-habitatge abstreure))
     (not (presupost abstreure))
     =>
+    (printout t "Generant resultats abstractes..." crlf)
+    (focus construccio-abstracta)
+)
+
+;;**************************
+;;*  MODUL DE ABSTRACTA  *
+;;**************************
+
+(deffacts construccio-abstracta
+    
+)
+(defrule construccio-abstracta::passar-a-construccio
+    (declare (salience -10))
+    =>
     (printout t "Generant resultats..." crlf)
     (focus construccio)
 )
-
 ;;**************************
 ;;*  MODUL DE CONSTRUCCIO  *
 ;;**************************
@@ -451,7 +535,7 @@
     (not (final))
     (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
     (restriccions (presupost ?pressupost))
-    (restriccions (jardi ?jardi))
+    (preferencies (jardi ?jardi))
     =>
     (printout t crlf)
     (printout t "Et recomano aquestes ofertes:" crlf)
@@ -605,3 +689,4 @@
     (printout t "Te " ?self:numero_de_places_de_garatge " places de garatge." crlf)
     (printout t "--------------------------" crlf)
 )
+

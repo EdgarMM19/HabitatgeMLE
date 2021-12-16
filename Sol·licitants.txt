@@ -1,0 +1,84 @@
+Familia_1:
+	Persones: 5
+		1 ancia (83 anys)
+		2 adults (49 anys, 45 anys)
+		2 infants i adolescents (15 anys, 7 anys)
+	Accepta habitatge unifamiliar: true
+	Accepta plantes: true
+	Accepta estats d'obra: tot
+	Preu minim: 500
+	Preu maxim: 1400
+	Marge preu maxim: 0
+	Te cotxe: false
+	Vol traster: false
+	Vol ascensor: true
+
+
+Familia_2:
+	Persones: 5
+		2 adults (56 anys, 50 anys)
+		1 jove (19 anys)
+		2 infants i adolescents (13 anys, 11 anys)
+	Accepta habitatge unifamiliar: true
+	Accepta plantes: true
+	Accepta estats d'obra: nova/bon estat
+	Preu minim: 1300
+	Preu maxim: 3000
+	Marge preu maxim: 500
+	Te cotxe: true
+	Vol traster: true
+	Vol ascensor: true
+
+Familia_3:
+	Persones: 3
+		1 adult (42 anys)
+		2 infants i adolescents (8 anys, 5 anys)
+	Accepta habitatge unifamiliar: true
+	Accepta plantes: true
+	Accepta estats d'obra: nova/bon estat
+	Preu minim: 600
+	Preu maxim: 1600
+	Marge preu maxim: 200
+	Te cotxe: true
+	Vol traster: false
+	Vol ascensor: false	
+
+Estudiant:
+	Persones: 1
+		1 jove (20 anys)
+	Accepta habitatge unifamiliar: false
+	Accepta plantes: true
+	Accepta estats d'obra: nova/bon estat
+	Preu minim: 200
+	Preu maxim: 700
+	Marge preu maxim: 100
+	Te cotxe: false
+	Vol traster: false
+	Vol ascensor: false	
+
+Parella:
+	Persones: 2
+		2 jove (33 anys, 29 anys)
+	Accepta habitatge unifamiliar: true
+	Accepta plantes: true
+	Accepta estats d'obra: tot
+	Preu minim: 500
+	Preu maxim: 1400
+	Marge preu maxim: 200
+	Te cotxe: false
+	Vol traster: false
+	Vol ascensor: false	
+
+Ancia:
+	Persones: 1
+		1 ancia 71
+	Accepta habitatge unifamiliar: true
+	Accepta plantes: false
+	Accepta estats d'obra: nova/bon estat
+	Preu minim: 400
+	Preu maxim: 1500
+	Marge preu maxim: 200
+	Te cotxe: false
+	Vol traster: false
+	Vol ascensor: true
+

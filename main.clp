@@ -21,27 +21,32 @@
 
 (defmodule MAIN (export ?ALL))
 
+;; Maria
 (defmodule preguntes
     (import MAIN ?ALL)
     (export ?ALL)
 )
 
+;; Edgar
 (defmodule abstraccio
     (import MAIN ?ALL)
     (import preguntes ?ALL)
     (export ?ALL)
 )
 
-(defmodule construccio-abstracta
+;; En el futuro
+(defmodule construccio-solucio-abstracta
     (import MAIN ?ALL)
     (export ?ALL)
 )
 
+;; Edgar
 (defmodule construccio
     (import MAIN ?ALL)
     (export ?ALL)
 )
 
+;; Maria
 (defmodule presentacio
     (import MAIN ?ALL)
     (export ?ALL)
@@ -73,6 +78,10 @@
     (slot calefaccio (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
     (slot terrassa (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
     (slot traster (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
+)
+
+(deftemplate MAIN::llista-recomanacions-abstractes
+    (multislot recomanacions (type INSTANCE))
 )
 
 (deftemplate MAIN::llista-recomanacions
@@ -493,18 +502,18 @@
     (not (presupost abstreure))
     =>
     (printout t "Generant resultats abstractes..." crlf)
-    (focus construccio-abstracta)
+    (focus construccio-solucio-abstracta)
 )
 
 ;;**************************
 ;;*  MODUL DE ABSTRACTA  *
 ;;**************************
 
-(deffacts construccio-abstracta
+(deffacts construccio-solucio-abstracta
     
 )
 
-(defrule construccio::calcular-puntuacions
+(defrule construccio-solucio-abstracta::calcular-puntuacions
     (declare (salience 10))
     (problema-abstracte (mida-habitatge ?mida-habitatge))
     (problema-abstracte (presupost ?presupost))
@@ -516,7 +525,7 @@
         (send ?oferta-abstracta calcula-puntuacio-preu ?presupost)
     )
 )
-(defrule construccio-abstracta::passar-a-construccio
+(defrule construccio-solucio-abstracta::passar-a-construccio
     (declare (salience -10))
     =>
     (printout t "Generant resultats..." crlf)

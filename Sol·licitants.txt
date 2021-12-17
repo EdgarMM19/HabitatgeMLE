@@ -43,6 +43,21 @@ Familia_3:
 	Vol traster: false
 	Vol ascensor: false	
 
+
+Familia_4:
+	Persones: 4
+		2 adults (46 anys, 40 anys)
+		2 infants i adolescents (8 anys, 5 anys)
+	Accepta habitatge unifamiliar: true
+	Accepta plantes: true
+	Accepta estats d'obra: nova/bon estat
+	Preu minim: 1500
+	Preu maxim: 6000
+	Marge preu maxim: 1000
+	Te cotxe: true
+	Vol traster: false
+	Vol ascensor: true
+
 Estudiant:
 	Persones: 1
 		1 jove (20 anys)
@@ -50,7 +65,7 @@ Estudiant:
 	Accepta plantes: true
 	Accepta estats d'obra: nova/bon estat
 	Preu minim: 200
-	Preu maxim: 700
+	Preu maxim: 1100
 	Marge preu maxim: 100
 	Te cotxe: false
 	Vol traster: false

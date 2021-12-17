@@ -56,28 +56,59 @@
 ;;*    DEFTEMPLATES    *
 ;;**********************
 
+; Coordenades d'un lloc
+(deftemplate MAIN::coordenades
+    (slot latitud (type FLOAT) (default 0.0))
+    (slot longitud (type FLOAT) (default 0.0))
+)
+
+; Informació del sol·licitant
+(deftemplate MAIN::informacio
+    (slot preu-maxim-estricte (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
+    (slot hi-ha-infants (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+    (slot hi-ha-adolescents (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+    (slot hi-ha-joves (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+    (slot hi-ha-adults (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+    (slot hi-ha-ancians (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+)
+
 ; Restriccions del sol·licitant
 (deftemplate MAIN::restriccions
-    (slot superficie-habitable-maxima (type FLOAT) (default 0.0))
-    (slot superficie-habitable-minima (type FLOAT) (default 0.0))
-    (slot presupost (type FLOAT) (default 0.0))
-    (slot presupost-minim (type FLOAT) (default 0.0))
-    (slot mobilitat-reduida (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+    (slot estat-obra-minim (type SYMBOL) (allowed-values NOVA BON-ESTAT PER-REFORMAR) (default BON-ESTAT))
+    (slot nombre-banys-minim (type INTEGER) (range 1 10) (default 1))
     (slot nombre-habitants (type INTEGER) (range 1 10) (default 1))
     (slot nombre-parelles (type INTEGER) (range 0 5) (default 0))
-    (slot menors (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
-    (slot edat (type INTEGER) (default 40))
+    (slot preu-maxim (type INTEGER) (default 0))
+    (slot preu-minim (type INTEGER) (default 0))
+    (slot superficie-habitable-maxima (type INTEGER) (default 0))
+    (slot superficie-habitable-minima (type INTEGER) (default 0))
+    (slot te-mascotes (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+    (slot te-mobilitat-reduida (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
 )
 
 ; Preferencies del sol·licitant
 (deftemplate MAIN::preferencies
-    (slot places-garatge (type INTEGER) (default 0))
-    (slot jardi (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
-    (slot piscina (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
-    (slot aire-acondicionat (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
-    (slot calefaccio (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
-    (slot terrassa (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
-    (slot traster (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
+    (slot vol-aprop-centres-salut (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-aprop-hipermercats (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (multislot vol-aprop-localitzacions (type INSTANCE))
+    (slot vol-aprop-oci-nocturn (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-aprop-supermercats (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-aprop-transport-public (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-aprop-zones-comercials (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-aprop-zones-esportives (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-aprop-zones-verdes (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+
+    (slot vol-aire-acondicionat (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-ascensor (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-balco (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-calefaccio (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-electrodomestics (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-jardi (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-mobles (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-piscina (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-places-garatge (type INTEGER) (default 0))
+    (slot vol-terrassa (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-traster (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
 )
 
 (deftemplate MAIN::llista-recomanacions-abstractes
@@ -90,7 +121,7 @@
 
 (deftemplate MAIN::problema-abstracte
     (slot mida-habitatge (type SYMBOL) (allowed-values Petit Mitja Gran NA) (default NA))
-    (slot presupost (type SYMBOL) (allowed-values Barat Mitja Car NA) (default NA))
+    (slot pressupost (type SYMBOL) (allowed-values Barat Mitja Car NA) (default NA))
 )
 
 ;;*******************
@@ -162,22 +193,23 @@
     (< (send ?oferta1 get-puntuacio) (send ?oferta2 get-puntuacio))
 )
 
-(deffunction imprimir-justificacions (?oferta ?superficie-habitable-maxima ?pressupost ?jardi)
+; TODO (maria): fer-ho be sense tants parametres
+(deffunction imprimir-justificacions (?oferta ?superficie-habitable-maxima ?preu-minim ?vol-jardi)
     (printout t "**************************" crlf)
     (bind ?num-restriccions 2)
     (bind ?num-restriccions-satisfetes 0)
     (bind ?justificacions (create$))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (if (<= (send ?habitatge get-superficie_habitable) ?superficie-habitable-maxima)
-        then (bind ?num-restriccions-satisfetes (+ ?num-restriccions-satisfetes 1))
-        else (bind ?justificacions (insert$ ?justificacions (+ (length$ ?justificacions) 1) "La superfície habitable de l'oferta és superior a la màxima")))
-    (if (<= (send ?oferta get-preu) ?pressupost)
-        then (bind ?num-restriccions-satisfetes (+ ?num-restriccions-satisfetes 1))
-        else (bind ?justificacions (insert$ ?justificacions (+ (length$ ?justificacions) 1) "El preu de l'oferta és superior al pressupost")))
-    (if (and (eq (send ?habitatge get-te_jardi) "true") (eq ?jardi TRUE))
-    then
-    (bind ?justificacions (insert$ ?justificacions (+ (length$ ?justificacions) 1) "I te jardi tal com desitjes!"))
-    )
+    ;(if (<= (send ?habitatge get-superficie_habitable) ?superficie-habitable-maxima)
+    ;    then (bind ?num-restriccions-satisfetes (+ ?num-restriccions-satisfetes 1))
+    ;    else (bind ?justificacions (insert$ ?justificacions (+ (length$ ?justificacions) 1) "La superfície habitable de l'oferta és superior a la màxima")))
+    ;(if (<= (send ?oferta get-preu) ?pressupost)
+    ;    then (bind ?num-restriccions-satisfetes (+ ?num-restriccions-satisfetes 1))
+    ;    else (bind ?justificacions (insert$ ?justificacions (+ (length$ ?justificacions) 1) "El preu de l'oferta és superior al pressupost")))
+    ;(if (and (eq (send ?habitatge get-te_jardi) "true") (eq ?jardi TRUE))
+    ;then
+    ;(bind ?justificacions (insert$ ?justificacions (+ (length$ ?justificacions) 1) "I te jardi tal com desitjes!"))
+    ;)
     (if (eq ?num-restriccions-satisfetes ?num-restriccions)
         then (printout t "L'oferta és adequada" crlf)
         else (if (<= (- ?num-restriccions ?num-restriccions-satisfetes) 2)
@@ -212,215 +244,68 @@
 (deffacts dades
     (restriccions)
     (preferencies)
+    (preu-maxim-estricte preguntar)
+    (hi-ha-infants preguntar)
+    (hi-ha-adolescents preguntar)
+    (hi-ha-joves preguntar)
+    (hi-ha-joves preguntar)
+    (hi-ha-joves preguntar)
+    (estat-obra-minim preguntar)
+    (nombre-banys-minim preguntar)
+    (nombre-habitants preguntar)
+    (nombre-parelles preguntar)
+    (preu-maxim preguntar)
+    (preu-minim preguntar)
     (superficie-habitable-maxima preguntar)
     (superficie-habitable-minima preguntar)
-    (presupost preguntar)
-    (presupost-minim preguntar)
-    (jardi preguntar)
-    (piscina preguntar)
-    (aire preguntar)
-    (calefaccio preguntar)
-    (garatge preguntar)
-    (traster preguntar)
-    (mobilitat-reduida preguntar)
-    (habitants preguntar)
-    (parelles preguntar)
-    (terrassa preguntar)
-    (menors preguntar)
-    (edat preguntar)
-)
-
-(defrule preguntes::preguntar-superficie-habitable-maxima 
-    (declare (salience 9))
-    ?fet <- (superficie-habitable-maxima preguntar)
-    ?restriccions <- (restriccions)
-    =>
-    (bind ?superficie-habitable-maxima (preguntar-nombre "Quina superficie habitable maxima vols (m2)?" 0 1000))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
-)
-(defrule preguntes::preguntar-superficie-habitable-minima 
-    (declare (salience 10))
-    ?fet <- (superficie-habitable-minima preguntar)
-    ?restriccions <- (restriccions)
-    =>
-    (bind ?superficie-habitable-minima (preguntar-nombre "Quina superficie habitable minima vols (m2)?" 0 1000))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?restriccions (superficie-habitable-minima ?superficie-habitable-minima))
-)
-(defrule preguntes::preguntar-presupost
-    (declare (salience 50))
-    ?fet <- (presupost preguntar)
-    ?restriccions <- (restriccions)
-    =>
-    (bind ?presupost (preguntar-nombre "Quin presupost tens?" 0 5000))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?restriccions (presupost ?presupost))
-)
-
-(defrule preguntes::preguntar-presupost-minim
-    (declare (salience 49))
-    ?fet <- (presupost-minim preguntar)
-    ?restriccions <- (restriccions)
-    =>
-    (bind ?presupost (preguntar-nombre "Indica el preu minim que t'interessa?" 0 5000))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?restriccions (presupost-minim ?presupost))
-)
-
-(defrule preguntes::preguntar-jardi
-    (declare (salience 5))
-    ?fet <- (jardi preguntar)
-    ?preferencies <- (preferencies)
-    =>
-    (bind ?jardi (preguntar-si-o-no "Voldries jardi?"))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?preferencies (jardi ?jardi))
-)
-
-(defrule preguntes::preguntar-piscina
-    (declare (salience 5))
-    ?fet <- (piscina preguntar)
-    ?preferencies <- (preferencies)
-    =>
-    (bind ?piscina (preguntar-si-o-no "Voldries piscina?"))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?preferencies (piscina ?piscina))
-)
-
-(defrule preguntes::preguntar-aire
-    (declare (salience 5))
-    ?fet <- (aire preguntar)
-    ?preferencies <- (preferencies)
-    =>
-    (bind ?aire (preguntar-si-o-no "Voldries aire acondicionat?"))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?preferencies (aire-acondicionat ?aire))
-)
-
-(defrule preguntes::preguntar-calefaccio
-    (declare (salience 5))
-    ?fet <- (calefaccio preguntar)
-    ?preferencies <- (preferencies)
-    =>
-    (bind ?calefaccio (preguntar-si-o-no "Voldries calefaccio?"))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?preferencies (calefaccio ?calefaccio))
-)
-
-(defrule preguntes::preguntar-garatge
-    (declare (salience 4))
-    ?fet <- (garatge preguntar)
-    ?preferencies <- (preferencies)
-    =>
-    (bind ?places (preguntar-nombre "Indica quantes places de garatge necessitaries?" 0 10))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?preferencies (places-garatge ?places))
-)
-
-(defrule preguntes::preguntar-traster
-    (declare (salience 5))
-    ?fet <- (traster preguntar)
-    ?preferencies <- (preferencies)
-    =>
-    (bind ?traster (preguntar-si-o-no "T'interessa tenir traster?"))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?preferencies (traster ?traster))
-)
-
-(defrule preguntes::preguntar-mobilitat
-    (declare (salience 5))
-    ?fet <- (mobilitat-reduida preguntar)
-    ?restriccions <- (restriccions)
-    =>
-    (bind ?mobilitat (preguntar-si-o-no "Algun habitant tindra mobilitat reduida?"))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?restriccions (mobilitat-reduida ?mobilitat))
-)
-
-(defrule preguntes::preguntar-terrassa
-    (declare (salience 5))
-    ?fet <- (terrassa preguntar)
-    ?preferencies <- (preferencies)
-    =>
-    (bind ?terrassa (preguntar-si-o-no "Voldries terrassa?"))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?preferencies (terrassa ?terrassa))
-)
-
-(defrule preguntes::preguntar-habitants
-    (declare (salience 15))
-    ?fet <- (habitants preguntar)
-    ?restriccions <- (restriccions)
-    =>
-    (bind ?habitants (preguntar-nombre "Quants habitants hi haura?" 1 10))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?restriccions (nombre-habitants ?habitants))
-)
-
-(defrule preguntes::preguntar-parelles
-    (declare (salience 14))
-    ?fet <- (parelles preguntar)
-    ?restriccions <- (restriccions)
-    =>
-    (bind ?parelles (preguntar-nombre "Quantes parelles hi haura?" 0 5))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?restriccions (nombre-parelles ?parelles))
-)
-(defrule preguntes::preguntar-edat
-    (declare (salience 13))
-    ?fet <- (edat preguntar)
-    ?restriccions <- (restriccions)
-    =>
-    (bind ?edat (preguntar-nombre "Quina es la teva edat?" 18 99))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?restriccions (edat ?edat))
-)
-
-(defrule preguntes::preguntar-menors
-    (declare (salience 13))
-    ?fet <- (menors preguntar)
-    ?restriccions <- (restriccions)
-    =>
-    (bind ?menors (preguntar-si-o-no "Hi haura menors?"))
-    (printout t crlf)
-    (retract ?fet)
-    (modify ?restriccions (menors ?menors))
+    (te-mascotes preguntar)
+    (te-mobilitat-reduida preguntar)
+    (vol-aire-acondicionat preguntar)
+    (vol-ascensor preguntar)
+    (vol-balco preguntar)
+    (vol-calefaccio preguntar)
+    (vol-electrodomestics preguntar)
+    (vol-jardi preguntar)
+    (vol-mobles preguntar)
+    (vol-piscina preguntar)
+    (vol-places-garatge preguntar)
+    (vol-terrassa preguntar)
+    (vol-traster preguntar)
+    (vol-aprop-punts-interes preguntar)
+    (vol-aprop-localitzacions preguntar)
 )
 
 (defrule preguntes::passar-a-seleccio "Passa al modul de seleccio"
     (declare (salience -10))
+    (not (preu-maxim-estricte preguntar))
+    (not (hi-ha-infants preguntar))
+    (not (hi-ha-adolescents preguntar))
+    (not (hi-ha-joves preguntar))
+    (not (hi-ha-joves preguntar))
+    (not (hi-ha-joves preguntar))
+    (not (estat-obra-minim preguntar))
+    (not (nombre-banys-minim preguntar))
+    (not (nombre-habitants preguntar))
+    (not (nombre-parelles preguntar))
+    (not (preu-maxim preguntar))
+    (not (preu-minim preguntar))
     (not (superficie-habitable-maxima preguntar))
     (not (superficie-habitable-minima preguntar))
-    (not (presupost preguntar))
-    (not (presupost-minim preguntar))
-    (not (jardi preguntar))
-    (not (piscina preguntar))
-    (not (aire preguntar))
-    (not (calefaccio preguntar))
-    (not (garatge preguntar))
-    (not (traster preguntar))
-    (not (mobilitat-reduida preguntar))
-    (not (habitants preguntar))
-    (not (parelles preguntar))
-    (not (terrassa preguntar))
-    (not (menors preguntar))
-    (not (edat preguntar))
+    (not (te-mascotes preguntar))
+    (not (te-mobilitat-reduida preguntar))
+    (not (vol-aire-acondicionat preguntar))
+    (not (vol-ascensor preguntar))
+    (not (vol-balco preguntar))
+    (not (vol-calefaccio preguntar))
+    (not (vol-electrodomestics preguntar))
+    (not (vol-jardi preguntar))
+    (not (vol-mobles preguntar))
+    (not (vol-piscina preguntar))
+    (not (vol-places-garatge preguntar))
+    (not (vol-terrassa preguntar))
+    (not (vol-traster preguntar))
+    (not (vol-aprop-punts-interes preguntar))
+    (not (vol-aprop-localitzacions preguntar))
     =>
     (printout t "Abstraient problema..." crlf)
     (focus abstraccio)
@@ -432,7 +317,7 @@
 
 (deffacts abstraccio
     (mida-habitatge abstreure)
-    (presupost abstreure)
+    (pressupost abstreure)
 )
 
 (defrule abstraccio::abstreure-mida-habitatge-gran
@@ -464,65 +349,67 @@
     (retract ?fet)
 )
 
-(defrule abstraccio::abstreure-presupost-car
-    ?fet <- (presupost abstreure)
-    (restriccions (presupost ?presupost))
-    ?e <- (problema-abstracte (presupost ?presupost-abs))
-    (test (eq ?presupost-abs NA))
-    (test (> ?presupost 2000))
+(defrule abstraccio::abstreure-pressupost-car
+    ?fet <- (pressupost abstreure)
+    ; TODO (edgar): pensar si volem considerar com a pressupost el preu minim o el maxim
+    (restriccions (preu-maxim ?pressupost))
+    ?e <- (problema-abstracte (pressupost ?pressupost-abstracte))
+    (test (eq ?pressupost-abstracte NA))
+    (test (> ?pressupost 2000))
     =>
-    (modify ?e (presupost Car)) 
+    (modify ?e (pressupost Car)) 
     (retract ?fet)
 )
-(defrule abstraccio::abstreure-presupost-mitja
-    ?fet <- (presupost abstreure)
-    (restriccions (presupost ?presupost))
-    ?e <- (problema-abstracte (presupost ?presupost-abs))
-    (test (eq ?presupost-abs NA))
-    (test (< ?presupost 2001))
-    (test (> ?presupost 1000))
+(defrule abstraccio::abstreure-pressupost-mitja
+    ?fet <- (pressupost abstreure)
+    ; TODO (edgar): pensar si volem considerar com a pressupost el preu minim o el maxim
+    (restriccions (preu-maxim ?pressupost))
+    ?e <- (problema-abstracte (pressupost ?pressupost-abstracte))
+    (test (eq ?pressupost-abstracte NA))
+    (test (< ?pressupost 2001))
+    (test (> ?pressupost 1000))
     =>
-    (modify ?e (presupost Mitja)) 
+    (modify ?e (pressupost Mitja)) 
     (retract ?fet)
 )
-(defrule abstraccio::abstreure-presupost-barat
-    ?fet <- (presupost abstreure)
-    (restriccions (presupost ?presupost))
-    ?e <- (problema-abstracte (presupost ?presupost-abs))
-    (test (eq ?presupost-abs NA))
-    (test (< ?presupost 1001))
+(defrule abstraccio::abstreure-pressupost-barat
+    ?fet <- (pressupost abstreure)
+    ; TODO (edgar): pensar si volem considerar com a pressupost el preu minim o el maxim
+    (restriccions (preu-maxim ?pressupost))
+    ?e <- (problema-abstracte (pressupost ?pressupost-abstracte))
+    (test (eq ?pressupost-abstracte NA))
+    (test (< ?pressupost 1001))
     =>
-    (modify ?e (presupost Barat))
+    (modify ?e (pressupost Barat))
     (retract ?fet)
 )
 
 (defrule abstraccio::passar-a-construccio-abstracta
     (declare (salience -10))
     (not (mida-habitatge abstreure))
-    (not (presupost abstreure))
+    (not (pressupost abstreure))
     =>
     (printout t "Generant resultats abstractes..." crlf)
     (focus construccio-solucio-abstracta)
 )
 
-;;**************************
-;;*  MODUL DE ABSTRACTA  *
-;;**************************
+;;**************************************************
+;;*  MODUL DE CONSTRUCCIO DE LA SOLUCIO ABSTRACTA  *
+;;**************************************************
 
 (deffacts construccio-solucio-abstracta
-    
 )
 
 (defrule construccio-solucio-abstracta::calcular-puntuacions
     (declare (salience 10))
     (problema-abstracte (mida-habitatge ?mida-habitatge))
-    (problema-abstracte (presupost ?presupost))
+    (problema-abstracte (pressupost ?pressupost))
     =>
     (bind ?llista-ofertes-abstractes (find-all-instances ((?inst OfertaAbstracta)) TRUE))
     (loop-for-count (?i 1 (length$ ?llista-ofertes-abstractes)) do
         (bind ?oferta-abstracta (nth$ ?i ?llista-ofertes-abstractes))
         (send ?oferta-abstracta calcula-puntuacio-mida-habitatge ?mida-habitatge)
-        (send ?oferta-abstracta calcula-puntuacio-preu ?presupost)
+        (send ?oferta-abstracta calcula-puntuacio-preu ?pressupost)
     )
 )
 (defrule construccio-solucio-abstracta::passar-a-construccio
@@ -534,8 +421,6 @@
 ;;**************************
 ;;*  MODUL DE CONSTRUCCIO  *
 ;;**************************
-
-
 
 (defrule construccio::passar-a-presentacio
     (declare (salience -10))
@@ -551,8 +436,8 @@
 (defrule presentacio::mostrar-recomanacions
     (not (final))
     (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
-    (restriccions (presupost ?pressupost))
-    (preferencies (jardi ?jardi))
+    (restriccions (preu-minim ?preu-minim))
+    (preferencies (vol-jardi ?vol-jardi))
     =>
     (printout t crlf)
     (printout t "Et recomano aquestes ofertes:" crlf)
@@ -563,7 +448,7 @@
         (if (> (send ?oferta-abstracta get-puntuacio) 0)
             then
         (printout t "Oferta amb puntuacio: " (send ?oferta-abstracta get-puntuacio) crlf (send ?oferta-abstracta get-justificacio-puntuacio) crlf)
-        (imprimir-justificacions (send ?oferta-abstracta get-oferta) ?superficie-habitable-maxima ?pressupost ?jardi)
+        (imprimir-justificacions (send ?oferta-abstracta get-oferta) ?superficie-habitable-maxima ?preu-minim ?vol-jardi)
         (send (send ?oferta-abstracta get-oferta) imprimir)
         )
     )
@@ -593,42 +478,42 @@
 	(slot-insert$ ?self justificacio-puntuacio (+ 1 (length$ ?self:justificacio-puntuacio)) ?justificacio)
 )
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-puntuacio-preu (?presupost-solicitant)
+(defmessage-handler MAIN::OfertaAbstracta calcula-puntuacio-preu (?pressupost-solicitant)
 
     (bind ?preu-habitatge (send ?self get-mida-habitatge))
     (bind ?puntuacio 0)
     (bind ?justificacio "No te cap bonificacio pel preu de l'habitatge")
 
-    (if (eq ?presupost-solicitant Car)
+    (if (eq ?pressupost-solicitant Car)
         then (
             if (eq ?preu-habitatge Car)
             then
                 (bind ?puntuacio 5)
-                (bind ?justificacio "El presupost es adient")
+                (bind ?justificacio "El pressupost es adient")
             else
                 (bind ?puntuacio 3)
-                (bind ?justificacio "El preu es menor al presupost")
+                (bind ?justificacio "El preu es menor al pressupost")
         )
     )
-    (if (eq ?presupost-solicitant Mitja)
+    (if (eq ?pressupost-solicitant Mitja)
         then (if (eq ?preu-habitatge Mitja)
             then
                 (bind ?puntuacio 5)
-                (bind ?justificacio "El presupost es adient")
+                (bind ?justificacio "El pressupost es adient")
             else
                 (if (eq ?preu-habitatge Barat)
                 then
                     (bind ?puntuacio 3)
-                    (bind ?justificacio "El preu es menor al presupost")
+                    (bind ?justificacio "El preu es menor al pressupost")
                 )
         )
     )
     
-    (if (eq ?presupost-solicitant Barat)
+    (if (eq ?pressupost-solicitant Barat)
         then (if (eq ?preu-habitatge Barat)
             then
                 (bind ?puntuacio 5)
-                (bind ?justificacio "El presupost es adient")
+                (bind ?justificacio "El pressupost es adient")
         )
     )
     (send ?self put-puntuacio (+ ?puntuacio (send ?self get-puntuacio)))
@@ -687,16 +572,6 @@
 ;;********************
 ;;*  OfertaHandlers  *
 ;;********************
-
-;;; (slot superficie-habitable-maxima (type FLOAT) (default 0.0))
-;;; (slot superficie-habitable-minima (type FLOAT) (default 0.0))
-;;; (slot presupost (type FLOAT) (default 0.0))
-;;; (slot presupost-minim (type FLOAT) (default 0.0))
-;;; (slot mobilitat-reduida (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
-;;; (slot nombre-habitants (type INTEGER) (range 1 10) (default 1))
-;;; (slot nombre-parelles (type INTEGER) (range 0 5) (default 0))
-;;; (slot menors (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
-;;; (slot edat (type INTEGER) (default 40))
 
 ;;;"Retorna 0 si no adequat, 1 si parcialment adequat 2 si adequat" 
 (defmessage-handler MAIN::Oferta adecuacio (?sup-min ?sup-max ?pres-min ?pres-max ?mob-red ?num-hab ?num-parelles)
@@ -761,12 +636,6 @@
     (printout t "Admet mascotes." crlf)
     else
     (printout t "No admet mascotes." crlf)
-    )
-    (if (eq ?self:es_per_compartir TRUE)
-    then
-    (printout t "Es per compartir." crlf)
-    else
-    (printout t "No es per compartir." crlf)
     )
     (if (eq ?self:inclou_electrodomestics TRUE)
     then

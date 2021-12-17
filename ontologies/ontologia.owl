@@ -478,7 +478,14 @@
         <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.1133108271820897</longitud>
     </owl:NamedIndividual>
     
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#CentreEsportiuBodyLab -->
 
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#CentreEsportiuBodyLab">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zona esportiva</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.40022717657224</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.119717685502273</longitud>
+    </owl:NamedIndividual>
 
     <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#ClubTennisBarcino -->
 
@@ -1156,6 +1163,15 @@
     </owl:NamedIndividual>
     
 
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MetroHospitalClinic -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MetroHospitalClinic">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Parada de transport public</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.389327079631684</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.1517089896243546</longitud>
+    </owl:NamedIndividual>
+
 
     <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#MetroLesCorts -->
 
@@ -1492,7 +1508,17 @@
         <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.375592360009804</latitud>
         <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.171296373830083</longitud>
     </owl:NamedIndividual>
+
+    <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Barrokos -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Barrokos">
+        <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#PuntDInteres"/>
+        <categoria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zona d&apos;oci nocturn</categoria>
+        <latitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">41.3957413251564</latitud>
+        <longitud rdf:datatype="http://www.w3.org/2001/XMLSchema#double">2.149868065009934</longitud>
+    </owl:NamedIndividual>
     
+
 
 
     <!-- http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#SantsEstacio -->

@@ -2,16 +2,16 @@
 ;;; ontologia.clp
 ;;; Translated by owl2clips
 ;;; Translated to CLIPS from ontology ontologia.owl
-;;; :Date 10/12/2021 12:12:59
+;;; :Date 17/12/2021 18:32:33
 
 (defclass ElementLocalitzable
     (is-a USER)
     (role concrete)
     (pattern-match reactive)
-    (slot latitud
+    (single-slot latitud
         (type FLOAT)
         (create-accessor read-write))
-    (slot longitud
+    (single-slot longitud
         (type FLOAT)
         (create-accessor read-write))
 )
@@ -20,55 +20,55 @@
     (is-a ElementLocalitzable)
     (role concrete)
     (pattern-match reactive)
-    (slot estat_de_l_obra
+    (single-slot estat_de_l_obra
         (type STRING)
         (create-accessor read-write))
-    (slot nombre_d_habitants_maxim
+    (single-slot nombre_d_habitants_maxim
         (type INTEGER)
         (create-accessor read-write))
-    (slot nombre_de_banys
+    (single-slot nombre_de_banys
         (type INTEGER)
         (create-accessor read-write))
-    (slot nombre_de_dormitoris
+    (single-slot nombre_de_dormitoris
         (type INTEGER)
         (create-accessor read-write))
-    (slot nombre_de_dormitoris_dobles
+    (single-slot nombre_de_dormitoris_dobles
         (type INTEGER)
         (create-accessor read-write))
-    (slot nombre_de_dormitoris_simples
+    (single-slot nombre_de_dormitoris_simples
         (type INTEGER)
         (create-accessor read-write))
-    (slot piscina
+    (single-slot piscina
         (type STRING)
         (create-accessor read-write))
-    (slot sol
+    (single-slot sol
         (type STRING)
         (create-accessor read-write))
-    (slot superficie_habitable
+    (single-slot superficie_habitable
         (type FLOAT)
         (create-accessor read-write))
-    (slot te_aire_condicionat
+    (single-slot te_aire_condicionat
         (type SYMBOL)
         (create-accessor read-write))
-    (slot te_ascensor
+    (single-slot te_ascensor
         (type SYMBOL)
         (create-accessor read-write))
-    (slot te_balco
+    (single-slot te_balco
         (type SYMBOL)
         (create-accessor read-write))
-    (slot te_bones_vistes
+    (single-slot te_bones_vistes
         (type SYMBOL)
         (create-accessor read-write))
-    (slot te_calefaccio
+    (single-slot te_calefaccio
         (type SYMBOL)
         (create-accessor read-write))
-    (slot te_jardi
+    (single-slot te_jardi
         (type SYMBOL)
         (create-accessor read-write))
-    (slot te_terrassa
+    (single-slot te_terrassa
         (type SYMBOL)
         (create-accessor read-write))
-    (slot te_traster
+    (single-slot te_traster
         (type SYMBOL)
         (create-accessor read-write))
 )
@@ -77,7 +77,7 @@
     (is-a Habitatge)
     (role concrete)
     (pattern-match reactive)
-    (slot planta
+    (single-slot planta
         (type INTEGER)
         (create-accessor read-write))
 )
@@ -88,17 +88,11 @@
     (pattern-match reactive)
 )
 
-(defclass LlocDOcupacio
-    (is-a ElementLocalitzable)
-    (role concrete)
-    (pattern-match reactive)
-)
-
 (defclass PuntDInteres
     (is-a ElementLocalitzable)
     (role concrete)
     (pattern-match reactive)
-    (slot categoria
+    (single-slot categoria
         (type STRING)
         (create-accessor read-write))
 )
@@ -107,30 +101,36 @@
     (is-a USER)
     (role concrete)
     (pattern-match reactive)
-    (slot ofereix_a
+    (single-slot ofereix_a
         (type INSTANCE)
         (create-accessor read-write))
-    (slot admet_mascotes
+    (single-slot admet_mascotes
         (type SYMBOL)
         (create-accessor read-write))
-    (slot es_per_compartir
+    (multislot descripcio
+        (type STRING)
+        (create-accessor read-write))
+    (single-slot inclou_electrodomestics
         (type SYMBOL)
         (create-accessor read-write))
-    (slot inclou_electrodomestics
+    (single-slot inclou_mobles
         (type SYMBOL)
         (create-accessor read-write))
-    (slot inclou_mobles
-        (type SYMBOL)
-        (create-accessor read-write))
-    (slot numero_de_places_de_garatge
+    (single-slot numero_de_places_de_garatge
         (type INTEGER)
         (create-accessor read-write))
-    (slot preu
+    (single-slot preu
         (type FLOAT)
         (create-accessor read-write))
 )
 
 (definstances instances
+    ([Barrokos] of PuntDInteres
+         (categoria  "Zona d'oci nocturn")
+         (latitud  41.3957413251564)
+         (longitud  2.149868065009934)
+    )
+
     ([Caprabo] of PuntDInteres
          (categoria  "Hipermercat")
          (latitud  41.39098387985266)
@@ -147,6 +147,12 @@
          (categoria  "Zona comercial")
          (latitud  41.37632103480868)
          (longitud  2.18246360236497)
+    )
+
+    ([CentreEsportiuBodyLab] of PuntDInteres
+         (categoria  "Zona esportiva")
+         (latitud  41.40022717657224)
+         (longitud  2.119717685502273)
     )
 
     ([CentreEsportsUPC] of PuntDInteres
@@ -190,6 +196,233 @@
          (longitud  2.138963122983205)
     )
 
+    ([Habitatge10] of HabitatgeCol·lectiu
+         (planta  4)
+         (estat_de_l_obra  "nova")
+         (nombre_d_habitants_maxim  2)
+         (nombre_de_banys  1)
+         (nombre_de_dormitoris  1)
+         (nombre_de_dormitoris_dobles  1)
+         (nombre_de_dormitoris_simples  0)
+         (piscina  "false")
+         (sol  "mai")
+         (superficie_habitable  40.0)
+         (te_aire_condicionat  "false")
+         (te_ascensor  "true")
+         (te_balco  "false")
+         (te_bones_vistes  "false")
+         (te_calefaccio  "true")
+         (te_jardi  "false")
+         (te_terrassa  "true")
+         (te_traster  "false")
+         (latitud  41.38244482164263)
+         (longitud  2.1555757470197947)
+    )
+
+    ([Habitatge11] of HabitatgeCol·lectiu
+         (planta  2)
+         (estat_de_l_obra  "nova")
+         (nombre_d_habitants_maxim  7)
+         (nombre_de_banys  2)
+         (nombre_de_dormitoris  4)
+         (nombre_de_dormitoris_dobles  3)
+         (nombre_de_dormitoris_simples  1)
+         (piscina  "false")
+         (sol  "tot el dia")
+         (superficie_habitable  80.0)
+         (te_aire_condicionat  "true")
+         (te_ascensor  "false")
+         (te_balco  "false")
+         (te_bones_vistes  "false")
+         (te_calefaccio  "true")
+         (te_jardi  "false")
+         (te_terrassa  "false")
+         (te_traster  "true")
+         (latitud  41.391121413709485)
+         (longitud  2.1463782338515007)
+    )
+
+    ([Habitatge12] of HabitatgeCol·lectiu
+         (planta  0)
+         (estat_de_l_obra  "bon estat")
+         (nombre_d_habitants_maxim  2)
+         (nombre_de_banys  1)
+         (nombre_de_dormitoris  1)
+         (nombre_de_dormitoris_dobles  1)
+         (nombre_de_dormitoris_simples  0)
+         (piscina  "false")
+         (sol  "mati")
+         (superficie_habitable  40.0)
+         (te_aire_condicionat  "true")
+         (te_ascensor  "true")
+         (te_balco  "false")
+         (te_bones_vistes  "false")
+         (te_calefaccio  "false")
+         (te_jardi  "false")
+         (te_terrassa  "false")
+         (te_traster  "false")
+         (latitud  41.390866502740494)
+         (longitud  2.1627792391639873)
+    )
+
+    ([Habitatge13] of HabitatgeCol·lectiu
+         (planta  3)
+         (estat_de_l_obra  "per reformar")
+         (nombre_d_habitants_maxim  4)
+         (nombre_de_banys  1)
+         (nombre_de_dormitoris  2)
+         (nombre_de_dormitoris_dobles  2)
+         (nombre_de_dormitoris_simples  0)
+         (piscina  "false")
+         (sol  "tot el dia")
+         (superficie_habitable  57.0)
+         (te_aire_condicionat  "false")
+         (te_ascensor  "true")
+         (te_balco  "false")
+         (te_bones_vistes  "true")
+         (te_calefaccio  "false")
+         (te_jardi  "false")
+         (te_terrassa  "false")
+         (te_traster  "true")
+         (latitud  41.40339276206251)
+         (longitud  2.1383891762678893)
+    )
+
+    ([Habitatge14] of HabitatgeCol·lectiu
+         (planta  4)
+         (estat_de_l_obra  "nou")
+         (nombre_d_habitants_maxim  9)
+         (nombre_de_banys  1)
+         (nombre_de_dormitoris  5)
+         (nombre_de_dormitoris_dobles  4)
+         (nombre_de_dormitoris_simples  1)
+         (piscina  "false")
+         (sol  "tarda")
+         (superficie_habitable  257.0)
+         (te_aire_condicionat  "false")
+         (te_ascensor  "true")
+         (te_balco  "true")
+         (te_bones_vistes  "false")
+         (te_calefaccio  "true")
+         (te_jardi  "false")
+         (te_terrassa  "true")
+         (te_traster  "false")
+         (latitud  41.395831536002085)
+         (longitud  2.15230214763949)
+    )
+
+    ([Habitatge15] of HabitatgeUnifamiliar
+         (estat_de_l_obra  "nou")
+         (nombre_d_habitants_maxim  4)
+         (nombre_de_banys  1)
+         (nombre_de_dormitoris  3)
+         (nombre_de_dormitoris_dobles  1)
+         (nombre_de_dormitoris_simples  2)
+         (piscina  "true")
+         (sol  "tot el dia")
+         (superficie_habitable  100.0)
+         (te_aire_condicionat  "true")
+         (te_ascensor  "false")
+         (te_balco  "true")
+         (te_bones_vistes  "true")
+         (te_calefaccio  "true")
+         (te_jardi  "true")
+         (te_terrassa  "true")
+         (te_traster  "true")
+         (latitud  41.3915432209204)
+         (longitud  2.1651285426214333)
+    )
+
+    ([Habitatge16] of HabitatgeUnifamiliar
+         (estat_de_l_obra  "bon estat")
+         (nombre_d_habitants_maxim  8)
+         (nombre_de_banys  4)
+         (nombre_de_dormitoris  4)
+         (nombre_de_dormitoris_dobles  4)
+         (nombre_de_dormitoris_simples  0)
+         (piscina  "true")
+         (sol  "tot el dia")
+         (superficie_habitable  300.0)
+         (te_aire_condicionat  "true")
+         (te_ascensor  "false")
+         (te_balco  "false")
+         (te_bones_vistes  "true")
+         (te_calefaccio  "true")
+         (te_jardi  "true")
+         (te_terrassa  "true")
+         (te_traster  "true")
+         (latitud  41.41019751935276)
+         (longitud  2.1233380679242253)
+    )
+
+    ([Habitatge17] of HabitatgeUnifamiliar
+         (estat_de_l_obra  "bon estat")
+         (nombre_d_habitants_maxim  8)
+         (nombre_de_banys  4)
+         (nombre_de_dormitoris  5)
+         (nombre_de_dormitoris_dobles  3)
+         (nombre_de_dormitoris_simples  2)
+         (piscina  "true")
+         (sol  "tot el dia")
+         (superficie_habitable  450.0)
+         (te_aire_condicionat  "false")
+         (te_ascensor  "false")
+         (te_balco  "false")
+         (te_bones_vistes  "true")
+         (te_calefaccio  "true")
+         (te_jardi  "true")
+         (te_terrassa  "true")
+         (te_traster  "true")
+         (latitud  41.39349974607278)
+         (longitud  2.108851500626363)
+    )
+
+    ([Habitatge18] of HabitatgeCol·lectiu
+         (planta  1)
+         (estat_de_l_obra  "nova")
+         (nombre_d_habitants_maxim  3)
+         (nombre_de_banys  1)
+         (nombre_de_dormitoris  2)
+         (nombre_de_dormitoris_dobles  1)
+         (nombre_de_dormitoris_simples  1)
+         (piscina  "false")
+         (sol  "tarda")
+         (superficie_habitable  75.0)
+         (te_aire_condicionat  "false")
+         (te_ascensor  "true")
+         (te_balco  "false")
+         (te_bones_vistes  "false")
+         (te_calefaccio  "false")
+         (te_jardi  "false")
+         (te_terrassa  "false")
+         (te_traster  "false")
+         (latitud  41.3995913759421)
+         (longitud  2.130626928481736)
+    )
+
+    ([Habitatge19] of HabitatgeCol·lectiu
+         (planta  1)
+         (estat_de_l_obra  "per reformar")
+         (nombre_d_habitants_maxim  5)
+         (nombre_de_banys  2)
+         (nombre_de_dormitoris  3)
+         (nombre_de_dormitoris_dobles  2)
+         (nombre_de_dormitoris_simples  1)
+         (piscina  "false")
+         (sol  "tot el dia")
+         (superficie_habitable  90.0)
+         (te_aire_condicionat  "true")
+         (te_ascensor  "true")
+         (te_balco  "true")
+         (te_bones_vistes  "false")
+         (te_calefaccio  "true")
+         (te_jardi  "false")
+         (te_terrassa  "false")
+         (te_traster  "false")
+         (latitud  41.39742209949152)
+         (longitud  2.1207779230326973)
+    )
+
     ([Habitatge2] of HabitatgeCol·lectiu
          (planta  3)
          (estat_de_l_obra  "bon estat")
@@ -213,7 +446,31 @@
          (longitud  2.1343039618017734)
     )
 
+    ([Habitatge20] of HabitatgeCol·lectiu
+         (planta  2)
+         (estat_de_l_obra  "nou")
+         (nombre_d_habitants_maxim  2)
+         (nombre_de_banys  1)
+         (nombre_de_dormitoris  1)
+         (nombre_de_dormitoris_dobles  1)
+         (nombre_de_dormitoris_simples  0)
+         (piscina  "false")
+         (sol  "mati")
+         (superficie_habitable  35.0)
+         (te_aire_condicionat  "true")
+         (te_ascensor  "true")
+         (te_balco  "false")
+         (te_bones_vistes  "false")
+         (te_calefaccio  "true")
+         (te_jardi  "false")
+         (te_terrassa  "false")
+         (te_traster  "false")
+         (latitud  41.39657251896276)
+         (longitud  2.1337039430907763)
+    )
+
     ([Habitatge3] of HabitatgeCol·lectiu
+         (planta  2)
          (estat_de_l_obra  "bon estat")
          (nombre_d_habitants_maxim  6)
          (nombre_de_banys  1)
@@ -236,6 +493,7 @@
     )
 
     ([Habitatge4] of HabitatgeCol·lectiu
+         (planta  4)
          (estat_de_l_obra  "bon estat")
          (nombre_d_habitants_maxim  6)
          (nombre_de_banys  1)
@@ -258,6 +516,7 @@
     )
 
     ([Habitatge5] of HabitatgeCol·lectiu
+         (planta  2)
          (estat_de_l_obra  "bon estat")
          (nombre_d_habitants_maxim  4)
          (nombre_de_banys  1)
@@ -280,6 +539,7 @@
     )
 
     ([Habitatge6] of HabitatgeCol·lectiu
+         (planta  3)
          (estat_de_l_obra  "bon estat")
          (nombre_d_habitants_maxim  4)
          (nombre_de_banys  1)
@@ -302,6 +562,7 @@
     )
 
     ([Habitatge7] of HabitatgeCol·lectiu
+         (planta  4)
          (estat_de_l_obra  "bon estat")
          (nombre_d_habitants_maxim  5)
          (nombre_de_banys  2)
@@ -324,6 +585,7 @@
     )
 
     ([Habitatge8] of HabitatgeCol·lectiu
+         (planta  2)
          (estat_de_l_obra  "bon estat")
          (nombre_d_habitants_maxim  5)
          (nombre_de_banys  2)
@@ -421,6 +683,12 @@
          (longitud  2.161975181226727)
     )
 
+    ([MetroHospitalClinic] of PuntDInteres
+         (categoria  "Parada de transport public")
+         (latitud  41.389327079631684)
+         (longitud  2.1517089896243546)
+    )
+
     ([MetroJaumeI] of PuntDInteres
          (categoria  "Parada de transport public")
          (latitud  41.3839033224606)
@@ -454,27 +722,137 @@
     ([Oferta1] of Oferta
          (ofereix_a  [Habitatge1])
          (admet_mascotes  "false")
-         (es_per_compartir  "false")
+         (descripcio  "Pis lluminos al carrer Balmes")
          (inclou_electrodomestics  "false")
          (inclou_mobles  "false")
          (numero_de_places_de_garatge  1)
          (preu  2500.0)
     )
 
+    ([Oferta10] of Oferta
+         (ofereix_a  [Habitatge10])
+         (admet_mascotes  "false")
+         (descripcio  "Pis ampli al carrer del Comte Borrell")
+         (inclou_electrodomestics  "false")
+         (inclou_mobles  "false")
+         (numero_de_places_de_garatge  1)
+         (preu  850.0)
+    )
+
+    ([Oferta11] of Oferta
+         (ofereix_a  [Habitatge11])
+         (admet_mascotes  "true")
+         (descripcio  "Pis reformat al carrer de Londres")
+         (inclou_electrodomestics  "true")
+         (inclou_mobles  "true")
+         (numero_de_places_de_garatge  0)
+         (preu  2400.0)
+    )
+
+    ([Oferta12] of Oferta
+         (ofereix_a  [Habitatge12])
+         (admet_mascotes  "false")
+         (descripcio  "Duplex a carrer Aragó")
+         (inclou_electrodomestics  "true")
+         (inclou_mobles  "true")
+         (numero_de_places_de_garatge  0)
+         (preu  850.0)
+    )
+
+    ([Oferta13] of Oferta
+         (ofereix_a  [Habitatge13])
+         (admet_mascotes  "false")
+         (descripcio  "Pis lluminos a Ronda General Mitre")
+         (inclou_electrodomestics  "true")
+         (inclou_mobles  "false")
+         (numero_de_places_de_garatge  0)
+         (preu  860.0)
+    )
+
+    ([Oferta14] of Oferta
+         (ofereix_a  [Habitatge14])
+         (admet_mascotes  "false")
+         (descripcio  "Pis sense amoblar al carrer de Tuset")
+         (inclou_electrodomestics  "true")
+         (inclou_mobles  "false")
+         (numero_de_places_de_garatge  1)
+         (preu  3100.0)
+    )
+
+    ([Oferta15] of Oferta
+         (ofereix_a  [Habitatge15])
+         (admet_mascotes  "true")
+         (descripcio  "Xalet amb piscina a passeig de Gracia")
+         (inclou_electrodomestics  "true")
+         (inclou_mobles  "true")
+         (numero_de_places_de_garatge  1)
+         (preu  2530.0)
+    )
+
+    ([Oferta16] of Oferta
+         (ofereix_a  [Habitatge16])
+         (admet_mascotes  "true")
+         (descripcio  "Casa lluminosa al carrer de Gaziel")
+         (inclou_electrodomestics  "true")
+         (inclou_mobles  "false")
+         (numero_de_places_de_garatge  3)
+         (preu  4544.0)
+    )
+
+    ([Oferta17] of Oferta
+         (ofereix_a  [Habitatge17])
+         (admet_mascotes  "true")
+         (descripcio  "Casa independent a avinguda Esplugues")
+         (inclou_electrodomestics  "true")
+         (inclou_mobles  "false")
+         (numero_de_places_de_garatge  2)
+         (preu  6500.0)
+    )
+
+    ([Oferta18] of Oferta
+         (ofereix_a  [Habitatge18])
+         (admet_mascotes  "true")
+         (descripcio  "Pis acollidor al carrer dels Vergos")
+         (inclou_electrodomestics  "true")
+         (inclou_mobles  "false")
+         (numero_de_places_de_garatge  0)
+         (preu  950.0)
+    )
+
+    ([Oferta19] of Oferta
+         (ofereix_a  [Habitatge19])
+         (admet_mascotes  "false")
+         (descripcio  " Lloguer de pis moblat a Sarria")
+         (inclou_electrodomestics  "true")
+         (inclou_mobles  "true")
+         (numero_de_places_de_garatge  0)
+         (preu  1450.0)
+    )
+
     ([Oferta2] of Oferta
          (ofereix_a  [Habitatge2])
          (admet_mascotes  "false")
-         (es_per_compartir  "false")
+         (descripcio  "Pis espaiós al carrer Mandri")
          (inclou_electrodomestics  "false")
          (inclou_mobles  "false")
          (numero_de_places_de_garatge  0)
          (preu  2100.0)
     )
 
+    ([Oferta20] of Oferta
+         (ofereix_a  [Habitatge20])
+         (admet_mascotes  "false")
+         (descripcio  " Estudi a ronda General Mitre")
+         (inclou_electrodomestics  "true")
+         (inclou_mobles  "true")
+         (numero_de_places_de_garatge  0)
+         (preu  850.0)
+    )
+
     ([Oferta3] of Oferta
          (ofereix_a  [Habitatge3])
          (admet_mascotes  "false")
-         (es_per_compartir  "false")
+         (descripcio  "Lloguer de pis al carrer de Sepúlveda")
          (inclou_electrodomestics  "true")
          (inclou_mobles  "false")
          (numero_de_places_de_garatge  0)
@@ -484,7 +862,7 @@
     ([Oferta4] of Oferta
          (ofereix_a  [Habitatge4])
          (admet_mascotes  "true")
-         (es_per_compartir  "false")
+         (descripcio  "Pis agradable al carrer de la Cera")
          (inclou_electrodomestics  "true")
          (inclou_mobles  "true")
          (numero_de_places_de_garatge  0)
@@ -494,7 +872,7 @@
     ([Oferta5] of Oferta
          (ofereix_a  [Habitatge5])
          (admet_mascotes  "true")
-         (es_per_compartir  "false")
+         (descripcio  "Pis acollidor al carrer de la Palla")
          (inclou_electrodomestics  "true")
          (inclou_mobles  "true")
          (numero_de_places_de_garatge  0)
@@ -504,7 +882,7 @@
     ([Oferta6] of Oferta
          (ofereix_a  [Habitatge6])
          (admet_mascotes  "true")
-         (es_per_compartir  "false")
+         (descripcio  "Pis reformat al carrer de Berlin")
          (inclou_electrodomestics  "true")
          (inclou_mobles  "false")
          (numero_de_places_de_garatge  0)
@@ -514,7 +892,7 @@
     ([Oferta7] of Oferta
          (ofereix_a  [Habitatge7])
          (admet_mascotes  "true")
-         (es_per_compartir  "false")
+         (descripcio  "Pis ben il·luminat al Gran Via de Carles III")
          (inclou_electrodomestics  "false")
          (inclou_mobles  "false")
          (numero_de_places_de_garatge  0)
@@ -524,7 +902,7 @@
     ([Oferta8] of Oferta
          (ofereix_a  [Habitatge8])
          (admet_mascotes  "false")
-         (es_per_compartir  "false")
+         (descripcio  "Pis amoblat al carrer Sabino de Arana")
          (inclou_electrodomestics  "true")
          (inclou_mobles  "true")
          (numero_de_places_de_garatge  0)
@@ -534,7 +912,7 @@
     ([Oferta9] of Oferta
          (ofereix_a  [Habitatge9])
          (admet_mascotes  "true")
-         (es_per_compartir  "false")
+         (descripcio  "Xalet adosat al carrer Ballester")
          (inclou_electrodomestics  "false")
          (inclou_mobles  "false")
          (numero_de_places_de_garatge  2)

@@ -64,6 +64,7 @@
 
 ; Informació del sol·licitant
 (deftemplate MAIN::informacio
+    (slot nombre-recomanacions (type INTEGER) (range 1 10) (default 5))
     (slot preu-maxim-estricte (type SYMBOL) (allowed-values TRUE FALSE) (default TRUE))
     (slot hi-ha-infants (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
     (slot hi-ha-adolescents (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
@@ -74,10 +75,10 @@
 
 ; Restriccions del sol·licitant
 (deftemplate MAIN::restriccions
-    (slot estat-obra-minim (type SYMBOL) (allowed-values NOVA BON-ESTAT PER-REFORMAR) (default BON-ESTAT))
+    (slot estat-obra-minim (type SYMBOL) (allowed-values nova bon-estat per-reformar) (default bon-estat))
     (slot nombre-banys-minim (type INTEGER) (range 1 10) (default 1))
     (slot nombre-habitants (type INTEGER) (range 1 10) (default 1))
-    (slot nombre-parelles (type INTEGER) (range 0 5) (default 0))
+    (slot nombre-dormitoris-dobles (type INTEGER) (range 0 5) (default 0))
     (slot preu-maxim (type INTEGER) (default 0))
     (slot preu-minim (type INTEGER) (default 0))
     (slot superficie-habitable-maxima (type INTEGER) (default 0))
@@ -233,6 +234,9 @@
     (printout t "-----------------------------------------------------------" crlf)
     (printout t "---------------Sistema expert d'habitatges ----------------" crlf)
     (printout t "-----------------------------------------------------------" crlf)
+    (printout t "- Respon les següents preguntes i et recomamaré ofertes   -" crlf)
+    (printout t "- d'habitatges a Barcelona.                               -" crlf)
+    (printout t "-----------------------------------------------------------" crlf)
     (printout t crlf crlf)
     (focus preguntes)
 )
@@ -242,67 +246,404 @@
 ;;************************
 
 (deffacts dades
+    (informacio)
     (restriccions)
     (preferencies)
-    (preu-maxim-estricte preguntar)
+
+    (nombre-recomanacions preguntar)
+
+    (nombre-habitants preguntar)
+    (nombre-dormitoris-dobles preguntar)
     (hi-ha-infants preguntar)
     (hi-ha-adolescents preguntar)
     (hi-ha-joves preguntar)
-    (hi-ha-joves preguntar)
-    (hi-ha-joves preguntar)
-    (estat-obra-minim preguntar)
-    (nombre-banys-minim preguntar)
-    (nombre-habitants preguntar)
-    (nombre-parelles preguntar)
+    (hi-ha-adults preguntar)
+    (hi-ha-ancians preguntar)
+    
     (preu-maxim preguntar)
+    (preu-maxim-estricte preguntar)
     (preu-minim preguntar)
+    (nombre-banys-minim preguntar)
     (superficie-habitable-maxima preguntar)
     (superficie-habitable-minima preguntar)
+    (estat-obra-minim preguntar)
+    
     (te-mascotes preguntar)
     (te-mobilitat-reduida preguntar)
-    (vol-aire-acondicionat preguntar)
+
     (vol-ascensor preguntar)
     (vol-balco preguntar)
+    (vol-jardi preguntar)
+    (vol-terrassa preguntar)
+    (vol-piscina preguntar)
+
+    (vol-aire-acondicionat preguntar)
     (vol-calefaccio preguntar)
     (vol-electrodomestics preguntar)
-    (vol-jardi preguntar)
     (vol-mobles preguntar)
-    (vol-piscina preguntar)
+
     (vol-places-garatge preguntar)
-    (vol-terrassa preguntar)
     (vol-traster preguntar)
+
     (vol-aprop-punts-interes preguntar)
     (vol-aprop-localitzacions preguntar)
 )
 
-(defrule preguntes::passar-a-seleccio "Passa al modul de seleccio"
+(defrule preguntes::preguntar-nombre-recomanacions
+     (declare (salience 51))
+     ?fet <- (nombre-recomanacions preguntar)
+     ?informacio <- (informacio)
+     =>
+     (bind ?nombre-recomanacions (preguntar-nombre "Quantes ofertes vols que et recomani?" 1 10))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?informacio (nombre-recomanacions ?nombre-recomanacions))
+)
+
+(defrule preguntes::preguntar-nombre-habitants
+     (declare (salience 50))
+     ?fet <- (nombre-habitants preguntar)
+     ?restriccions <- (restriccions)
+     =>
+     (bind ?nombre-habitants (preguntar-nombre "Quants habitants viuran a l'habitatge?" 1 10))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?restriccions (nombre-habitants ?nombre-habitants))
+)
+
+(defrule preguntes::preguntar-nombre-dormitoris-dobles
+     (declare (salience 49))
+     ?fet <- (nombre-dormitoris-dobles preguntar)
+     ?restriccions <- (restriccions)
+     =>
+     (bind ?nombre-dormitoris-dobles (preguntar-nombre "Quants dormitoris dobles vols que tingui l'habitatge?" 0 5))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?restriccions (nombre-dormitoris-dobles ?nombre-dormitoris-dobles))
+)
+
+(defrule preguntes::preguntar-hi-ha-infants
+     (declare (salience 48))
+     ?fet <- (hi-ha-infants preguntar)
+     ?informacio <- (informacio)
+     =>
+     (bind ?hi-ha-infants (preguntar-si-o-no "Viuran infants a l'habitatge?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?informacio (hi-ha-infants ?hi-ha-infants))
+)
+
+(defrule preguntes::preguntar-hi-ha-adolescents
+     (declare (salience 47))
+     ?fet <- (hi-ha-adolescents preguntar)
+     ?informacio <- (informacio)
+     =>
+     (bind ?hi-ha-adolescents (preguntar-si-o-no "Viuran adolescents a l'habitatge?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?informacio (hi-ha-adolescents ?hi-ha-adolescents ))
+)
+
+(defrule preguntes::preguntar-hi-ha-joves
+     (declare (salience 46))
+     ?fet <- (hi-ha-joves preguntar)
+     ?informacio <- (informacio)
+     =>
+     (bind ?hi-ha-joves (preguntar-si-o-no "Viuran joves a l'habitatge?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?informacio (hi-ha-joves ?hi-ha-joves ))
+)
+
+(defrule preguntes::preguntar-hi-ha-adults
+     (declare (salience 45))
+     ?fet <- (hi-ha-adults preguntar)
+     ?informacio <- (informacio)
+     =>
+     (bind ?hi-ha-adults (preguntar-si-o-no "Viuran adults a l'habitatge?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?informacio (hi-ha-adults ?hi-ha-adults ))
+)
+
+(defrule preguntes::preguntar-hi-ha-ancians
+     (declare (salience 44))
+     ?fet <- (hi-ha-ancians preguntar)
+     ?informacio <- (informacio)
+     =>
+     (bind ?hi-ha-ancians (preguntar-si-o-no "Viuran ancians a l'habitatge?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?informacio (hi-ha-ancians ?hi-ha-ancians ))
+)
+
+(defrule preguntes::preguntar-preu-maxim
+     (declare (salience 43))
+     ?fet <- (preu-maxim preguntar)
+     ?restriccions <- (restriccions)
+     =>
+     (bind ?preu-maxim (preguntar-nombre "Quin preu mensual màxim estàs disposat a pagar?" 0 5000))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?restriccions (preu-maxim ?preu-maxim ))
+)
+
+(defrule preguntes::preguntar-preu-maxim-estricte
+     (declare (salience 42))
+     ?fet <- (preu-maxim-estricte preguntar)
+     ?informacio <- (informacio)
+     =>
+     (bind ?preu-maxim-estricte (preguntar-si-o-no "Estàs disposat a pagar més si és per una oferta molt bona?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?informacio (preu-maxim-estricte ?preu-maxim-estricte ))
+)
+
+(defrule preguntes::preguntar-preu-minim
+     (declare (salience 41))
+     ?fet <- (preu-minim preguntar)
+     ?restriccions <- (restriccions)
+     =>
+     (bind ?preu-minim (preguntar-nombre "Quin preu mensual mínim estàs disposat a pagar?" 0 5000))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?restriccions (preu-minim ?preu-minim ))
+)
+
+(defrule preguntes::preguntar-nombre-banys-minim
+     (declare (salience 40))
+     ?fet <- (nombre-banys-minim preguntar)
+     ?restriccions <- (restriccions)
+     =>
+     (bind ?nombre-banys-minim (preguntar-nombre "Quin és el mínim nombre de banys que vols a l'habitatge?" 1 10))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?restriccions (nombre-banys-minim ?nombre-banys-minim ))
+)
+
+(defrule preguntes::preguntar-superficie-habitable-maxima
+     (declare (salience 39))
+     ?fet <- (superficie-habitable-maxima preguntar)
+     ?restriccions <- (restriccions)
+     =>
+     (bind ?superficie-habitable-maxima (preguntar-nombre "Quina és la superfície habitable màxima que vols que tingui l'habitatge?" 0 1000))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?restriccions (superficie-habitable-maxima ?superficie-habitable-maxima ))
+)
+
+(defrule preguntes::preguntar-superficie-habitable-minima
+     (declare (salience 38))
+     ?fet <- (superficie-habitable-minima preguntar)
+     ?restriccions <- (restriccions)
+     =>
+     (bind ?superficie-habitable-minima (preguntar-nombre "Quina és la superfície habitable mínima que vols que tingui l'habitatge?" 0 1000))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?restriccions (superficie-habitable-minima ?superficie-habitable-minima ))
+)
+
+(defrule preguntes::preguntar-estat-obra-minim
+     (declare (salience 37))
+     ?fet <- (estat-obra-minim preguntar)
+     ?restriccions <- (restriccions)
+     =>
+     (bind ?estat-obra-minim (preguntar "Quin és l'estat d'obra mínim que estàs disposat a acceptar?" per-reformar bon-estat nova))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?restriccions (estat-obra-minim ?estat-obra-minim ))
+)
+
+(defrule preguntes::preguntar-te-mascotes
+     (declare (salience 36))
+     ?fet <- (te-mascotes preguntar)
+     ?restriccions <- (restriccions)
+     =>
+     (bind ?te-mascotes (preguntar-si-o-no "Viuran mascotes a l'habitatge?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?restriccions (te-mascotes ?te-mascotes ))
+)
+
+(defrule preguntes::preguntar-te-mobilitat-reduida
+     (declare (salience 35))
+     ?fet <- (te-mobilitat-reduida preguntar)
+     ?restriccions <- (restriccions)
+     =>
+     (bind ?te-mobilitat-reduida (preguntar-si-o-no "Algun habitant té mobilitat reduïda?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?restriccions (te-mobilitat-reduida ?te-mobilitat-reduida ))
+)
+
+(defrule preguntes::preguntar-vol-ascensor
+     (declare (salience 34))
+     ?fet <- (vol-ascensor preguntar)
+     ?preferencies <- (preferencies)
+     =>
+     (bind ?vol-ascensor (preguntar-si-o-no "Vols ascensor?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?preferencies (vol-ascensor ?vol-ascensor ))
+)
+
+(defrule preguntes::preguntar-vol-balco
+     (declare (salience 33))
+     ?fet <- (vol-balco preguntar)
+     ?preferencies <- (preferencies)
+     =>
+     (bind ?vol-balco (preguntar-si-o-no "Vols balcó?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?preferencies (vol-balco ?vol-balco ))
+)
+
+(defrule preguntes::preguntar-vol-jardi
+     (declare (salience 32))
+     ?fet <- (vol-jardi preguntar)
+     ?preferencies <- (preferencies)
+     =>
+     (bind ?vol-jardi (preguntar-si-o-no "Vols jardí?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?preferencies (vol-jardi ?vol-jardi ))
+)
+
+(defrule preguntes::preguntar-vol-terrassa
+     (declare (salience 31))
+     ?fet <- (vol-terrassa preguntar)
+     ?preferencies <- (preferencies)
+     =>
+     (bind ?vol-terrassa (preguntar-si-o-no "Vols terrassa?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?preferencies (vol-terrassa ?vol-terrassa ))
+)
+
+(defrule preguntes::preguntar-vol-piscina
+     (declare (salience 30))
+     ?fet <- (vol-piscina preguntar)
+     ?preferencies <- (preferencies)
+     =>
+     (bind ?vol-piscina (preguntar-si-o-no "Vols piscina?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?preferencies (vol-piscina ?vol-piscina ))
+)
+
+(defrule preguntes::preguntar-vol-aire-acondicionat
+     (declare (salience 29))
+     ?fet <- (vol-aire-acondicionat preguntar)
+     ?preferencies <- (preferencies)
+     =>
+     (bind ?vol-aire-acondicionat (preguntar-si-o-no "Vols aire acondicionat?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?preferencies (vol-aire-acondicionat ?vol-aire-acondicionat ))
+)
+
+(defrule preguntes::preguntar-vol-calefaccio
+     (declare (salience 28))
+     ?fet <- (vol-calefaccio preguntar)
+     ?preferencies <- (preferencies)
+     =>
+     (bind ?vol-calefaccio (preguntar-si-o-no "Vols calefacció?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?preferencies (vol-calefaccio ?vol-calefaccio ))
+)
+
+(defrule preguntes::preguntar-vol-electrodomestics
+     (declare (salience 27))
+     ?fet <- (vol-electrodomestics preguntar)
+     ?preferencies <- (preferencies)
+     =>
+     (bind ?vol-electrodomestics (preguntar-si-o-no "Vols electrodomèstics?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?preferencies (vol-electrodomestics ?vol-electrodomestics ))
+)
+
+(defrule preguntes::preguntar-vol-mobles
+     (declare (salience 26))
+     ?fet <- (vol-mobles preguntar)
+     ?preferencies <- (preferencies)
+     =>
+     (bind ?vol-mobles (preguntar-si-o-no "Vols mobles?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?preferencies (vol-mobles ?vol-mobles ))
+)
+
+(defrule preguntes::preguntar-vol-places-garatge
+     (declare (salience 25))
+     ?fet <- (vol-places-garatge preguntar)
+     ?preferencies <- (preferencies)
+     =>
+     (bind ?vol-places-garatge (preguntar-nombre "Quin és el nombre mínim de places de garatge que vols que tingui l'habitatge?" 0 5))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?preferencies (vol-places-garatge ?vol-places-garatge ))
+)
+
+(defrule preguntes::preguntar-vol-traster
+     (declare (salience 24))
+     ?fet <- (vol-traster preguntar)
+     ?preferencies <- (preferencies)
+     =>
+     (bind ?vol-traster (preguntar-si-o-no "Vols traster?"))
+     (printout t crlf)
+     (retract ?fet)
+     (modify ?preferencies (vol-traster ?vol-traster ))
+)
+
+(defrule preguntes::preguntar-vol-aprop-punts-interes
+     (declare (salience 23))
+     ?fet <- (vol-aprop-punts-interes preguntar)
+     ?preferencies <- (preferencies)
+     =>
+     (printout t crlf)
+     (retract ?fet)
+)
+
+(defrule preguntes::preguntar-vol-aprop-localitzacions
+     (declare (salience 22))
+     ?fet <- (vol-aprop-localitzacions preguntar)
+     ?preferencies <- (preferencies)
+     =>
+     (printout t crlf)
+     (retract ?fet)
+)
+
+(defrule preguntes::passar-a-seleccio "Passa al modul de selecció"
     (declare (salience -10))
-    (not (preu-maxim-estricte preguntar))
+    (not (nombre-recomanacions preguntar))
+    (not (nombre-habitants preguntar))
+    (not (nombre-dormitoris-dobles preguntar))
     (not (hi-ha-infants preguntar))
     (not (hi-ha-adolescents preguntar))
     (not (hi-ha-joves preguntar))
-    (not (hi-ha-joves preguntar))
-    (not (hi-ha-joves preguntar))
-    (not (estat-obra-minim preguntar))
-    (not (nombre-banys-minim preguntar))
-    (not (nombre-habitants preguntar))
-    (not (nombre-parelles preguntar))
+    (not (hi-ha-adults preguntar))
+    (not (hi-ha-ancians preguntar))
     (not (preu-maxim preguntar))
+    (not (preu-maxim-estricte preguntar))
     (not (preu-minim preguntar))
+    (not (nombre-banys-minim preguntar))
     (not (superficie-habitable-maxima preguntar))
     (not (superficie-habitable-minima preguntar))
+    (not (estat-obra-minim preguntar))
     (not (te-mascotes preguntar))
     (not (te-mobilitat-reduida preguntar))
-    (not (vol-aire-acondicionat preguntar))
     (not (vol-ascensor preguntar))
     (not (vol-balco preguntar))
+    (not (vol-jardi preguntar))
+    (not (vol-terrassa preguntar))
+    (not (vol-piscina preguntar))
+    (not (vol-aire-acondicionat preguntar))
     (not (vol-calefaccio preguntar))
     (not (vol-electrodomestics preguntar))
-    (not (vol-jardi preguntar))
     (not (vol-mobles preguntar))
-    (not (vol-piscina preguntar))
     (not (vol-places-garatge preguntar))
-    (not (vol-terrassa preguntar))
     (not (vol-traster preguntar))
     (not (vol-aprop-punts-interes preguntar))
     (not (vol-aprop-localitzacions preguntar))

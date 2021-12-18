@@ -35,20 +35,23 @@
 )
 
 ;; En el futuro
-(defmodule construccio-solucio-abstracta
+(defmodule contruccio-abstracte
     (import MAIN ?ALL)
+    (import abstraccio ?ALL)
     (export ?ALL)
 )
 
 ;; Edgar
 (defmodule construccio
     (import MAIN ?ALL)
+    (import contruccio-abstracte ?ALL)
     (export ?ALL)
 )
 
 ;; Maria
 (defmodule presentacio
     (import MAIN ?ALL)
+    (import construccio ?ALL)
     (export ?ALL)
 )
 
@@ -290,6 +293,7 @@
     (restriccions)
 
     (nombre-recomanacions preguntar)
+    
     (nombre-habitants preguntar)
     (nombre-dormitoris-dobles preguntar)
     (hi-ha-infants preguntar)
@@ -773,6 +777,10 @@
 (deffacts abstraccio
     (mida-habitatge abstreure)
     (pressupost abstreure)
+    (familia abstreure)
+    (ancians abstreure)
+    (joves abstreure)
+    (parella abstreure)
 )
 
 (defrule abstraccio::abstreure-mida-habitatge-gran
@@ -843,37 +851,154 @@
     (retract ?fet)
 )
 
+
+(defrule abstraccio::abstreure-familia-true
+    ?fet <- (familia abstreure)
+    (informacio (hi-ha-infants ?infants))
+    (informacio (hi-ha-adolescents ?adolescents))
+    ?e <- (problema-abstracte)
+    (test (or (eq ?infants TRUE) (eq ?adolescents TRUE)))
+    =>
+    (modify ?e (familia TRUE)) 
+    (retract ?fet)
+)
+
+(defrule abstraccio::abstreure-familia-false
+    ?fet <- (familia abstreure)
+    (informacio (hi-ha-infants ?infants))
+    (informacio (hi-ha-adolescents ?adolescents))
+    ?e <- (problema-abstracte)
+    (test (and (eq ?infants FALSE) (eq ?adolescents FALSE)))
+    =>
+    (modify ?e (familia FALSE)) 
+    (retract ?fet)
+)
+
+(defrule abstraccio::abstreure-joves-true
+    ?fet <- (joves abstreure)
+    (informacio (hi-ha-joves ?joves))
+    (informacio (hi-ha-infants ?infants))
+    (informacio (hi-ha-ancians ?ancians))
+    ?e <- (problema-abstracte)
+    (test (eq ?joves TRUE))
+    (test (eq ?infants FALSE))
+    (test (eq ?ancians FALSE))
+    =>
+    (modify ?e (joves TRUE)) 
+    (retract ?fet)
+)
+
+(defrule abstraccio::abstreure-joves-false
+    ?fet <- (joves abstreure)
+    (informacio (hi-ha-joves ?joves))
+    (informacio (hi-ha-infants ?infants))
+    (informacio (hi-ha-ancians ?ancians))
+    ?e <- (problema-abstracte)
+    (test (or (eq ?infants TRUE) (or (eq ?joves FALSE) (eq ?ancians TRUE))))
+    =>
+    (modify ?e (joves FALSE)) 
+    (retract ?fet)
+)
+
+(defrule abstraccio::abstreure-ancians-true
+    ?fet <- (ancians abstreure)
+    (informacio (hi-ha-ancians ?ancians))
+    ?e <- (problema-abstracte)
+    (test (eq ?ancians TRUE))
+    =>
+    (modify ?e (ancians TRUE)) 
+    (retract ?fet)
+)
+
+(defrule abstraccio::abstreure-ancians-false
+    ?fet <- (ancians abstreure)
+    (informacio (hi-ha-ancians ?ancians))
+    ?e <- (problema-abstracte)
+    (test (eq ?ancians FALSE))
+    =>
+    (modify ?e (ancians FALSE)) 
+    (retract ?fet)
+)
+
+(defrule abstraccio::abstreure-parella-true
+    ?fet <- (parella abstreure)
+    (informacio (hi-ha-adults ?adults))
+    (informacio (hi-ha-infants ?infants))
+    (informacio (hi-ha-adolescents ?adolescents))
+    (informacio (hi-ha-ancians ?ancians))
+    (informacio (hi-ha-joves ?joves))
+    ?e <- (problema-abstracte)
+    (test (eq ?adults TRUE))
+    (test (eq ?infants FALSE))
+    (test (eq ?ancians FALSE))
+    (test (eq ?joves FALSE))
+    (test (eq ?adolescents FALSE))
+    =>
+    (modify ?e (parella-sense-fills TRUE)) 
+    (retract ?fet)
+)
+
+(defrule abstraccio::abstreure-parella-false
+    ?fet <- (parella abstreure)
+    (informacio (hi-ha-adults ?adults))
+    (informacio (hi-ha-infants ?infants))
+    (informacio (hi-ha-ancians ?ancians))
+    (informacio (hi-ha-joves ?joves))
+    (informacio (hi-ha-adolescents ?adolescents))
+    ?e <- (problema-abstracte)
+    (test (or (or (eq ?adults FALSE) (eq ?infants TRUE)) (or (eq ?ancians TRUE) (or (eq ?joves TRUE) (eq ?adolescents TRUE)))))
+    =>
+    (modify ?e (parella-sense-fills FALSE)) 
+    (retract ?fet)
+)
+
+
 (defrule abstraccio::passar-a-construccio-abstracta
     (declare (salience -10))
     (not (mida-habitatge abstreure))
     (not (pressupost abstreure))
+    (not (familia abstreure))
+    (not (ancians abstreure))
+    (not (joves abstreure))
+    (not (parella abstreure))
     =>
     (printout t "Generant resultats abstractes..." crlf)
-    (focus construccio-solucio-abstracta)
+    (focus contruccio-abstracte)
 )
 
 ;;**************************************************
 ;;*  MODUL DE CONSTRUCCIO DE LA SOLUCIO ABSTRACTA  *
 ;;**************************************************
 
-(deffacts construccio-solucio-abstracta
+(deffacts contruccio-abstracte
+    (construir abstracte)
 )
 
-(defrule construccio-solucio-abstracta::calcular-puntuacions
+(defrule contruccio-abstracte::calcular-puntuacions
     (declare (salience 10))
+    ?fet <- (construir abstracte)
     (problema-abstracte (mida-habitatge ?mida-habitatge))
     (problema-abstracte (pressupost ?pressupost))
+    (problema-abstracte (familia ?familia))
+    (problema-abstracte (parella-sense-fills ?parella-sense-fills))
+    (problema-abstracte (joves ?joves))
+    (problema-abstracte (ancians ?ancians))
     =>
     (bind ?llista-ofertes-abstractes (find-all-instances ((?inst OfertaAbstracta)) TRUE))
     (loop-for-count (?i 1 (length$ ?llista-ofertes-abstractes)) do
         (bind ?oferta-abstracta (nth$ ?i ?llista-ofertes-abstractes))
         (send ?oferta-abstracta calcula-puntuacio-mida-habitatge ?mida-habitatge)
         (send ?oferta-abstracta calcula-puntuacio-preu ?pressupost)
+        (send ?oferta-abstracta calcula-puntuacio-tipus-familia ?familia ?parella-sense-fills ?joves ?ancians)
     )
+    (bind ?llista-ordenada (sort comparar-ofertes ?llista-ofertes-abstractes))
+    (assert (llista-recomanacions-abstractes (recomanacions ?llista-ordenada)))
+    (retract ?fet)
 )
 
-(defrule construccio-solucio-abstracta::passar-a-construccio
+(defrule contruccio-abstracte::passar-a-construccio
     (declare (salience -10))
+    (not (construir abstracte))
     =>
     (printout t "Generant resultats..." crlf)
     (focus construccio)
@@ -882,6 +1007,33 @@
 ;;**************************
 ;;*  MODUL DE CONSTRUCCIO  *
 ;;**************************
+
+(deffacts contruccio
+    (construccio concreta)
+)
+
+(defrule construccio::construir
+    (declare (salience 10))
+    ?fet <- (construccio concreta)
+    (informacio (nombre-recomanacions ?nombre-recomanacions))
+    (llista-recomanacions-abstractes (recomanacions $?llista-ordenada))
+    =>
+    (bind ?llista-concreta (create$))
+
+    (if (< (length$ ?llista-ordenada) ?nombre-recomanacions)
+        then (bind ?nombre-recomanacions (length$ ?llista-ordenada))
+    )
+    (loop-for-count (?i 1 ?nombre-recomanacions) do
+        (bind ?oferta-abstracta (nth$ ?i ?llista-ordenada))
+        (bind ?oferta (send ?oferta-abstracta get-oferta))
+        (if (eq 0 0)
+        then
+            (bind ?llista-concreta (insert$ ?llista-concreta (+ (length$ ?llista-concreta) 1) ?oferta))
+        )
+    )
+    (assert (llista-recomanacions (recomanacions ?llista-concreta)))
+    (retract ?fet)
+)
 
 (defrule construccio::passar-a-presentacio
     (declare (salience -10))
@@ -899,22 +1051,11 @@
     ?informacio <- (informacio)
     ?preferencies <- (preferencies)
     ?restriccions <- (restriccions)
+    (llista-recomanacions (recomanacions $?llista-ordenada))
     =>
-    (bind ?nombre-recomanacions (send ?informacio get-nombre-recomanacions))
-    (printout t crlf)
-    (bind ?llista-ofertes-abstractes (find-all-instances ((?inst OfertaAbstracta)) TRUE))
-    (bind ?llista-ordenada (sort comparar-ofertes ?llista-ofertes-abstractes))
-    (if (< (length$ ?llista-ordenada) ?nombre-recomanacions)
-        then (bind ?nombre-recomanacions (length$ ?llista-ordenada))
-    )
-    (loop-for-count (?i 1 ?nombre-recomanacions) do
-        (bind ?oferta-abstracta (nth$ ?i ?llista-ordenada))
-        (if (> (send ?oferta-abstracta get-puntuacio) 0)
-            then 
-                ; TODO: esborrar després de debugar
-                (printout t "DEBUG: Oferta amb puntuacio: " (send ?oferta-abstracta get-puntuacio) crlf (send ?oferta-abstracta get-justificacio-puntuacio) crlf)
-                (send (send ?oferta-abstracta get-oferta) imprimir ?i ?informacio ?preferencies ?restriccions)
-        )
+    (loop-for-count (?i 1 (length$ ?llista-ordenada)) do
+        (bind ?oferta (nth$ ?i ?llista-ordenada))
+        (send ?oferta imprimir ?i ?informacio ?preferencies ?restriccions)
     )
     (assert (final))
 )
@@ -1156,6 +1297,25 @@
     (send ?self put-puntuacio (+ ?puntuacio (send ?self get-puntuacio)))
     (bind ?justificacio (str-cat "+" (str-cat "Preu habitatge" (str-cat " --> " ?justificacio))))
     (slot-insert$ ?self justificacio-puntuacio (+ 1 (length$ ?self:justificacio-puntuacio)) ?justificacio)
+)
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-puntuacio-tipus-familia (?familia ?parella-sense-fills ?joves ?ancians)
+    (if (and (eq ?familia TRUE) (eq ?self:adequat-familia TRUE))
+        then
+            (send ?self put-puntuacio (+ 10 (send ?self get-puntuacio)))
+    )
+    (if (and (eq ?parella-sense-fills TRUE) (eq ?self:adequat-parelles TRUE))
+        then
+            (send ?self put-puntuacio (+ 10 (send ?self get-puntuacio)))
+    )
+    (if (and (eq ?joves TRUE) (eq ?self:adequat-joves TRUE))
+        then
+            (send ?self put-puntuacio (+ 10 (send ?self get-puntuacio)))
+    )
+    (if (and (eq ?ancians TRUE) (eq ?self:adequat-ancians TRUE))
+        then
+            (send ?self put-puntuacio (+ 10 (send ?self get-puntuacio)))
+    )
 )
 
 (defmessage-handler MAIN::OfertaAbstracta calcula-mida-habitatge ()

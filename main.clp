@@ -667,7 +667,7 @@
 )
 
 (defrule preguntes::preguntar-vol-aprop-punts-interes
-    (declare (salience 100))
+    (declare (salience 23))
     ?fet <- (vol-aprop-punts-interes preguntar)
     ?preferencies <- (preferencies)
     =>
@@ -698,7 +698,7 @@
 )
 
 (defrule preguntes::preguntar-vol-lluny-punts-interes
-    (declare (salience 99))
+    (declare (salience 22))
     ?fet <- (vol-lluny-punts-interes preguntar)
     ?preferencies <- (preferencies)
     =>
@@ -729,7 +729,7 @@
 )
 
 (defrule preguntes::preguntar-vol-aprop-localitzacions
-    (declare (salience 98))
+    (declare (salience 21))
     ?fet <- (vol-aprop-localitzacions preguntar)
     ?preferencies <- (preferencies)
     =>

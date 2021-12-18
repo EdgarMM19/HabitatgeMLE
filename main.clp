@@ -1449,6 +1449,68 @@
 
 (defmessage-handler MAIN::Oferta comptar-restriccions-insatisfetes (?preu-maxim-estricte ?restriccions)
     (bind ?comptador 0)
+    (bind ?habitatge ?self:ofereix_a)
+    ; restricció estat de l'obra
+    (bind ?estat-obra-minim (send ?restriccions get-estat-obra-minim))
+    (switch ?estat-obra-minim
+        (case BON-ESTAT then 
+            (if (eq (send ?habitatge get-estat_de_l_obra) PER-REFORMAR)
+                then (bind ?comptador (+ ?comptador 1))
+            )
+        )
+        (case NOVA then 
+            (if (not (eq (send ?habitatge get-estat_de_l_obra) NOVA))
+                then (bind ?comptador (+ ?comptador 1))
+            )
+        )
+    )
+    ; restricció nombre de banys
+    (bind ?nombre-banys-minim (send ?restriccions get-nombre-banys-minim))
+    (if (< (send ?habitatge get-nombre_de_banys) ?nombre-banys-minim)
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restricció nombre d'habitants
+    (bind ?nombre-habitants (send ?restriccions get-nombre-habitants))
+    (if (< (send ?habitatge get-nombre_d_habitants_maxim) ?nombre-habitants)
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restricció nombre de dormitoris dobles
+    (bind ?nombre-dormitoris-dobles (send ?restriccions get-nombre-dormitoris-dobles))
+    (if (< (send ?habitatge get-nombre_de_dormitoris_dobles) ?nombre-dormitoris-dobles)
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restriccions preu
+    (bind ?preu-maxim (send ?restriccions get-preu-maxim))
+    (if (> ?self:preu ?preu-maxim)
+        then (
+            if (eq preu-maxim-estricte TRUE)
+                then (bind ?comptador (+ ?comptador 1))
+        )
+    )
+    (bind ?preu-minim (send ?restriccions get-preu-minim))
+    (if (< ?self:preu ?preu-minim)
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restriccions superfície habitable
+    (bind ?superficie-habitable-maxima (send ?restriccions get-superficie-habitable-maxima))
+    (if (> (send ?habitatge get-superficie_habitable) ?superficie-habitable-maxima)
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    (bind ?superficie-habitable-minima (send ?restriccions get-superficie-habitable-minima))
+    (if (< (send ?habitatge get-superficie_habitable) ?superficie-habitable-minima)
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restricció mascotes
+    (bind ?te-mascotes (send ?restriccions get-te-mascotes))
+    (if (and (not ?self:admet_mascotes) ?te-mascotes)
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restricció mobilitat reduïda
+    (bind ?te-mobilitat-reduida (send ?restriccions get-te-mobilitat-reduida))
+    (if (and (not (send ?habitatge apte-mobilitat-reduida)) ?te-mobilitat-reduida)
+        then (bind ?comptador (+ ?comptador 1))
+    )
+
     ?comptador
 )
 

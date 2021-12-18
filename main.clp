@@ -198,6 +198,29 @@
     ?resposta
 )
 
+(deffunction preguntar-nombres (?cota-inferior ?cota-superior)
+    (bind ?acabat FALSE)
+    (bind ?llista nil)
+    (while (eq ?acabat FALSE)
+        (bind ?acabat TRUE)
+        (format t "Introdueix els nombres separats per un espai: ")
+        (bind ?resposta (readline))
+        (bind ?nombres (str-explode ?resposta))
+        (bind ?llista (create$))
+        (progn$ (?var ?nombres)
+            (if (and (integerp ?var) (and (>= ?var ?cota-inferior) (<= ?var ?cota-superior)))
+                then
+                    (if (not (member$ ?var ?llista))
+                        then (bind ?llista (insert$ ?llista (+ (length$ ?llista) 1) ?var))
+                    )
+                else
+                    (bind ?acabat FALSE)
+            )
+        )
+    )
+    ?llista
+)
+
 ;;*****************************
 ;;* DEFFUNCTIONS - ABSTRACCIO *
 ;;*****************************
@@ -292,8 +315,8 @@
 
 (deffacts dades
     (informacio)
-    (restriccions)
     (preferencies)
+    (restriccions)
 
     (nombre-recomanacions preguntar)
     (nombre-habitants preguntar)
@@ -325,342 +348,417 @@
     (vol-calefaccio preguntar)
     (vol-electrodomestics preguntar)
     (vol-mobles preguntar)
-
-    (vol-places-garatge preguntar)
     (vol-traster preguntar)
 
+    (vol-places-garatge preguntar)
+
     (vol-aprop-punts-interes preguntar)
+    (vol-lluny-punts-interes preguntar)
     (vol-aprop-localitzacions preguntar)
 )
 
 (defrule preguntes::preguntar-nombre-recomanacions
-     (declare (salience 51))
-     ?fet <- (nombre-recomanacions preguntar)
-     ?informacio <- (informacio)
-     =>
-     (bind ?nombre-recomanacions (preguntar-nombre "Quantes ofertes vols que et recomani?" 1 10))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?informacio (nombre-recomanacions ?nombre-recomanacions))
+    (declare (salience 51))
+    ?fet <- (nombre-recomanacions preguntar)
+    ?informacio <- (informacio)
+    =>
+    (bind ?nombre-recomanacions (preguntar-nombre "Quantes ofertes vols que et recomani?" 1 10))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?informacio (nombre-recomanacions ?nombre-recomanacions))
 )
 
 (defrule preguntes::preguntar-nombre-habitants
-     (declare (salience 50))
-     ?fet <- (nombre-habitants preguntar)
-     ?restriccions <- (restriccions)
-     =>
-     (bind ?nombre-habitants (preguntar-nombre "Quants habitants viuran a l'habitatge?" 1 10))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?restriccions (nombre-habitants ?nombre-habitants))
+    (declare (salience 50))
+    ?fet <- (nombre-habitants preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?nombre-habitants (preguntar-nombre "Quants habitants viuran a l'habitatge?" 1 10))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (nombre-habitants ?nombre-habitants))
 )
 
 (defrule preguntes::preguntar-nombre-dormitoris-dobles
-     (declare (salience 49))
-     ?fet <- (nombre-dormitoris-dobles preguntar)
-     ?restriccions <- (restriccions)
-     =>
-     (bind ?nombre-dormitoris-dobles (preguntar-nombre "Quants dormitoris dobles vols que tingui l'habitatge?" 0 5))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?restriccions (nombre-dormitoris-dobles ?nombre-dormitoris-dobles))
+    (declare (salience 49))
+    ?fet <- (nombre-dormitoris-dobles preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?nombre-dormitoris-dobles (preguntar-nombre "Quants dormitoris dobles vols que tingui l'habitatge?" 0 5))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (nombre-dormitoris-dobles ?nombre-dormitoris-dobles))
 )
 
 (defrule preguntes::preguntar-hi-ha-infants
-     (declare (salience 48))
-     ?fet <- (hi-ha-infants preguntar)
-     ?informacio <- (informacio)
-     =>
-     (bind ?hi-ha-infants (preguntar-si-o-no "Viuran infants a l'habitatge?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?informacio (hi-ha-infants ?hi-ha-infants))
+    (declare (salience 48))
+    ?fet <- (hi-ha-infants preguntar)
+    ?informacio <- (informacio)
+    =>
+    (bind ?hi-ha-infants (preguntar-si-o-no "Viuran infants a l'habitatge?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?informacio (hi-ha-infants ?hi-ha-infants))
 )
 
 (defrule preguntes::preguntar-hi-ha-adolescents
-     (declare (salience 47))
-     ?fet <- (hi-ha-adolescents preguntar)
-     ?informacio <- (informacio)
-     =>
-     (bind ?hi-ha-adolescents (preguntar-si-o-no "Viuran adolescents a l'habitatge?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?informacio (hi-ha-adolescents ?hi-ha-adolescents ))
+    (declare (salience 47))
+    ?fet <- (hi-ha-adolescents preguntar)
+    ?informacio <- (informacio)
+    =>
+    (bind ?hi-ha-adolescents (preguntar-si-o-no "Viuran adolescents a l'habitatge?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?informacio (hi-ha-adolescents ?hi-ha-adolescents))
 )
 
 (defrule preguntes::preguntar-hi-ha-joves
-     (declare (salience 46))
-     ?fet <- (hi-ha-joves preguntar)
-     ?informacio <- (informacio)
-     =>
-     (bind ?hi-ha-joves (preguntar-si-o-no "Viuran joves a l'habitatge?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?informacio (hi-ha-joves ?hi-ha-joves ))
+    (declare (salience 46))
+    ?fet <- (hi-ha-joves preguntar)
+    ?informacio <- (informacio)
+    =>
+    (bind ?hi-ha-joves (preguntar-si-o-no "Viuran joves a l'habitatge?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?informacio (hi-ha-joves ?hi-ha-joves))
 )
 
 (defrule preguntes::preguntar-hi-ha-adults
-     (declare (salience 45))
-     ?fet <- (hi-ha-adults preguntar)
-     ?informacio <- (informacio)
-     =>
-     (bind ?hi-ha-adults (preguntar-si-o-no "Viuran adults a l'habitatge?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?informacio (hi-ha-adults ?hi-ha-adults ))
+    (declare (salience 45))
+    ?fet <- (hi-ha-adults preguntar)
+    ?informacio <- (informacio)
+    =>
+    (bind ?hi-ha-adults (preguntar-si-o-no "Viuran adults a l'habitatge?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?informacio (hi-ha-adults ?hi-ha-adults))
 )
 
 (defrule preguntes::preguntar-hi-ha-ancians
-     (declare (salience 44))
-     ?fet <- (hi-ha-ancians preguntar)
-     ?informacio <- (informacio)
-     =>
-     (bind ?hi-ha-ancians (preguntar-si-o-no "Viuran ancians a l'habitatge?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?informacio (hi-ha-ancians ?hi-ha-ancians ))
+    (declare (salience 44))
+    ?fet <- (hi-ha-ancians preguntar)
+    ?informacio <- (informacio)
+    =>
+    (bind ?hi-ha-ancians (preguntar-si-o-no "Viuran ancians a l'habitatge?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?informacio (hi-ha-ancians ?hi-ha-ancians))
 )
 
 (defrule preguntes::preguntar-preu-maxim
-     (declare (salience 43))
-     ?fet <- (preu-maxim preguntar)
-     ?restriccions <- (restriccions)
-     =>
-     (bind ?preu-maxim (preguntar-nombre "Quin preu mensual màxim estàs disposat a pagar?" 0 5000))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?restriccions (preu-maxim ?preu-maxim ))
+    (declare (salience 43))
+    ?fet <- (preu-maxim preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?preu-maxim (preguntar-nombre "Quin preu mensual màxim estàs disposat a pagar?" 0 5000))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (preu-maxim ?preu-maxim))
 )
 
 (defrule preguntes::preguntar-preu-maxim-estricte
-     (declare (salience 42))
-     ?fet <- (preu-maxim-estricte preguntar)
-     ?informacio <- (informacio)
-     =>
-     (bind ?preu-maxim-estricte (preguntar-si-o-no "Estàs disposat a pagar més si és per una oferta molt bona?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?informacio (preu-maxim-estricte ?preu-maxim-estricte ))
+    (declare (salience 42))
+    ?fet <- (preu-maxim-estricte preguntar)
+    ?informacio <- (informacio)
+    =>
+    (bind ?preu-maxim-estricte (preguntar-si-o-no "Estàs disposat a pagar més si és per una oferta molt bona?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?informacio (preu-maxim-estricte ?preu-maxim-estricte))
 )
 
 (defrule preguntes::preguntar-preu-minim
-     (declare (salience 41))
-     ?fet <- (preu-minim preguntar)
-     ?restriccions <- (restriccions)
-     =>
-     (bind ?preu-minim (preguntar-nombre "Quin preu mensual mínim estàs disposat a pagar?" 0 5000))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?restriccions (preu-minim ?preu-minim ))
+    (declare (salience 41))
+    ?fet <- (preu-minim preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?preu-minim (preguntar-nombre "Quin preu mensual mínim estàs disposat a pagar?" 0 5000))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (preu-minim ?preu-minim))
 )
 
 (defrule preguntes::preguntar-nombre-banys-minim
-     (declare (salience 40))
-     ?fet <- (nombre-banys-minim preguntar)
-     ?restriccions <- (restriccions)
-     =>
-     (bind ?nombre-banys-minim (preguntar-nombre "Quin és el mínim nombre de banys que vols a l'habitatge?" 1 10))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?restriccions (nombre-banys-minim ?nombre-banys-minim ))
+    (declare (salience 40))
+    ?fet <- (nombre-banys-minim preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?nombre-banys-minim (preguntar-nombre "Quin és el mínim nombre de banys que vols a l'habitatge?" 1 10))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (nombre-banys-minim ?nombre-banys-minim))
 )
 
 (defrule preguntes::preguntar-superficie-habitable-maxima
-     (declare (salience 39))
-     ?fet <- (superficie-habitable-maxima preguntar)
-     ?restriccions <- (restriccions)
-     =>
-     (bind ?superficie-habitable-maxima (preguntar-nombre "Quina és la superfície habitable màxima que vols que tingui l'habitatge?" 0 1000))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?restriccions (superficie-habitable-maxima ?superficie-habitable-maxima ))
+    (declare (salience 39))
+    ?fet <- (superficie-habitable-maxima preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?superficie-habitable-maxima (preguntar-nombre "Quina és la superfície habitable màxima que vols que tingui l'habitatge?" 0 1000))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
 )
 
 (defrule preguntes::preguntar-superficie-habitable-minima
-     (declare (salience 38))
-     ?fet <- (superficie-habitable-minima preguntar)
-     ?restriccions <- (restriccions)
-     =>
-     (bind ?superficie-habitable-minima (preguntar-nombre "Quina és la superfície habitable mínima que vols que tingui l'habitatge?" 0 1000))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?restriccions (superficie-habitable-minima ?superficie-habitable-minima ))
+    (declare (salience 38))
+    ?fet <- (superficie-habitable-minima preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?superficie-habitable-minima (preguntar-nombre "Quina és la superfície habitable mínima que vols que tingui l'habitatge?" 0 1000))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (superficie-habitable-minima ?superficie-habitable-minima))
 )
 
 (defrule preguntes::preguntar-estat-obra-minim
-     (declare (salience 37))
-     ?fet <- (estat-obra-minim preguntar)
-     ?restriccions <- (restriccions)
-     =>
-     (bind ?estat-obra-minim (preguntar "Quin és l'estat d'obra mínim que estàs disposat a acceptar?" PER-REFORMAR BON-ESTAT NOVA))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?restriccions (estat-obra-minim ?estat-obra-minim ))
+    (declare (salience 37))
+    ?fet <- (estat-obra-minim preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?estat-obra-minim (preguntar "Quin és l'estat d'obra mínim que estàs disposat a acceptar?" PER-REFORMAR BON-ESTAT NOVA))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (estat-obra-minim ?estat-obra-minim))
 )
 
 (defrule preguntes::preguntar-te-mascotes
-     (declare (salience 36))
-     ?fet <- (te-mascotes preguntar)
-     ?restriccions <- (restriccions)
-     =>
-     (bind ?te-mascotes (preguntar-si-o-no "Viuran mascotes a l'habitatge?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?restriccions (te-mascotes ?te-mascotes ))
+    (declare (salience 36))
+    ?fet <- (te-mascotes preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?te-mascotes (preguntar-si-o-no "Viuran mascotes a l'habitatge?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (te-mascotes ?te-mascotes))
 )
 
 (defrule preguntes::preguntar-te-mobilitat-reduida
-     (declare (salience 35))
-     ?fet <- (te-mobilitat-reduida preguntar)
-     ?restriccions <- (restriccions)
-     =>
-     (bind ?te-mobilitat-reduida (preguntar-si-o-no "Algun habitant té mobilitat reduïda?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?restriccions (te-mobilitat-reduida ?te-mobilitat-reduida ))
+    (declare (salience 35))
+    ?fet <- (te-mobilitat-reduida preguntar)
+    ?restriccions <- (restriccions)
+    =>
+    (bind ?te-mobilitat-reduida (preguntar-si-o-no "Algun habitant té mobilitat reduïda?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?restriccions (te-mobilitat-reduida ?te-mobilitat-reduida))
 )
 
 (defrule preguntes::preguntar-vol-ascensor
-     (declare (salience 34))
-     ?fet <- (vol-ascensor preguntar)
-     ?preferencies <- (preferencies)
-     =>
-     (bind ?vol-ascensor (preguntar-si-o-no-na "Vols ascensor?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?preferencies (vol-ascensor ?vol-ascensor ))
+    (declare (salience 34))
+    ?fet <- (vol-ascensor preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (bind ?vol-ascensor (preguntar-si-o-no-na "Vols ascensor?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?preferencies (vol-ascensor ?vol-ascensor))
 )
 
 (defrule preguntes::preguntar-vol-balco
-     (declare (salience 33))
-     ?fet <- (vol-balco preguntar)
-     ?preferencies <- (preferencies)
-     =>
-     (bind ?vol-balco (preguntar-si-o-no-na "Vols balcó?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?preferencies (vol-balco ?vol-balco ))
+    (declare (salience 33))
+    ?fet <- (vol-balco preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (bind ?vol-balco (preguntar-si-o-no-na "Vols balcó?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?preferencies (vol-balco ?vol-balco))
 )
 
 (defrule preguntes::preguntar-vol-jardi
-     (declare (salience 32))
-     ?fet <- (vol-jardi preguntar)
-     ?preferencies <- (preferencies)
-     =>
-     (bind ?vol-jardi (preguntar-si-o-no-na "Vols jardí?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?preferencies (vol-jardi ?vol-jardi ))
+    (declare (salience 32))
+    ?fet <- (vol-jardi preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (bind ?vol-jardi (preguntar-si-o-no-na "Vols jardí?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?preferencies (vol-jardi ?vol-jardi))
 )
 
 (defrule preguntes::preguntar-vol-terrassa
-     (declare (salience 31))
-     ?fet <- (vol-terrassa preguntar)
-     ?preferencies <- (preferencies)
-     =>
-     (bind ?vol-terrassa (preguntar-si-o-no-na "Vols terrassa?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?preferencies (vol-terrassa ?vol-terrassa ))
+    (declare (salience 31))
+    ?fet <- (vol-terrassa preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (bind ?vol-terrassa (preguntar-si-o-no-na "Vols terrassa?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?preferencies (vol-terrassa ?vol-terrassa))
 )
 
 (defrule preguntes::preguntar-vol-piscina
-     (declare (salience 30))
-     ?fet <- (vol-piscina preguntar)
-     ?preferencies <- (preferencies)
-     =>
-     (bind ?vol-piscina (preguntar-si-o-no-na "Vols piscina?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?preferencies (vol-piscina ?vol-piscina ))
+    (declare (salience 30))
+    ?fet <- (vol-piscina preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (bind ?vol-piscina (preguntar-si-o-no-na "Vols piscina?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?preferencies (vol-piscina ?vol-piscina))
 )
 
 (defrule preguntes::preguntar-vol-aire-condicionat
-     (declare (salience 29))
-     ?fet <- (vol-aire-condicionat preguntar)
-     ?preferencies <- (preferencies)
-     =>
-     (bind ?vol-aire-condicionat (preguntar-si-o-no-na "Vols aire condicionat?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?preferencies (vol-aire-condicionat ?vol-aire-condicionat ))
+    (declare (salience 29))
+    ?fet <- (vol-aire-condicionat preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (bind ?vol-aire-condicionat (preguntar-si-o-no-na "Vols aire condicionat?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?preferencies (vol-aire-condicionat ?vol-aire-condicionat))
 )
 
 (defrule preguntes::preguntar-vol-calefaccio
-     (declare (salience 28))
-     ?fet <- (vol-calefaccio preguntar)
-     ?preferencies <- (preferencies)
-     =>
-     (bind ?vol-calefaccio (preguntar-si-o-no-na "Vols calefacció?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?preferencies (vol-calefaccio ?vol-calefaccio ))
+    (declare (salience 28))
+    ?fet <- (vol-calefaccio preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (bind ?vol-calefaccio (preguntar-si-o-no-na "Vols calefacció?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?preferencies (vol-calefaccio ?vol-calefaccio))
 )
 
 (defrule preguntes::preguntar-vol-electrodomestics
-     (declare (salience 27))
-     ?fet <- (vol-electrodomestics preguntar)
-     ?preferencies <- (preferencies)
-     =>
-     (bind ?vol-electrodomestics (preguntar-si-o-no-na "Vols electrodomèstics?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?preferencies (vol-electrodomestics ?vol-electrodomestics ))
+    (declare (salience 27))
+    ?fet <- (vol-electrodomestics preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (bind ?vol-electrodomestics (preguntar-si-o-no-na "Vols electrodomèstics?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?preferencies (vol-electrodomestics ?vol-electrodomestics))
 )
 
 (defrule preguntes::preguntar-vol-mobles
-     (declare (salience 26))
-     ?fet <- (vol-mobles preguntar)
-     ?preferencies <- (preferencies)
-     =>
-     (bind ?vol-mobles (preguntar-si-o-no-na "Vols mobles?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?preferencies (vol-mobles ?vol-mobles ))
-)
-
-(defrule preguntes::preguntar-vol-places-garatge
-     (declare (salience 25))
-     ?fet <- (vol-places-garatge preguntar)
-     ?preferencies <- (preferencies)
-     =>
-     (bind ?vol-places-garatge (preguntar-nombre "Quin és el nombre mínim de places de garatge que vols que tingui l'habitatge?" 0 5))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?preferencies (vol-places-garatge ?vol-places-garatge ))
+    (declare (salience 26))
+    ?fet <- (vol-mobles preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (bind ?vol-mobles (preguntar-si-o-no-na "Vols mobles?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?preferencies (vol-mobles ?vol-mobles))
 )
 
 (defrule preguntes::preguntar-vol-traster
-     (declare (salience 24))
-     ?fet <- (vol-traster preguntar)
-     ?preferencies <- (preferencies)
-     =>
-     (bind ?vol-traster (preguntar-si-o-no-na "Vols traster?"))
-     (printout t crlf)
-     (retract ?fet)
-     (modify ?preferencies (vol-traster ?vol-traster ))
+    (declare (salience 25))
+    ?fet <- (vol-traster preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (bind ?vol-traster (preguntar-si-o-no-na "Vols traster?"))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?preferencies (vol-traster ?vol-traster))
+)
+
+(defrule preguntes::preguntar-vol-places-garatge
+    (declare (salience 24))
+    ?fet <- (vol-places-garatge preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (bind ?vol-places-garatge (preguntar-nombre "Quin és el nombre mínim de places de garatge que vols que tingui l'habitatge?" 0 5))
+    (printout t crlf)
+    (retract ?fet)
+    (modify ?preferencies (vol-places-garatge ?vol-places-garatge))
 )
 
 (defrule preguntes::preguntar-vol-aprop-punts-interes
-     (declare (salience 23))
-     ?fet <- (vol-aprop-punts-interes preguntar)
-     ?preferencies <- (preferencies)
-     =>
-     (printout t crlf)
-     (retract ?fet)
+    (declare (salience 23))
+    ?fet <- (vol-aprop-punts-interes preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (printout t "Quins d'aquests punts d'interès vols tenir aprop?" crlf)
+    (printout t "1 - Centres de salut" crlf)
+    (printout t "2 - Hipermercats" crlf)
+    (printout t "3 - Zones d'oci nocturn" crlf)
+    (printout t "4 - Supermercats" crlf)
+    (printout t "5 - Transport públic" crlf)
+    (printout t "6 - Zones comercials" crlf)
+    (printout t "7 - Zones esportives" crlf)
+    (printout t "8 - Zones verdes" crlf)
+    (bind ?punts-interes (preguntar-nombres 1 8))
+    (loop-for-count (?i 1 (length$ ?punts-interes)) do
+        (switch ?i
+            (case 1 then (modify ?preferencies (vol-aprop-centres-salut TRUE)))
+            (case 2 then (modify ?preferencies (vol-aprop-hipermercats TRUE)))
+            (case 3 then (modify ?preferencies (vol-aprop-oci-nocturn TRUE)))
+            (case 4 then (modify ?preferencies (vol-aprop-supermercats TRUE)))
+            (case 5 then (modify ?preferencies (vol-aprop-transport-public TRUE)))
+            (case 6 then (modify ?preferencies (vol-aprop-zones-comercials TRUE)))
+            (case 7 then (modify ?preferencies (vol-aprop-zones-esportives TRUE)))
+            (case 8 then (modify ?preferencies (vol-aprop-zones-verdes TRUE)))
+        )
+    )
+    (printout t crlf)
+    (retract ?fet)
+)
+
+(defrule preguntes::preguntar-vol-lluny-punts-interes
+    (declare (salience 22))
+    ?fet <- (vol-lluny-punts-interes preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (retract ?fet)
+    (printout t "Quins d'aquests punts d'interès no vols tenir aprop?" crlf)
+    (printout t "1 - Centres de salut" crlf)
+    (printout t "2 - Hipermercats" crlf)
+    (printout t "3 - Zones d'oci nocturn" crlf)
+    (printout t "4 - Supermercats" crlf)
+    (printout t "5 - Transport públic" crlf)
+    (printout t "6 - Zones comercials" crlf)
+    (printout t "7 - Zones esportives" crlf)
+    (printout t "8 - Zones verdes" crlf)
+    (bind ?punts-interes (preguntar-nombres 1 8))
+    (loop-for-count (?i 1 (length$ ?punts-interes)) do
+        (switch ?i
+            (case 1 then (modify ?preferencies (vol-aprop-centres-salut FALSE)))
+            (case 2 then (modify ?preferencies (vol-aprop-hipermercats FALSE)))
+            (case 3 then (modify ?preferencies (vol-aprop-oci-nocturn FALSE)))
+            (case 4 then (modify ?preferencies (vol-aprop-supermercats FALSE)))
+            (case 5 then (modify ?preferencies (vol-aprop-transport-public FALSE)))
+            (case 6 then (modify ?preferencies (vol-aprop-zones-comercials FALSE)))
+            (case 7 then (modify ?preferencies (vol-aprop-zones-esportives FALSE)))
+            (case 8 then (modify ?preferencies (vol-aprop-zones-verdes FALSE)))
+        )
+    )
+    (printout t crlf)
 )
 
 (defrule preguntes::preguntar-vol-aprop-localitzacions
-     (declare (salience 22))
-     ?fet <- (vol-aprop-localitzacions preguntar)
-     ?preferencies <- (preferencies)
-     =>
-     (printout t crlf)
-     (retract ?fet)
+    (declare (salience 21))
+    ?fet <- (vol-aprop-localitzacions preguntar)
+    ?preferencies <- (preferencies)
+    =>
+    (retract ?fet)
+    (bind ?continua TRUE)
+    (bind $?llista (create$))
+    (while (eq ?continua TRUE)
+        (bind ?continua (preguntar-si-o-no "Vols indicar una nova localització concreta que vulguis tenir aprop? (escola, feina, ...)"))
+        (if (eq ?continua TRUE)
+            then 
+            (printout t "Introdueix la latitud: ")
+            (bind ?latitud (read))
+            (printout t crlf)
+            (printout t "Introdueix la longitud: ")
+            (bind ?longitud (read))
+            (printout t crlf)
+            (assert (coordenades (latitud ?latitud) (longitud ?longitud)))
+            (bind ?llista (insert$ ?llista (+ (length$ ?llista) 1) coordenades))
+        )
+    )
+    (retract ?fet)
+    (modify ?preferencies (vol-aprop-localitzacions ?llista))
+    (printout t crlf)
 )
 
 (defrule preguntes::passar-a-seleccio "Passa al modul de selecció"
     (declare (salience -10))
+    (informacio)
+    (preferencies)
+    (restriccions)
     (not (nombre-recomanacions preguntar))
     (not (nombre-habitants preguntar))
     (not (nombre-dormitoris-dobles preguntar))
@@ -687,9 +785,10 @@
     (not (vol-calefaccio preguntar))
     (not (vol-electrodomestics preguntar))
     (not (vol-mobles preguntar))
-    (not (vol-places-garatge preguntar))
     (not (vol-traster preguntar))
+    (not (vol-places-garatge preguntar))
     (not (vol-aprop-punts-interes preguntar))
+    (not (vol-lluny-punts-interes preguntar))
     (not (vol-aprop-localitzacions preguntar))
     =>
     (printout t "Abstraient problema..." crlf)
@@ -1309,60 +1408,53 @@
     (printout t "Pot tenir " ?self:nombre_d_habitants_maxim " habitant(s)" crlf)
     (printout t "Té " ?self:nombre_de_dormitoris " dormitori(s): " ?self:nombre_de_dormitoris_simples " de simple(s) i " ?self:nombre_de_dormitoris_dobles " de doble(s)" crlf)
     (printout t "Té " ?self:nombre_de_banys " bany(s)" crlf)
-    (if (eq ?self:estat_de_l_obra "NOVA")
-        then (printout t "És obra nova" crlf)
-        else (if (eq ?self:estat_de_l_obra "BON-ESTAT")
-            then (printout t "L'obra està en bon estat" crlf)
-            else (printout t "Cal reformar l'obra" crlf)
-        )
+
+    (switch ?self:estat_de_l_obra
+        (case "NOVA" then (printout t "És obra nova" crlf))
+        (case "BON-ESTAT" then (printout t "L'obra està en bon estat" crlf))
+        (case "PER-REFORMAR" then (printout t "Cal reformar l'obra" crlf))
     )
-    (if (eq ?self:sol "mati")
-        then (printout t "Li toca el sol al matí" crlf)
-        else (if (eq ?self:sol "tarda")
-            then (printout t "Li toca el sol a la tarda" crlf)
-            else (if (eq ?self:sol "mai")
-                then (printout t "No li toca mai el sol" crlf)
-                else (if (eq ?self:sol "tot el dia")
-                    then (printout t "Li toca el sol tot el dia" crlf)
-                )
-            )
-        )
+    (switch ?self:sol
+        (case "mati" then (printout t "Li toca el sol al matí" crlf))
+        (case "tarda" then (printout t "Li toca el sol a la tarda" crlf))
+        (case "tot el dia" then (printout t "Li toca el sol tot el dia" crlf))
+        (case "mai" then (printout t "No li toca mai el sol" crlf))
     )
-    (if (eq ?self:te_bones_vistes TRUE)
-        then (printout t "Té bones vistes" crlf)
-        else (printout t "No té bones vistes" crlf)
+    (switch ?self:te_bones_vistes
+        (case TRUE then (printout t "Té bones vistes" crlf))
+        (case FALSE then (printout t "No té bones vistes" crlf))
     )
-    (if (eq ?self:te_ascensor TRUE)
-        then (printout t "Té ascensor" crlf)
-        else (printout t "No té ascensor" crlf)
+    (switch ?self:te_ascensor
+        (case TRUE then (printout t "Té ascensor" crlf))
+        (case FALSE then (printout t "No té ascensor" crlf))
     )
-    (if (eq ?self:te_aire_condicionat TRUE)
-        then (printout t "Té aire condicionat" crlf)
-        else (printout t "No té aire condicionat" crlf)
+    (switch ?self:te_aire_condicionat
+        (case TRUE then (printout t "Té aire condicionat" crlf))
+        (case FALSE then (printout t "No té aire condicionat" crlf))
     )
-    (if (eq ?self:te_calefaccio TRUE)
-        then (printout t "Té calefacció" crlf)
-        else (printout t "No té calefacció" crlf)
+    (switch ?self:te_calefaccio
+        (case TRUE then (printout t "Té calefacció" crlf))
+        (case FALSE then (printout t "No té calefacció" crlf))
     )
-    (if (eq ?self:te_traster TRUE)
-        then (printout t "Té traster" crlf)
-        else (printout t "No té traster" crlf)
+    (switch ?self:te_traster
+        (case TRUE then (printout t "Té traster"  crlf))
+        (case FALSE then (printout t "No té traster" crlf))
     )
-    (if (eq ?self:piscina TRUE)
-        then (printout t "Té piscina" crlf)
-        else (printout t "No té piscina" crlf)
+    (switch ?self:piscina
+        (case TRUE then (printout t "Té piscina" crlf))
+        (case FALSE then (printout t "No té piscina" crlf))
     )
-    (if (eq ?self:te_balco TRUE)
-        then (printout t "Té balcó" crlf)
-        else (printout t "No té balcó" crlf)
+    (switch ?self:te_balco
+        (case TRUE then (printout t "Té balcó" crlf))
+        (case FALSE then (printout t "No té balcó" crlf))
     )
-    (if (eq ?self:te_terrassa TRUE)
-        then (printout t "Té terrassa" crlf)
-        else (printout t "No té terrassa" crlf)
+    (switch ?self:te_terrassa
+        (case TRUE then (printout t "Té terrassa" crlf))
+        (case FALSE then (printout t "No té terrassa" crlf))
     )
-    (if (eq ?self:te_jardi TRUE)
-        then (printout t "Té jardí" crlf)
-        else (printout t "No té jardí" crlf)
+    (switch ?self:te_jardi
+        (case TRUE then (printout t "Té jardí" crlf))
+        (case FALSE then (printout t "No té jardí" crlf))
     )
 )
 
@@ -1442,28 +1534,27 @@
     (printout t crlf)
     (printout t "- OFERTA " ?n " ------------------------------------------------" crlf)
     (printout t crlf)
-    (printout t ?self:descripcio crlf)
+    (bind ?linia (format nil "%s" ?self:descripcio))
+    (printout t ?linia crlf)
     (printout t crlf)
     (printout t "=============================== Informació sobre l'oferta =" crlf)
     (printout t "Costa " ?self:preu "€ al mes" crlf)
-    (if (eq ?self:inclou_mobles TRUE)
-        then (printout t "Està moblat" crlf)
-        else (printout t "No està moblat" crlf)
+    (switch ?self:inclou_mobles
+        (case TRUE then (printout t "Està moblat" crlf))
+        (case FALSE then (printout t "No està moblat" crlf))
     )
-    (if (eq ?self:inclou_electrodomestics TRUE)
-        then (printout t "Inclou electrodomèstics" crlf)
-        else (printout t "No inclou electrodomèstics" crlf)
+    (switch ?self:inclou_electrodomestics
+        (case TRUE then (printout t "Inclou electrodomèstics" crlf))
+        (case FALSE then (printout t "No inclou electrodomèstics" crlf))
     )
-    (if (eq ?self:admet_mascotes TRUE)
-        then (printout t "Admet mascotes" crlf)
-        else (printout t "No admet mascotes" crlf)
+    (switch ?self:admet_mascotes
+        (case TRUE then (printout t "Admet mascotes" crlf))
+        (case FALSE then (printout t "No admet mascotes" crlf))
     )
-    (if (eq ?self:numero_de_places_de_garatge 0)
-        then (printout t "No té places de garatge" crlf)
-        else (if (eq ?self:numero_de_places_de_garatge 1)
-            then (printout t "Té 1 plaça de garatge" crlf) 
-            else (printout t "Té " ?self:numero_de_places_de_garatge " places de garatge" crlf)
-        )
+    (switch ?self:numero_de_places_de_garatge
+        (case 0 then (printout t "No té places de garatge" crlf))
+        (case 1 then (printout t "Té 1 plaça de garatge" crlf))
+        (default (printout t "Té " ?self:numero_de_places_de_garatge " places de garatge" crlf))
     )
     (printout t crlf)
     (printout t "============================ Informació sobre l'habitatge =" crlf)

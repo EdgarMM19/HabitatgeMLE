@@ -1060,7 +1060,7 @@
             then 
                 ; TODO: esborrar després de debugar
                 (printout t "DEBUG: Oferta amb puntuacio: " (send ?oferta-abstracta get-puntuacio) crlf (send ?oferta-abstracta get-justificacio-puntuacio) crlf)
-                (send (send ?oferta-abstracta get-oferta) imprimir ?i)
+                (send (send ?oferta-abstracta get-oferta) imprimir ?i ?informacio ?preferencies ?restriccions)
         )
     )
     (assert (final))
@@ -1394,7 +1394,7 @@
 
 
 (defmessage-handler MAIN::OfertaAbstracta calcula-adecuacio-ancians ()
-        (bind ?oferta ?self:oferta)
+    (bind ?oferta ?self:oferta)
     (bind ?habitatge (send ?oferta get-ofereix_a))
     (bind ?punts 0)
 
@@ -1651,6 +1651,10 @@
         then (
             if (eq preu-maxim-estricte TRUE)
                 then (bind ?comptador (+ ?comptador 1))
+                else 
+                    (if (> ?self:preu (* ?preu-maxim 1.25))
+                        then then (bind ?comptador (+ ?comptador 1))
+                    )
         )
     )
     (bind ?preu-minim (send ?restriccions get-preu-minim))

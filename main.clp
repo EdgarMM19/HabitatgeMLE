@@ -896,11 +896,11 @@
 
 (defrule presentacio::mostrar-recomanacions
     (not (final))
-    (informacio (nombre-recomanacions ?nombre-recomanacions))
-    (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
-    (restriccions (preu-minim ?preu-minim))
-    (preferencies (vol-jardi ?vol-jardi))
+    ?informacio <- (informacio)
+    ?preferencies <- (preferencies)
+    ?restriccions <- (restriccions)
     =>
+    (bind ?nombre-recomanacions (send ?informacio get-nombre-recomanacions))
     (printout t crlf)
     (bind ?llista-ofertes-abstractes (find-all-instances ((?inst OfertaAbstracta)) TRUE))
     (bind ?llista-ordenada (sort comparar-ofertes ?llista-ofertes-abstractes))
@@ -1447,6 +1447,146 @@
 ;;*  OfertaHandlers  *
 ;;********************
 
+(defmessage-handler MAIN::Oferta esta-aprop (?element-localitzable)
+    (bind ?latitud (send ?element-localitzable get-latitud))
+    (bind ?longitud (send ?element-localitzable get-longitud))
+    (bind ?habitatge ?self:ofereix_a)
+    (bind ?distancia (send ?habitatge distancia ?latitud ?longitud))
+    (bind ?resposta FALSE)
+    (if (< ?distancia 500) then    
+        (bind ?resposta TRUE)
+    )
+    ?resposta
+)
+
+(defmessage-handler MAIN::Oferta esta-aprop-centres-salut ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Centre de salut")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) 
+                    then (bind ?resposta TRUE)
+                )
+        )
+    )
+    ?resposta
+)
+
+(defmessage-handler MAIN::Oferta esta-aprop-hipermercats ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Hipermercat")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) 
+                    then (bind ?resposta TRUE)
+                )
+        )
+    )
+    ?resposta
+)
+
+(defmessage-handler MAIN::Oferta esta-aprop-oci-nocturn ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Zona d'oci nocturn")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) 
+                    then (bind ?resposta TRUE)
+                )
+        )
+    )
+    ?resposta
+)
+
+(defmessage-handler MAIN::Oferta esta-aprop-supermercats ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Supermercat")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) 
+                    then (bind ?resposta TRUE)
+                )
+        )
+    )
+    ?resposta
+)
+
+(defmessage-handler MAIN::Oferta esta-aprop-transport-public ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Parada de transport public")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) 
+                    then (bind ?resposta TRUE)
+                )
+        )
+    )
+    ?resposta
+)
+
+(defmessage-handler MAIN::Oferta esta-aprop-zones-comercials ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Zona comercial")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) 
+                    then (bind ?resposta TRUE)
+                )
+        )
+    )
+    ?resposta
+)
+
+(defmessage-handler MAIN::Oferta esta-aprop-zones-esportives ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Zona esportiva")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) 
+                    then (bind ?resposta TRUE)
+                )
+        )
+    )
+    ?resposta
+)
+
+(defmessage-handler MAIN::Oferta esta-aprop-zones-verdes ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Zona verda")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) 
+                    then (bind ?resposta TRUE)
+                )
+        )
+    )
+    ?resposta
+)
+
 (defmessage-handler MAIN::Oferta comptar-restriccions-insatisfetes (?preu-maxim-estricte ?restriccions)
     (bind ?comptador 0)
     (bind ?habitatge ?self:ofereix_a)
@@ -1520,6 +1660,61 @@
 
 (defmessage-handler MAIN::Oferta comptar-preferencies-insatisfetes (?preferencies)
     (bind ?comptador 0)
+
+    ; restricció centres de salut
+    (bind ?vol-aprop-centres-salut (send ?preferencies get-vol-aprop-centres-salut))
+    (if (and (eq ?vol-aprop-centres-salut TRUE) (not (send ?self esta-aprop-centres-salut)))
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restricció hipermercats
+    (bind ?vol-aprop-hipermercats (send ?preferencies get-vol-aprop-hipermercats))
+    (if (and (eq ?vol-aprop-hipermercats TRUE) (not (send ?self esta-aprop-hipermercats)))
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restricció localitzacions
+    ; restricció oci nocturn
+    (bind ?vol-aprop-oci-nocturn (send ?preferencies get-vol-aprop-oci-nocturn))
+    (if (and (eq ?vol-aprop-oci-nocturn TRUE) (not (send ?self esta-aprop-oci-nocturn)))
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restricció supermercats
+    (bind ?vol-aprop-supermercats (send ?preferencies get-vol-aprop-supermercats))
+    (if (and (eq ?vol-aprop-supermercats TRUE) (not (send ?self esta-aprop-supermercats)))
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restricció transport public
+    (bind ?vol-aprop-transport-public (send ?preferencies get-vol-aprop-transport-public))
+    (if (and (eq ?vol-aprop-transport-public TRUE) (not (send ?self esta-aprop-transport-public)))
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restricció zones comercials
+    (bind ?vol-aprop-zones-comercials (send ?preferencies get-vol-aprop-zones-comercials))
+    (if (and (eq ?vol-aprop-zones-comercials TRUE) (not (send ?self esta-aprop-zones-comercials)))
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restricció zones esportives
+    (bind ?vol-aprop-zones-esportives (send ?preferencies get-vol-aprop-zones-esportives))
+    (if (and (eq ?vol-aprop-zones-esportives TRUE) (not (send ?self esta-aprop-zones-esportives)))
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restricció zones verdes
+    (bind ?vol-aprop-zones-verdes (send ?preferencies get-vol-aprop-zones-verdes))
+    (if (and (eq ?vol-aprop-zones-verdes TRUE) (not (send ?self esta-aprop-zones-verdes)))
+        then (bind ?comptador (+ ?comptador 1))
+    )
+    ; restricció aire condicionat
+    
+    ; restricció ascensor
+    ; restricció balcó
+    ; restricció calefacció
+    ; restricció electrodomèstics
+    ; restricció jardí
+    ; restricció mobles
+    ; restricció piscina
+    ; restricció places de garatge
+    ; restricció terrassa
+    ; restricció traster
+
     ?comptador
 )
 

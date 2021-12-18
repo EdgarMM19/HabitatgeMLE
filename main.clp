@@ -148,7 +148,6 @@
     (slot aprop-esport (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
     (slot aprop-oci-nocturn (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
 
-
     (slot adequat-familia (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
     (slot adequat-ancians (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
     (slot adequat-joves (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
@@ -1142,25 +1141,152 @@
     (if (eq (send ?habitatge get-piscina) "true") then
         (bind ?punts (+ ?punts 4))
     )
+    (if (eq ?self:aprop-zona-verda TRUE) then
+            (bind ?punts (+ ?punts 4))
+    )
+    (if (eq ?self:aprop-zona-comercial TRUE) then
+            (bind ?punts (+ ?punts 2))
+    )
     (if (or (not (eq ?no-adequat 0))
-            (< ?punts 8))
+            (< ?punts 10))
         then (send ?self put-adequat-familia FALSE)
         else (send ?self put-adequat-familia TRUE)
     )
+    (printout t "DEBUG adecuat familia " (send ?self get-adequat-familia) " " ?punts crlf)
 )
 
 
 (defmessage-handler MAIN::OfertaAbstracta calcula-adecuacio-ancians ()
-    
+        (bind ?oferta ?self:oferta)
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (bind ?punts 0)
+
+    (if (eq (class ?habitatge) HabitatgeUnifamiliar) 
+        then (bind ?punts (+ ?punts 4))
+        else (if (< (send ?habitatge get-planta) 2)
+            then (bind ?punts (+ ?punts 4))
+        )
+    )
+    (if (eq (send ?habitatge get-te_ascensor) "true")
+        then (bind ?punts (+ ?punts 4)) )
+
+    (if (eq (send ?habitatge get-te_calefaccio) "true")
+        then (bind ?punts (+ ?punts 2)) )
+
+    (if (eq (send ?habitatge get-te_aire_condicionat) "true")
+        then (bind ?punts (+ ?punts 2)) )
+
+    (if (eq (send ?habitatge get-sol) "tot el dia")
+        then (bind ?punts (+ ?punts 2)) )
+
+    (if (eq ?self:aprop-zona-verda TRUE) then
+            (bind ?punts (+ ?punts 2))
+    )
+    (if (eq ?self:aprop-centre-salut TRUE) then
+            (bind ?punts (+ ?punts 3))
+    )
+    (if (eq ?self:aprop-supermercat TRUE) then
+            (bind ?punts (+ ?punts 2))
+    )
+    (if (eq ?self:aprop-oci-nocturn FALSE) then
+            (bind ?punts (+ ?punts 1))
+    )
+    (if (< ?punts 10)
+        then (send ?self put-adequat-ancians FALSE)
+        else (send ?self put-adequat-ancians TRUE)
+    )
+
+    (printout t "DEBUG adecuat ancians " (send ?self get-adequat-ancians) " " ?punts crlf)
 )
 
 
 (defmessage-handler MAIN::OfertaAbstracta calcula-adecuacio-joves ()
-    
+    (bind ?oferta ?self:oferta)
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (bind ?punts 0)
+    (bind ?no-adequat 0)
+    (if (> (send ?habitatge get-nombre_de_banys) 1) then
+        (bind ?punts (+ ?punts 4))
+    )
+
+    (if (not (eq ?self:preu Barat)) then
+         (bind ?no-adecuat 1)
+    )
+
+    (bind ?punts (+ ?punts (* 2 (send ?habitatge get-nombre_de_dormitoris_simples))))
+    (bind ?punts (+ ?punts (send ?habitatge get-nombre_d_habitants_maxim)))
+
+    (if (eq (send ?oferta get-inclou_mobles) "true") then
+        (bind ?punts (+ ?punts 4))
+    )
+
+    (if (eq ?self:aprop-oci-nocturn TRUE) then
+            (bind ?punts (+ ?punts 2))
+    )
+    (if (eq ?self:aprop-esport TRUE) then
+            (bind ?punts (+ ?punts 2))
+    )
+    (if (eq ?self:aprop-transport TRUE) then
+            (bind ?punts (+ ?punts 3))
+    )
+    (if (or (not (eq ?no-adequat 0))
+            (< ?punts 15))
+        then (send ?self put-adequat-joves FALSE)
+        else (send ?self put-adequat-joves TRUE)
+    )
+    (printout t "DEBUG adecuat joves " (send ?self get-adequat-joves) " " ?punts crlf)
 )
 
 
 (defmessage-handler MAIN::OfertaAbstracta calcula-adecuacio-parelles ()
+    (bind ?oferta ?self:oferta)
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (bind ?punts 0)
+    (bind ?no-adequat 0)
+
+    (if (eq (send ?habitatge get-nombre_de_dormitoris_dobles) 0) then
+         (bind ?no-adecuat 1)
+    )
+    (if (not (eq ?self:preu Barat)) then
+        (bind ?punts (+ ?punts 2))
+    )
+
+    (if (eq (send ?habitatge get-piscina) "true") then
+        (bind ?punts (+ ?punts 2))
+    )
+    (if (eq (send ?habitatge get-te_aire_condicionat) "true") then
+        (bind ?punts (+ ?punts 2))
+    )
+    
+    (if (eq (send ?habitatge get-te_balco) "true") then
+        (bind ?punts (+ ?punts 1))
+    )
+    (if (eq (send ?habitatge get-te_calefaccio) "true") then
+        (bind ?punts (+ ?punts 1))
+    )
+    (if (eq (send ?habitatge get-te_terrassa) "true") then
+        (bind ?punts (+ ?punts 3))
+    )
+
+    (if (eq ?self:aprop-oci-nocturn TRUE) then
+            (bind ?punts (+ ?punts 1))
+    )
+    (if (eq ?self:aprop-esport TRUE) then
+            (bind ?punts (+ ?punts 3))
+    )
+    (if (eq ?self:aprop-zona-comercial TRUE) then
+            (bind ?punts (+ ?punts 2))
+    )
+    (if (eq ?self:aprop-transport TRUE) then
+            (bind ?punts (+ ?punts 2))
+    )
+
+    (if (or (not (eq ?no-adequat 0))
+            (< ?punts 15))
+        then (send ?self put-adequat-parelles FALSE)
+        else (send ?self put-adequat-parelles TRUE)
+    )
+    (printout t "DEBUG adecuat parelles " (send ?self get-adequat-parelles) " " ?punts crlf)
     
 )
 

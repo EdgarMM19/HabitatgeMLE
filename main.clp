@@ -123,6 +123,10 @@
 (deftemplate MAIN::problema-abstracte
     (slot mida-habitatge (type SYMBOL) (allowed-values Petit Mitja Gran NA) (default NA))
     (slot pressupost (type SYMBOL) (allowed-values Barat Mitja Car NA) (default NA))
+    (slot familia (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+    (slot parella-sense-fills (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+    (slot joves (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
+    (slot ancians (type SYMBOL) (allowed-values TRUE FALSE) (default FALSE))
 )
 
 ;;*******************
@@ -133,6 +137,22 @@
 	(slot oferta (type INSTANCE) (create-accessor read-write))
 	(slot mida-habitatge (type SYMBOL) (allowed-values Petit Mitja Gran) (create-accessor read-write))
     (slot preu (type SYMBOL) (allowed-values Barat Mitja Car) (create-accessor read-write))
+
+    (slot aprop-transport (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot aprop-zona-comercial (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot aprop-supermercat (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot aprop-hipermercat (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot aprop-centre-educatiu (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot aprop-centre-salut (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot aprop-zona-verda (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot aprop-esport (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot aprop-oci-nocturn (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+
+
+    (slot adequat-familia (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot adequat-ancians (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot adequat-joves (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot adequat-parelles (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
 	(slot puntuacio (type INTEGER) (create-accessor read-write) (default 0))
 	(multislot justificacio-puntuacio (type STRING) (create-accessor read-write))
 )
@@ -214,6 +234,21 @@
 		(send ?ofertaAbstracta put-oferta ?oferta)
 		(send ?ofertaAbstracta calcula-mida-habitatge)
         (send ?ofertaAbstracta calcula-rang-preu)
+
+        (send ?ofertaAbstracta calcula-aprop-oci-nocturn)
+        (send ?ofertaAbstracta calcula-aprop-esport)
+        (send ?ofertaAbstracta calcula-aprop-zona-verda)
+        (send ?ofertaAbstracta calcula-aprop-centre-salut)
+        (send ?ofertaAbstracta calcula-aprop-centre-educatiu)
+        (send ?ofertaAbstracta calcula-aprop-hipermercat)
+        (send ?ofertaAbstracta calcula-aprop-supermercat)
+        (send ?ofertaAbstracta calcula-aprop-zona-comercial)
+        (send ?ofertaAbstracta calcula-aprop-transport)
+
+        (send ?ofertaAbstracta calcula-adecuacio-familia)
+        (send ?ofertaAbstracta calcula-adecuacio-ancians)
+        (send ?ofertaAbstracta calcula-adecuacio-joves)
+        (send ?ofertaAbstracta calcula-adecuacio-parelles)
 	)
 )
 
@@ -920,6 +955,180 @@
 ;;*  OfertaAbstractaHandlers  *
 ;;*****************************
 
+(defmessage-handler MAIN::OfertaAbstracta esta-a-prop (?element-localitzable)
+    (bind ?latitud (send ?element-localitzable get-latitud))
+    (bind ?longitud (send ?element-localitzable get-longitud))
+    (bind ?oferta ?self:oferta)
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (bind ?distancia (send ?habitatge distancia ?latitud ?longitud))
+    (bind ?resposta FALSE)
+    (if (< ?distancia 500) then    
+     (bind ?resposta TRUE))
+    ?resposta
+)
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-transport ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Parada de transport public")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) then
+                (bind ?resposta TRUE)
+                )
+        )
+    )
+    (send ?self put-aprop-transport ?resposta)
+)
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-zona-comercial  ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Zona comercial")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) then
+                (bind ?resposta TRUE)
+                )
+        )
+    )
+    (send ?self put-aprop-zona-comercial ?resposta)
+)
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-supermercat ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Supermercat")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) then
+                (bind ?resposta TRUE)
+                )
+        )
+    )
+    (send ?self put-aprop-supermercat ?resposta)
+)
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-hipermercat ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Hipermercat")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) then
+                (bind ?resposta TRUE)
+                )
+        )
+    )
+    (send ?self put-aprop-hipermercat ?resposta)
+)
+    
+(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-centre-educatiu ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Centre educatiu")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) then
+                (bind ?resposta TRUE)
+                )
+        )
+    )
+    (send ?self put-aprop-centre-educatiu ?resposta)
+)
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-centre-salut ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Centre de salut")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) then
+                (bind ?resposta TRUE)
+                )
+        )
+    )
+    (send ?self put-aprop-centre-salut ?resposta)
+)
+
+   
+(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-zona-verda ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Zona verda")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) then
+                (bind ?resposta TRUE)
+                )
+        )
+    )
+    (send ?self put-aprop-zona-verda ?resposta)
+)
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-esport ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Zona esportiva")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) then
+                (bind ?resposta TRUE)
+                )
+        )
+    )
+    (send ?self put-aprop-esport ?resposta)
+)
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-oci-nocturn ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Zona d'oci nocturn")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) then
+                (bind ?resposta TRUE)
+                )
+        )
+    )
+    (send ?self put-aprop-oci-nocturn ?resposta)
+)
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-transport ()
+    (bind ?resposta FALSE)
+    (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
+    (bind ?punts (length$ ?llista-punt-interes))
+    (loop-for-count (?i 1 ?punts) do
+        (bind ?punt (nth$ ?i ?llista-punt-interes))
+        (if (eq (send ?punt get-categoria) "Parada de transport public")
+            then 
+                (if (eq (send ?self esta-a-prop ?punt) TRUE) then
+                (bind ?resposta TRUE)
+                )
+        )
+    )
+    (send ?self put-aprop-transport ?resposta)
+)
+
+
 (defmessage-handler MAIN::OfertaAbstracta calcula-puntuacio-mida-habitatge (?mida-habitatge-solicitant)
 	(bind ?mida-habitatge (send ?self get-mida-habitatge))
 	(bind ?puntuacio 0)
@@ -1002,6 +1211,58 @@
             )
     )
 )
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-adecuacio-familia ()
+    (bind ?oferta ?self:oferta)
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (bind ?punts 0)
+    (bind ?no-adequat 0)
+    (if (< (send ?habitatge get-nombre_de_banys) 2) then
+        (bind ?no-adecuat 1)
+    )
+    (bind ?punts (+ ?punts (send ?habitatge get-nombre_de_banys)))
+
+    (if (< (send ?habitatge get-nombre_de_dormitoris_dobles) 1) then
+        (bind ?no-adecuat 1)
+    )
+
+    (if (< (send ?habitatge get-nombre_de_dormitoris_simples) 2) then
+        (bind ?no-adecuat 1)
+    )
+    (bind ?punts (+ ?punts (send ?habitatge get-nombre_de_dormitoris_simples)))
+
+    (if (< (send ?habitatge get-nombre_d_habitants_maxim) 5) then
+        (bind ?no-adecuat 1)
+    )
+
+    (if (eq (send ?habitatge get-te_jardi) "true") then
+        (bind ?punts (+ ?punts 4))
+    )
+    (if (eq (send ?habitatge get-piscina) "true") then
+        (bind ?punts (+ ?punts 4))
+    )
+    (if (or (not (eq ?no-adequat 0))
+            (< ?punts 8))
+        then (send ?self put-adequat-familia FALSE)
+        else (send ?self put-adequat-familia TRUE)
+    )
+)
+
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-adecuacio-ancians ()
+    
+)
+
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-adecuacio-joves ()
+    
+)
+
+
+(defmessage-handler MAIN::OfertaAbstracta calcula-adecuacio-parelles ()
+    
+)
+
 ;;***********************
 ;;*  HabitatgeHandlers  *
 ;;***********************
@@ -1179,3 +1440,10 @@
     (printout t crlf)
 )
 
+;;*************************
+;;*  ElementLocalitzable  *
+;;*************************
+
+(defmessage-handler MAIN::ElementLocalitzable distancia (?latitud ?longitud)
+    0
+)

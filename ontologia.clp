@@ -842,7 +842,7 @@
     ([Oferta20] of Oferta
          (ofereix_a  [Habitatge20])
          (admet_mascotes  "false")
-         (descripcio  " Estudi a ronda General Mitre")
+         (descripcio  "Estudi a ronda General Mitre")
          (inclou_electrodomestics  "true")
          (inclou_mobles  "true")
          (numero_de_places_de_garatge  0)

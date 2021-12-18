@@ -1403,7 +1403,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge20"/>
         <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</admet_mascotes>
-        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string"> Estudi a ronda General Mitre</descripcio>
+        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Estudi a ronda General Mitre</descripcio>
         <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_electrodomestics>
         <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_mobles>
         <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</numero_de_places_de_garatge>

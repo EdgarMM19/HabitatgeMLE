@@ -75,7 +75,7 @@
 
 ; Restriccions del sol·licitant
 (deftemplate MAIN::restriccions
-    (slot estat-obra-minim (type SYMBOL) (allowed-values nova bon-estat per-reformar) (default bon-estat))
+    (slot estat-obra-minim (type SYMBOL) (allowed-values NOVA BON-ESTAT PER-REFORMAR) (default BON-ESTAT))
     (slot nombre-banys-minim (type INTEGER) (range 1 10) (default 1))
     (slot nombre-habitants (type INTEGER) (range 1 10) (default 1))
     (slot nombre-dormitoris-dobles (type INTEGER) (range 0 5) (default 0))
@@ -99,7 +99,7 @@
     (slot vol-aprop-zones-esportives (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
     (slot vol-aprop-zones-verdes (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
 
-    (slot vol-aire-acondicionat (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-aire-condicionat (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
     (slot vol-ascensor (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
     (slot vol-balco (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
     (slot vol-calefaccio (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
@@ -142,12 +142,9 @@
 ;;****************************
 
 (deffunction preguntar (?pregunta $?valors-permesos)
-    (progn$
-        (?var ?valors-permesos)
-        (lowcase ?var))
     (format t "%s (%s) " ?pregunta (implode$ ?valors-permesos))
     (bind ?resposta (read))
-    (while (not (member (lowcase ?resposta) ?valors-permesos)) do
+    (while (not (member ?resposta ?valors-permesos)) do
         (format t "%s (%s) " ?pregunta (implode$ ?valors-permesos))
         (bind ?resposta (read))
     )
@@ -155,10 +152,21 @@
 )
 
 (deffunction preguntar-si-o-no (?pregunta)
-   (bind ?resposta (preguntar ?pregunta si no s n))
-   (if (or (eq ?resposta si) (eq ?resposta s))
-       then TRUE
-       else FALSE)
+    (bind ?resposta (preguntar ?pregunta si no s n))
+    (if (or (eq ?resposta si) (eq ?resposta s))
+        then TRUE
+        else FALSE)
+)
+
+(deffunction preguntar-si-o-no-na (?pregunta)
+    (bind ?resposta (preguntar ?pregunta si no indiferent s n i))
+    (if (or (eq ?resposta si) (eq ?resposta s))
+        then TRUE
+        else (if (or (eq ?resposta no) (eq ?resposta n))
+            then FALSE
+            else NA
+        )
+    )
 )
 
 (deffunction preguntar-nombre (?pregunta ?cota-inferior ?cota-superior)
@@ -234,8 +242,11 @@
     (printout t "-----------------------------------------------------------" crlf)
     (printout t "---------------Sistema expert d'habitatges ----------------" crlf)
     (printout t "-----------------------------------------------------------" crlf)
-    (printout t "- Respon les següents preguntes i et recomamaré ofertes   -" crlf)
-    (printout t "- d'habitatges a Barcelona.                               -" crlf)
+    (printout t "-                                                         -" crlf)
+    (printout t "-                          Hola!                          -" crlf)
+    (printout t "-      Respon les següents preguntes i et recomanaré      -" crlf)
+    (printout t "-            ofertes d'habitatges a Barcelona.            -" crlf)
+    (printout t "-                                                         -" crlf)
     (printout t "-----------------------------------------------------------" crlf)
     (printout t crlf crlf)
     (focus preguntes)
@@ -251,7 +262,6 @@
     (preferencies)
 
     (nombre-recomanacions preguntar)
-
     (nombre-habitants preguntar)
     (nombre-dormitoris-dobles preguntar)
     (hi-ha-infants preguntar)
@@ -277,7 +287,7 @@
     (vol-terrassa preguntar)
     (vol-piscina preguntar)
 
-    (vol-aire-acondicionat preguntar)
+    (vol-aire-condicionat preguntar)
     (vol-calefaccio preguntar)
     (vol-electrodomestics preguntar)
     (vol-mobles preguntar)
@@ -448,7 +458,7 @@
      ?fet <- (estat-obra-minim preguntar)
      ?restriccions <- (restriccions)
      =>
-     (bind ?estat-obra-minim (preguntar "Quin és l'estat d'obra mínim que estàs disposat a acceptar?" per-reformar bon-estat nova))
+     (bind ?estat-obra-minim (preguntar "Quin és l'estat d'obra mínim que estàs disposat a acceptar?" PER-REFORMAR BON-ESTAT NOVA))
      (printout t crlf)
      (retract ?fet)
      (modify ?restriccions (estat-obra-minim ?estat-obra-minim ))
@@ -481,7 +491,7 @@
      ?fet <- (vol-ascensor preguntar)
      ?preferencies <- (preferencies)
      =>
-     (bind ?vol-ascensor (preguntar-si-o-no "Vols ascensor?"))
+     (bind ?vol-ascensor (preguntar-si-o-no-na "Vols ascensor?"))
      (printout t crlf)
      (retract ?fet)
      (modify ?preferencies (vol-ascensor ?vol-ascensor ))
@@ -492,7 +502,7 @@
      ?fet <- (vol-balco preguntar)
      ?preferencies <- (preferencies)
      =>
-     (bind ?vol-balco (preguntar-si-o-no "Vols balcó?"))
+     (bind ?vol-balco (preguntar-si-o-no-na "Vols balcó?"))
      (printout t crlf)
      (retract ?fet)
      (modify ?preferencies (vol-balco ?vol-balco ))
@@ -503,7 +513,7 @@
      ?fet <- (vol-jardi preguntar)
      ?preferencies <- (preferencies)
      =>
-     (bind ?vol-jardi (preguntar-si-o-no "Vols jardí?"))
+     (bind ?vol-jardi (preguntar-si-o-no-na "Vols jardí?"))
      (printout t crlf)
      (retract ?fet)
      (modify ?preferencies (vol-jardi ?vol-jardi ))
@@ -514,7 +524,7 @@
      ?fet <- (vol-terrassa preguntar)
      ?preferencies <- (preferencies)
      =>
-     (bind ?vol-terrassa (preguntar-si-o-no "Vols terrassa?"))
+     (bind ?vol-terrassa (preguntar-si-o-no-na "Vols terrassa?"))
      (printout t crlf)
      (retract ?fet)
      (modify ?preferencies (vol-terrassa ?vol-terrassa ))
@@ -525,21 +535,21 @@
      ?fet <- (vol-piscina preguntar)
      ?preferencies <- (preferencies)
      =>
-     (bind ?vol-piscina (preguntar-si-o-no "Vols piscina?"))
+     (bind ?vol-piscina (preguntar-si-o-no-na "Vols piscina?"))
      (printout t crlf)
      (retract ?fet)
      (modify ?preferencies (vol-piscina ?vol-piscina ))
 )
 
-(defrule preguntes::preguntar-vol-aire-acondicionat
+(defrule preguntes::preguntar-vol-aire-condicionat
      (declare (salience 29))
-     ?fet <- (vol-aire-acondicionat preguntar)
+     ?fet <- (vol-aire-condicionat preguntar)
      ?preferencies <- (preferencies)
      =>
-     (bind ?vol-aire-acondicionat (preguntar-si-o-no "Vols aire acondicionat?"))
+     (bind ?vol-aire-condicionat (preguntar-si-o-no-na "Vols aire condicionat?"))
      (printout t crlf)
      (retract ?fet)
-     (modify ?preferencies (vol-aire-acondicionat ?vol-aire-acondicionat ))
+     (modify ?preferencies (vol-aire-condicionat ?vol-aire-condicionat ))
 )
 
 (defrule preguntes::preguntar-vol-calefaccio
@@ -547,7 +557,7 @@
      ?fet <- (vol-calefaccio preguntar)
      ?preferencies <- (preferencies)
      =>
-     (bind ?vol-calefaccio (preguntar-si-o-no "Vols calefacció?"))
+     (bind ?vol-calefaccio (preguntar-si-o-no-na "Vols calefacció?"))
      (printout t crlf)
      (retract ?fet)
      (modify ?preferencies (vol-calefaccio ?vol-calefaccio ))
@@ -558,7 +568,7 @@
      ?fet <- (vol-electrodomestics preguntar)
      ?preferencies <- (preferencies)
      =>
-     (bind ?vol-electrodomestics (preguntar-si-o-no "Vols electrodomèstics?"))
+     (bind ?vol-electrodomestics (preguntar-si-o-no-na "Vols electrodomèstics?"))
      (printout t crlf)
      (retract ?fet)
      (modify ?preferencies (vol-electrodomestics ?vol-electrodomestics ))
@@ -569,7 +579,7 @@
      ?fet <- (vol-mobles preguntar)
      ?preferencies <- (preferencies)
      =>
-     (bind ?vol-mobles (preguntar-si-o-no "Vols mobles?"))
+     (bind ?vol-mobles (preguntar-si-o-no-na "Vols mobles?"))
      (printout t crlf)
      (retract ?fet)
      (modify ?preferencies (vol-mobles ?vol-mobles ))
@@ -591,7 +601,7 @@
      ?fet <- (vol-traster preguntar)
      ?preferencies <- (preferencies)
      =>
-     (bind ?vol-traster (preguntar-si-o-no "Vols traster?"))
+     (bind ?vol-traster (preguntar-si-o-no-na "Vols traster?"))
      (printout t crlf)
      (retract ?fet)
      (modify ?preferencies (vol-traster ?vol-traster ))
@@ -639,7 +649,7 @@
     (not (vol-jardi preguntar))
     (not (vol-terrassa preguntar))
     (not (vol-piscina preguntar))
-    (not (vol-aire-acondicionat preguntar))
+    (not (vol-aire-condicionat preguntar))
     (not (vol-calefaccio preguntar))
     (not (vol-electrodomestics preguntar))
     (not (vol-mobles preguntar))
@@ -670,6 +680,7 @@
     (assert (problema-abstracte (mida-habitatge Gran)))
     (retract ?fet)
 )
+
 (defrule abstraccio::abstreure-mida-habitatge-mitja
     ?fet <- (mida-habitatge abstreure)
     (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
@@ -680,6 +691,7 @@
     (assert (problema-abstracte (mida-habitatge Mitja)))
     (retract ?fet)
 )
+
 (defrule abstraccio::abstreure-mida-habitatge-petit
     ?fet <- (mida-habitatge abstreure)
     (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
@@ -701,6 +713,7 @@
     (modify ?e (pressupost Car)) 
     (retract ?fet)
 )
+
 (defrule abstraccio::abstreure-pressupost-mitja
     ?fet <- (pressupost abstreure)
     ; TODO (edgar): pensar si volem considerar com a pressupost el preu minim o el maxim
@@ -713,6 +726,7 @@
     (modify ?e (pressupost Mitja)) 
     (retract ?fet)
 )
+
 (defrule abstraccio::abstreure-pressupost-barat
     ?fet <- (pressupost abstreure)
     ; TODO (edgar): pensar si volem considerar com a pressupost el preu minim o el maxim
@@ -776,21 +790,24 @@
 
 (defrule presentacio::mostrar-recomanacions
     (not (final))
+    (informacio (nombre-recomanacions ?nombre-recomanacions))
     (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
     (restriccions (preu-minim ?preu-minim))
     (preferencies (vol-jardi ?vol-jardi))
     =>
     (printout t crlf)
-    (printout t "Et recomano aquestes ofertes:" crlf)
     (bind ?llista-ofertes-abstractes (find-all-instances ((?inst OfertaAbstracta)) TRUE))
     (bind ?llista-ordenada (sort comparar-ofertes ?llista-ofertes-abstractes))
-    (loop-for-count (?i 1 (length$ ?llista-ordenada)) do
+    (if (< (length$ ?llista-ordenada) ?nombre-recomanacions)
+        then (bind ?nombre-recomanacions (length$ ?llista-ordenada))
+    )
+    (loop-for-count (?i 1 ?nombre-recomanacions) do
         (bind ?oferta-abstracta (nth$ ?i ?llista-ordenada))
         (if (> (send ?oferta-abstracta get-puntuacio) 0)
-            then
-        (printout t "Oferta amb puntuacio: " (send ?oferta-abstracta get-puntuacio) crlf (send ?oferta-abstracta get-justificacio-puntuacio) crlf)
-        (imprimir-justificacions (send ?oferta-abstracta get-oferta) ?superficie-habitable-maxima ?preu-minim ?vol-jardi)
-        (send (send ?oferta-abstracta get-oferta) imprimir)
+            then 
+                ; TODO: esborrar després de debugar
+                (printout t "DEBUG: Oferta amb puntuacio: " (send ?oferta-abstracta get-puntuacio) crlf (send ?oferta-abstracta get-justificacio-puntuacio) crlf)
+                (send (send ?oferta-abstracta get-oferta) imprimir ?i)
         )
     )
     (assert (final))
@@ -890,11 +907,76 @@
 ;;*  HabitatgeHandlers  *
 ;;***********************
 
+(defmessage-handler MAIN::HabitatgeUnifamiliar imprimir-planta ()
+    (printout t "És unifamiliar" crlf)
+)
+
+(defmessage-handler MAIN::HabitatgeCol·lectiu imprimir-planta () 
+    (printout t "Està a la planta " ?self:planta crlf)
+)
+
 (defmessage-handler MAIN::Habitatge imprimir ()
-    (printout t "Esta situat a " (send ?self get-latitud) " " (send ?self get-longitud) crlf)
-    (printout t "Te " ?self:nombre_de_dormitoris " dormitors." crlf)
-    (printout t "Te " ?self:nombre_de_banys " banys." crlf)
-    (printout t "Te " ?self:superficie_habitable " m2." crlf)
+    (printout t "Està situat a " (send ?self get-latitud) " N " (send ?self get-longitud) " E" crlf)
+    (send ?self imprimir-planta)
+    (printout t "Té " ?self:superficie_habitable " m2" crlf)
+    (printout t "Pot tenir " ?self:nombre_d_habitants_maxim " habitant(s)" crlf)
+    (printout t "Té " ?self:nombre_de_dormitoris " dormitori(s): " ?self:nombre_de_dormitoris_simples " de simple(s) i " ?self:nombre_de_dormitoris_dobles " de doble(s)" crlf)
+    (printout t "Té " ?self:nombre_de_banys " bany(s)" crlf)
+    (if (eq ?self:estat_de_l_obra "NOVA")
+        then (printout t "És obra nova" crlf)
+        else (if (eq ?self:estat_de_l_obra "BON-ESTAT")
+            then (printout t "L'obra està en bon estat" crlf)
+            else (printout t "Cal reformar l'obra" crlf)
+        )
+    )
+    (if (eq ?self:sol "mati")
+        then (printout t "Li toca el sol al matí" crlf)
+        else (if (eq ?self:sol "tarda")
+            then (printout t "Li toca el sol a la tarda" crlf)
+            else (if (eq ?self:sol "mai")
+                then (printout t "No li toca mai el sol" crlf)
+                else (if (eq ?self:sol "tot el dia")
+                    then (printout t "Li toca el sol tot el dia" crlf)
+                )
+            )
+        )
+    )
+    (if (eq ?self:te_bones_vistes TRUE)
+        then (printout t "Té bones vistes" crlf)
+        else (printout t "No té bones vistes" crlf)
+    )
+    (if (eq ?self:te_ascensor TRUE)
+        then (printout t "Té ascensor" crlf)
+        else (printout t "No té ascensor" crlf)
+    )
+    (if (eq ?self:te_aire_condicionat TRUE)
+        then (printout t "Té aire condicionat" crlf)
+        else (printout t "No té aire condicionat" crlf)
+    )
+    (if (eq ?self:te_calefaccio TRUE)
+        then (printout t "Té calefacció" crlf)
+        else (printout t "No té calefacció" crlf)
+    )
+    (if (eq ?self:te_traster TRUE)
+        then (printout t "Té traster" crlf)
+        else (printout t "No té traster" crlf)
+    )
+    (if (eq ?self:piscina TRUE)
+        then (printout t "Té piscina" crlf)
+        else (printout t "No té piscina" crlf)
+    )
+    (if (eq ?self:te_balco TRUE)
+        then (printout t "Té balcó" crlf)
+        else (printout t "No té balcó" crlf)
+    )
+    (if (eq ?self:te_terrassa TRUE)
+        then (printout t "Té terrassa" crlf)
+        else (printout t "No té terrassa" crlf)
+    )
+    (if (eq ?self:te_jardi TRUE)
+        then (printout t "Té jardí" crlf)
+        else (printout t "No té jardí" crlf)
+    )
 )
 
 (defmessage-handler MAIN::Habitatge apte-mobilitat-reduida ()
@@ -969,28 +1051,40 @@
     )
     ?resposta
 )
-(defmessage-handler MAIN::Oferta imprimir ()
-    (send ?self:ofereix_a imprimir)
-    (printout t "Costa " ?self:preu " euros." crlf)
-    (if (eq ?self:admet_mascotes TRUE)
-    then
-    (printout t "Admet mascotes." crlf)
-    else
-    (printout t "No admet mascotes." crlf)
+(defmessage-handler MAIN::Oferta imprimir (?n)
+    (printout t crlf)
+    (printout t "- OFERTA " ?n " ------------------------------------------------" crlf)
+    (printout t crlf)
+    (printout t ?self:descripcio crlf)
+    (printout t crlf)
+    (printout t "=============================== Informació sobre l'oferta =" crlf)
+    (printout t "Costa " ?self:preu "€ al mes" crlf)
+    (if (eq ?self:inclou_mobles TRUE)
+        then (printout t "Està moblat" crlf)
+        else (printout t "No està moblat" crlf)
     )
     (if (eq ?self:inclou_electrodomestics TRUE)
-    then
-    (printout t "Inclou electrodomestics." crlf)
-    else
-    (printout t "No inclou electrodomestics." crlf)
+        then (printout t "Inclou electrodomèstics" crlf)
+        else (printout t "No inclou electrodomèstics" crlf)
     )
-    (if (eq ?self:inclou_mobles TRUE)
-    then
-    (printout t "Inclou mobles." crlf)
-    else
-    (printout t "No inclou mobles." crlf)
+    (if (eq ?self:admet_mascotes TRUE)
+        then (printout t "Admet mascotes" crlf)
+        else (printout t "No admet mascotes" crlf)
     )
-    (printout t "Te " ?self:numero_de_places_de_garatge " places de garatge." crlf)
-    (printout t "--------------------------" crlf)
+    (if (eq ?self:numero_de_places_de_garatge 0)
+        then (printout t "No té places de garatge" crlf)
+        else (if (eq ?self:numero_de_places_de_garatge 1)
+            then (printout t "Té 1 plaça de garatge" crlf) 
+            else (printout t "Té " ?self:numero_de_places_de_garatge " places de garatge" crlf)
+        )
+    )
+    (printout t crlf)
+    (printout t "============================ Informació sobre l'habitatge =" crlf)
+    (send ?self:ofereix_a imprimir)
+    (printout t "-----------------------------------------------------------" crlf)
+    (printout t "=================================== Adequació de l'oferta =" crlf)
+    ; imprimir justificacions
+    (printout t "-----------------------------------------------------------" crlf)
+    (printout t crlf)
 )
 

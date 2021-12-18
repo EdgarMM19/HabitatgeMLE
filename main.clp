@@ -260,35 +260,6 @@
     (< (send ?oferta1 get-puntuacio) (send ?oferta2 get-puntuacio))
 )
 
-; TODO (maria): fer-ho be sense tants parametres
-(deffunction imprimir-justificacions (?oferta ?superficie-habitable-maxima ?preu-minim ?vol-jardi)
-    (printout t "**************************" crlf)
-    (bind ?num-restriccions 2)
-    (bind ?num-restriccions-satisfetes 0)
-    (bind ?justificacions (create$))
-    (bind ?habitatge (send ?oferta get-ofereix_a))
-    ;(if (<= (send ?habitatge get-superficie_habitable) ?superficie-habitable-maxima)
-    ;    then (bind ?num-restriccions-satisfetes (+ ?num-restriccions-satisfetes 1))
-    ;    else (bind ?justificacions (insert$ ?justificacions (+ (length$ ?justificacions) 1) "La superfície habitable de l'oferta és superior a la màxima")))
-    ;(if (<= (send ?oferta get-preu) ?pressupost)
-    ;    then (bind ?num-restriccions-satisfetes (+ ?num-restriccions-satisfetes 1))
-    ;    else (bind ?justificacions (insert$ ?justificacions (+ (length$ ?justificacions) 1) "El preu de l'oferta és superior al pressupost")))
-    ;(if (and (eq (send ?habitatge get-te_jardi) "true") (eq ?jardi TRUE))
-    ;then
-    ;(bind ?justificacions (insert$ ?justificacions (+ (length$ ?justificacions) 1) "I te jardi tal com desitjes!"))
-    ;)
-    (if (eq ?num-restriccions-satisfetes ?num-restriccions)
-        then (printout t "L'oferta és adequada" crlf)
-        else (if (<= (- ?num-restriccions ?num-restriccions-satisfetes) 2)
-        then (printout t "L'oferta és parcialment adequada" crlf)
-        else (printout t "L'oferta no és adequada" crlf)))
-    (loop-for-count (?i 1 (length$ ?justificacions)) do
-        (bind ?justificacio (nth$ ?i ?justificacions))
-            (printout t ?justificacio crlf)
-    )
-    (printout t "**************************" crlf)
-)
-
 ;;*****************
 ;;*      MAIN     *
 ;;*****************
@@ -901,12 +872,14 @@
         (send ?oferta-abstracta calcula-puntuacio-preu ?pressupost)
     )
 )
+
 (defrule construccio-solucio-abstracta::passar-a-construccio
     (declare (salience -10))
     =>
     (printout t "Generant resultats..." crlf)
     (focus construccio)
 )
+
 ;;**************************
 ;;*  MODUL DE CONSTRUCCIO  *
 ;;**************************
@@ -1128,7 +1101,6 @@
     (send ?self put-aprop-transport ?resposta)
 )
 
-
 (defmessage-handler MAIN::OfertaAbstracta calcula-puntuacio-mida-habitatge (?mida-habitatge-solicitant)
 	(bind ?mida-habitatge (send ?self get-mida-habitatge))
 	(bind ?puntuacio 0)
@@ -1349,62 +1321,34 @@
 ;;*  OfertaHandlers  *
 ;;********************
 
-;;;"Retorna 0 si no adequat, 1 si parcialment adequat 2 si adequat" 
-(defmessage-handler MAIN::Oferta adecuacio (?sup-min ?sup-max ?pres-min ?pres-max ?mob-red ?num-hab ?num-parelles)
-    (bind ?faltes-acceptables 0)
-    (bind ?faltes-inacceptables 0)
-    (bind ?habitatge ?self:ofereix_a)
-
-    (bind ?sup (send ?habitatge get-superficie_habitable))
-    (if (> (- ?sup-min 20) ?sup)
-        then (bind ?faltes-inacceptables 1)
-        else (if (> ?sup-min ?sup) then 
-            (bind ?faltes-acceptables (+ ?faltes-acceptables 1))
-        )
-    )
-    (if (< ?sup-max ?sup) then
-        (bind ?faltes-acceptables (+ ?faltes-acceptables 1))
-    )
-
-    (bind ?preu ?self:preu)
-    (if (< (+ ?pres-max 150) ?preu)
-        then (bind ?faltes-inacceptables 1)
-        else (if (< ?pres-max ?preu) then 
-            (bind ?faltes-acceptables (+ ?faltes-acceptables 1))
-        )
-    )
-    (if (> ?pres-min ?preu) then
-        (bind ?faltes-acceptables (+ ?faltes-acceptables 1))
-    )
-
-    (bind ?capacitat (send ?habitatge get-nombre_d_habitants_maxim))
-    (if (< ?capacitat ?num-hab)
-        then (bind ?faltes-inacceptables 1) )
-
-    (bind ?capacitat-parelles (send ?habitatge get-nombre_de_dormitoris_dobles))
-    (if (< ?capacitat-parelles ?num-parelles)
-        then (bind ?faltes-inacceptables 1) )
-
-
-    (if (and (eq ?mob-red TRUE) (eq (send ?habitatge apte-mobilitat-reduida) FALSE))
-        then (bind ?faltes-inacceptables 1)
-    )
-
-    (bind ?resposta 0)
-    (if (not (eq ?faltes-inacceptables 0))
-        then (bind ?resposta 0)
-        else 
-        (if (eq ?faltes-acceptables 0)
-            then (bind ?resposta 2)
-            else (if (< ?faltes-acceptables 3)
-                then (bind ?resposta 1)
-                else (bind ?resposta 0)
-            )
-        )
-    )
-    ?resposta
+(defmessage-handler MAIN::Oferta comptar-restriccions-insatisfetes (?preu-maxim-estricte ?restriccions)
+    (bind ?comptador 0)
+    ?comptador
 )
-(defmessage-handler MAIN::Oferta imprimir (?n)
+
+(defmessage-handler MAIN::Oferta comptar-preferencies-insatisfetes (?preferencies)
+    (bind ?comptador 0)
+    ?comptador
+)
+
+(defmessage-handler MAIN::Oferta comptar-extres ()
+    (bind ?comptador 0)
+    ?comptador
+)
+
+(defmessage-handler MAIN::Oferta imprimir-restriccions-insatisfetes (?preu-maxim-estricte ?restriccions)
+)
+
+(defmessage-handler MAIN::Oferta imprimir-preferencies-insatisfetes (?preferencies)
+)
+
+(defmessage-handler MAIN::Oferta imprimir-extres ()
+)
+
+(defmessage-handler MAIN::Oferta imprimir-justificacions (?informacio ?preferencies ?restriccions)
+)
+
+(defmessage-handler MAIN::Oferta imprimir (?n ?informacio ?preferencies ?restriccions)
     (printout t crlf)
     (printout t "- OFERTA " ?n " ------------------------------------------------" crlf)
     (printout t crlf)
@@ -1433,9 +1377,34 @@
     (printout t crlf)
     (printout t "============================ Informació sobre l'habitatge =" crlf)
     (send ?self:ofereix_a imprimir)
-    (printout t "-----------------------------------------------------------" crlf)
     (printout t "=================================== Adequació de l'oferta =" crlf)
-    ; imprimir justificacions
+    (bind ?nombre-restriccions-insatisfetes 0)
+    (bind ?nombre-preferencies-insatisfetes 0)
+    (bind ?nombre-extres 0)
+
+    (bind ?nombre-restriccions-insatisfetes (send ?self comptar-restriccions-insatisfetes (send ?informacio get-preu-maxim-estricte) ?restriccions))
+    (if (> ?nombre-restriccions-insatisfetes 0) 
+        then (printout t "L'oferta no és adequada" crlf)
+        else
+            (bind ?nombre-preferencies-insatisfetes (send ?self comptar-preferencies-insatisfetes ?preferencies))
+            (if (> ?nombre-preferencies-insatisfetes 0) 
+                then
+                    (printout t "L'oferta és parcialment adequada" crlf)
+                    (printout t crlf)
+                    (send ?self imprimir-preferencies-insatisfetes ?preferencies)
+                else
+                    (bind ?nombre-extres (send ?self comptar-extres))
+                    (if (> ?nombre-extres 0) 
+                        then
+                            (printout t "L'oferta és molt recomanable" crlf)
+                            (printout t crlf)
+                            (send ?self imprimir-extres)
+                        else (printout t "L'oferta és adequada" crlf)
+                    )
+            )
+    )
+    (printout t crlf)
+    (send ?self imprimir-justificacions ?informacio ?preferencies ?restriccions)
     (printout t "-----------------------------------------------------------" crlf)
     (printout t crlf)
 )

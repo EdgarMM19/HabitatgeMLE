@@ -107,7 +107,7 @@
     (single-slot admet_mascotes
         (type SYMBOL)
         (create-accessor read-write))
-    (multislot descripcio
+    (single-slot descripcio
         (type STRING)
         (create-accessor read-write))
     (single-slot inclou_electrodomestics

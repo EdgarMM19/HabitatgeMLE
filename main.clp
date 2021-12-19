@@ -1883,9 +1883,6 @@
     ?comptador
 )
 
-(defmessage-handler MAIN::Oferta imprimir-restriccions-insatisfetes (?preu-maxim-estricte ?restriccions)
-)
-
 (defmessage-handler MAIN::Oferta imprimir-preferencies-insatisfetes (?preferencies)
 )
 
@@ -1902,7 +1899,8 @@
     (bind ?linia (format nil "%s" ?self:descripcio))
     (printout t ?linia crlf)
     (printout t crlf)
-    (printout t "=============================== Informació sobre l'oferta =" crlf)
+    (printout t "= Informació sobre l'oferta ===============================" crlf)
+    (printout t crlf)
     (printout t "Costa " ?self:preu "€ al mes" crlf)
     (switch ?self:inclou_mobles
         (case TRUE then (printout t "Està moblat" crlf))
@@ -1922,18 +1920,22 @@
         (default (printout t "Té " ?self:numero_de_places_de_garatge " places de garatge" crlf))
     )
     (printout t crlf)
-    (printout t "============================ Informació sobre l'habitatge =" crlf)
+    (printout t "= Informació sobre l'habitatge ============================" crlf)
+    (printout t crlf)
     (send ?self:ofereix_a imprimir)
-    (printout t "=================================== Adequació de l'oferta =" crlf)
+    (printout t crlf)
+    (printout t "= Adequació de l'oferta ===================================" crlf)
+    (printout t crlf)
     (bind ?nombre-restriccions-insatisfetes 0)
     (bind ?nombre-preferencies-insatisfetes 0)
     (bind ?nombre-extres 0)
 
-    (bind ?nombre-restriccions-insatisfetes (send ?self comptar-restriccions-insatisfetes (send ?informacio get-preu-maxim-estricte) ?restriccions))
-    (if (> ?nombre-restriccions-insatisfetes 0) 
+    (?informacio (preu-maxim-estricte ?preu-maxim-estricte))
+    (bind ?nombre-restriccions-insatisfetes (send ?self comptar-restriccions-insatisfetes ?preu-maxim-estricte ?restriccions))
+    (bind ?nombre-preferencies-insatisfetes (send ?self comptar-preferencies-insatisfetes ?preferencies))
+    (if (or (> ?nombre-restriccions-insatisfetes 0) (> ?nombre-preferencies-insatisfetes 2)) 
         then (printout t "L'oferta no és adequada" crlf)
         else
-            (bind ?nombre-preferencies-insatisfetes (send ?self comptar-preferencies-insatisfetes ?preferencies))
             (if (> ?nombre-preferencies-insatisfetes 0) 
                 then
                     (printout t "L'oferta és parcialment adequada" crlf)

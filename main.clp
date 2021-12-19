@@ -21,34 +21,29 @@
 
 (defmodule MAIN (export ?ALL))
 
-;; Maria
 (defmodule preguntes
     (import MAIN ?ALL)
     (export ?ALL)
 )
 
-;; Edgar
 (defmodule abstraccio
     (import MAIN ?ALL)
     (import preguntes ?ALL)
     (export ?ALL)
 )
 
-;; En el futuro
 (defmodule contruccio-abstracte
     (import MAIN ?ALL)
     (import abstraccio ?ALL)
     (export ?ALL)
 )
 
-;; Edgar
 (defmodule construccio
     (import MAIN ?ALL)
     (import contruccio-abstracte ?ALL)
     (export ?ALL)
 )
 
-;; Maria
 (defmodule presentacio
     (import MAIN ?ALL)
     (import construccio ?ALL)
@@ -306,7 +301,7 @@
     (restriccions)
 
     (nombre-recomanacions preguntar)
-    
+
     (nombre-habitants preguntar)
     (nombre-dormitoris-dobles preguntar)
     (hi-ha-infants preguntar)
@@ -1195,7 +1190,6 @@
 
     (bind ?llista-ofertes-solucio (find-all-instances ((?inst OfertaSolucio)) TRUE))
     (bind ?llista-ordenada (sort comparar-ofertes-solucio ?llista-ofertes-solucio))
-    (printout t ?llista-ordenada crlf)
 
     (loop-for-count (?i 1 (length$ ?llista-ordenada)) do
         (if (eq ?recomanacions-fetes ?nombre-recomanacions) then
@@ -1231,8 +1225,8 @@
     =>
     (loop-for-count (?i 1 (length$ ?llista-ordenada)) do
         (bind ?oferta-solucio (nth$ ?i ?llista-ordenada))
-        (bind ?oferta (send ?oferta-solucio get-oferta))
-        ; todo: imprimir tot
+        (send ?oferta-solucio imprimir ?i)
+        (printout t ?i)
     )
     (assert (final))
 )
@@ -1997,10 +1991,7 @@
 (defmessage-handler MAIN::Oferta imprimir-justificacions (?informacio ?preferencies ?restriccions)
 )
 
-(defmessage-handler MAIN::Oferta imprimir (?n ?informacio ?preferencies ?restriccions)
-    (printout t crlf)
-    (printout t "- OFERTA " ?n " ------------------------------------------------" crlf)
-    (printout t crlf)
+(defmessage-handler MAIN::Oferta imprimir ()
     (bind ?linia (format nil "%s" ?self:descripcio))
     (printout t ?linia crlf)
     (printout t crlf)
@@ -2029,16 +2020,28 @@
     (printout t crlf)
     (send ?self:ofereix_a imprimir)
     (printout t crlf)
+)
+
+;;********************
+;;*  OfertaHandlers  *
+;;********************
+
+(defmessage-handler MAIN::OfertaSolucio imprimir (?n)
+    
+    (printout t crlf)
+    (printout t "- OFERTA " ?n " ------------------------------------------------" crlf)
+    (printout t crlf)
+
+    (bind ?oferta (send ?self get-oferta))
+    (send ?oferta imprimir)
+
     (printout t "= Adequació de l'oferta ===================================" crlf)
     (printout t crlf)
-    (bind ?nombre-restriccions-insatisfetes 0)
-    (bind ?nombre-preferencies-insatisfetes 0)
-    (bind ?nombre-extres 0)
 
-    ;TODO(maria): arreglar
-    (bind ?preu-maxim-estricte TRUE)
-    (bind ?nombre-restriccions-insatisfetes (send ?self comptar-restriccions-insatisfetes ?preu-maxim-estricte ?restriccions))
-    (bind ?nombre-preferencies-insatisfetes (send ?self comptar-preferencies-insatisfetes ?preferencies))
+    (bind ?nombre-restriccions-insatisfetes ?self:nombre-restriccions-insatisfetes)
+    (bind ?nombre-preferencies-insatisfetes ?self:nombre-preferencies-insatisfetes)
+    (bind ?nombre-extres ?self:nombre-extres)
+
     (if (or (> ?nombre-restriccions-insatisfetes 0) (> ?nombre-preferencies-insatisfetes 2)) 
         then (printout t "L'oferta no és adequada" crlf)
         else
@@ -2046,7 +2049,12 @@
                 then
                     (printout t "L'oferta és parcialment adequada" crlf)
                     (printout t crlf)
-                    (send ?self imprimir-preferencies-insatisfetes ?preferencies)
+                    (printout t "L'oferta no inclou: " crlf)
+                    (bind $?justificacions-preferencies ?self:justificacions-preferencies-insatisfetes)
+                    (loop-for-count (?i 1 (length$ ?justificacions-preferencies)) do
+                        (bind ?justificacio (nth$ ?i ?justificacions-preferencies))
+                        (printout t ?justificacio crlf)
+                    )
                 else
                     (bind ?nombre-extres (send ?self comptar-extres))
                     (if (> ?nombre-extres 0) 
@@ -2057,13 +2065,22 @@
                         else (printout t "L'oferta és adequada" crlf)
                     )
             )
+            (if (> ?nombre-extres 0) 
+                then
+                    (printout t "Com a extra l'oferta inclou:" crlf)
+                    (bind $?justificacions-extres ?self:justificacions-extres)
+                    (loop-for-count (?i 1 (length$ $?justificacions-extres)) do
+                        (bind ?justificacio (nth$ ?i $?justificacions-extres))
+                        (printout t ?justificacio crlf)
+                    )
+            )
+
+
     )
     (printout t crlf)
-    (send ?self imprimir-justificacions ?informacio ?preferencies ?restriccions)
     (printout t "-----------------------------------------------------------" crlf)
     (printout t crlf)
 )
-
 ;;*************************
 ;;*  ElementLocalitzable  *
 ;;*************************

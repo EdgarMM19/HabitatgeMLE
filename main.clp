@@ -2,7 +2,7 @@
 ;;;     Cal executar CLIPS des del directori del projecte
 ;;;     i carregar-lo:
 ;;;
-;;;     (load "instancies.clp")
+;;;     (load "ontologia.clp")
 ;;;     (load "main.clp")
 ;;;     (reset)
 ;;;     (run)
@@ -80,15 +80,15 @@
 
 ; Preferencies del sol·licitant
 (deftemplate MAIN::preferencies
-    (slot vol-aprop-centres-salut (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
-    (slot vol-aprop-hipermercats (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
-    (multislot vol-aprop-localitzacions (type INSTANCE))
-    (slot vol-aprop-oci-nocturn (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
-    (slot vol-aprop-supermercats (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
-    (slot vol-aprop-transport-public (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
-    (slot vol-aprop-zones-comercials (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
-    (slot vol-aprop-zones-esportives (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
-    (slot vol-aprop-zones-verdes (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-a-prop-centres-salut (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-a-prop-hipermercats (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (multislot vol-a-prop-localitzacions (type INSTANCE))
+    (slot vol-a-prop-oci-nocturn (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-a-prop-supermercats (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-a-prop-transport-public (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-a-prop-zones-comercials (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-a-prop-zones-esportives (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
+    (slot vol-a-prop-zones-verdes (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
 
     (slot vol-aire-condicionat (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
     (slot vol-ascensor (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
@@ -125,15 +125,15 @@
 	(slot mida-habitatge (type SYMBOL) (allowed-values Petit Mitja Gran) (create-accessor read-write))
     (slot preu (type SYMBOL) (allowed-values Barat Mitja Car) (create-accessor read-write))
 
-    (slot aprop-transport (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
-    (slot aprop-zona-comercial (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
-    (slot aprop-supermercat (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
-    (slot aprop-hipermercat (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
-    (slot aprop-centre-educatiu (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
-    (slot aprop-centre-salut (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
-    (slot aprop-zona-verda (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
-    (slot aprop-esport (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
-    (slot aprop-oci-nocturn (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot a-prop-transport (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot a-prop-zona-comercial (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot a-prop-supermercat (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot a-prop-hipermercat (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot a-prop-centre-educatiu (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot a-prop-centre-salut (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot a-prop-zona-verda (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot a-prop-esport (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
+    (slot a-prop-oci-nocturn (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
 
     (slot adequat-familia (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
     (slot adequat-ancians (type SYMBOL) (allowed-values TRUE FALSE) (create-accessor read-write))
@@ -191,7 +191,7 @@
 (deffunction preguntar-nombre (?pregunta ?cota-inferior ?cota-superior)
     (format t "%s [%d, %d] " ?pregunta ?cota-inferior ?cota-superior)
     (bind ?resposta (read))
-    (while (not (and (>= ?resposta ?cota-inferior) (<= ?resposta ?cota-superior))) do
+    (while (not (and (integerp ?resposta) (and (>= ?resposta ?cota-inferior) (<= ?resposta ?cota-superior)))) do
         (format t "%s [%d, %d] " ?pregunta ?cota-inferior ?cota-superior)
         (bind ?resposta (read))
     )
@@ -234,15 +234,15 @@
 		(send ?ofertaAbstracta calcula-mida-habitatge)
         (send ?ofertaAbstracta calcula-rang-preu)
 
-        (send ?ofertaAbstracta calcula-aprop-oci-nocturn)
-        (send ?ofertaAbstracta calcula-aprop-esport)
-        (send ?ofertaAbstracta calcula-aprop-zona-verda)
-        (send ?ofertaAbstracta calcula-aprop-centre-salut)
-        (send ?ofertaAbstracta calcula-aprop-centre-educatiu)
-        (send ?ofertaAbstracta calcula-aprop-hipermercat)
-        (send ?ofertaAbstracta calcula-aprop-supermercat)
-        (send ?ofertaAbstracta calcula-aprop-zona-comercial)
-        (send ?ofertaAbstracta calcula-aprop-transport)
+        (send ?ofertaAbstracta calcula-a-prop-oci-nocturn)
+        (send ?ofertaAbstracta calcula-a-prop-esport)
+        (send ?ofertaAbstracta calcula-a-prop-zona-verda)
+        (send ?ofertaAbstracta calcula-a-prop-centre-salut)
+        (send ?ofertaAbstracta calcula-a-prop-centre-educatiu)
+        (send ?ofertaAbstracta calcula-a-prop-hipermercat)
+        (send ?ofertaAbstracta calcula-a-prop-supermercat)
+        (send ?ofertaAbstracta calcula-a-prop-zona-comercial)
+        (send ?ofertaAbstracta calcula-a-prop-transport)
 
         (send ?ofertaAbstracta calcula-adecuacio-familia)
         (send ?ofertaAbstracta calcula-adecuacio-ancians)
@@ -328,9 +328,9 @@
 
     (vol-places-garatge preguntar)
 
-    (vol-aprop-punts-interes preguntar)
+    (vol-a-prop-punts-interes preguntar)
     (vol-lluny-punts-interes preguntar)
-    (vol-aprop-localitzacions preguntar)
+    (vol-a-prop-localitzacions preguntar)
 )
 
 (defrule preguntes::preguntar-nombre-recomanacions
@@ -338,7 +338,7 @@
     ?fet <- (nombre-recomanacions preguntar)
     ?informacio <- (informacio)
     =>
-    (bind ?nombre-recomanacions (preguntar-nombre "Quantes ofertes vols que et recomani?" 1 10))
+    (bind ?nombre-recomanacions (preguntar-nombre "Quantes ofertes vols que et recomani com a màxim?" 1 10))
     (printout t crlf)
     (retract ?fet)
     (modify ?informacio (nombre-recomanacions ?nombre-recomanacions))
@@ -641,12 +641,12 @@
     (modify ?preferencies (vol-places-garatge ?vol-places-garatge))
 )
 
-(defrule preguntes::preguntar-vol-aprop-punts-interes
+(defrule preguntes::preguntar-vol-a-prop-punts-interes
     (declare (salience 23))
-    ?fet <- (vol-aprop-punts-interes preguntar)
+    ?fet <- (vol-a-prop-punts-interes preguntar)
     ?preferencies <- (preferencies)
     =>
-    (printout t "Quins d'aquests punts d'interès vols tenir aprop?" crlf)
+    (printout t "Quins d'aquests punts d'interès vols tenir a prop?" crlf)
     (printout t "1 - Centres de salut" crlf)
     (printout t "2 - Hipermercats" crlf)
     (printout t "3 - Zones d'oci nocturn" crlf)
@@ -658,14 +658,14 @@
     (bind ?punts-interes (preguntar-nombres 1 8))
     (loop-for-count (?i 1 (length$ ?punts-interes)) do
         (switch ?i
-            (case 1 then (modify ?preferencies (vol-aprop-centres-salut TRUE)))
-            (case 2 then (modify ?preferencies (vol-aprop-hipermercats TRUE)))
-            (case 3 then (modify ?preferencies (vol-aprop-oci-nocturn TRUE)))
-            (case 4 then (modify ?preferencies (vol-aprop-supermercats TRUE)))
-            (case 5 then (modify ?preferencies (vol-aprop-transport-public TRUE)))
-            (case 6 then (modify ?preferencies (vol-aprop-zones-comercials TRUE)))
-            (case 7 then (modify ?preferencies (vol-aprop-zones-esportives TRUE)))
-            (case 8 then (modify ?preferencies (vol-aprop-zones-verdes TRUE)))
+            (case 1 then (modify ?preferencies (vol-a-prop-centres-salut TRUE)))
+            (case 2 then (modify ?preferencies (vol-a-prop-hipermercats TRUE)))
+            (case 3 then (modify ?preferencies (vol-a-prop-oci-nocturn TRUE)))
+            (case 4 then (modify ?preferencies (vol-a-prop-supermercats TRUE)))
+            (case 5 then (modify ?preferencies (vol-a-prop-transport-public TRUE)))
+            (case 6 then (modify ?preferencies (vol-a-prop-zones-comercials TRUE)))
+            (case 7 then (modify ?preferencies (vol-a-prop-zones-esportives TRUE)))
+            (case 8 then (modify ?preferencies (vol-a-prop-zones-verdes TRUE)))
         )
     )
     (printout t crlf)
@@ -678,7 +678,7 @@
     ?preferencies <- (preferencies)
     =>
     (retract ?fet)
-    (printout t "Quins d'aquests punts d'interès no vols tenir aprop?" crlf)
+    (printout t "Quins d'aquests punts d'interès no vols tenir a prop?" crlf)
     (printout t "1 - Centres de salut" crlf)
     (printout t "2 - Hipermercats" crlf)
     (printout t "3 - Zones d'oci nocturn" crlf)
@@ -690,29 +690,29 @@
     (bind ?punts-interes (preguntar-nombres 1 8))
     (loop-for-count (?i 1 (length$ ?punts-interes)) do
         (switch ?i
-            (case 1 then (modify ?preferencies (vol-aprop-centres-salut FALSE)))
-            (case 2 then (modify ?preferencies (vol-aprop-hipermercats FALSE)))
-            (case 3 then (modify ?preferencies (vol-aprop-oci-nocturn FALSE)))
-            (case 4 then (modify ?preferencies (vol-aprop-supermercats FALSE)))
-            (case 5 then (modify ?preferencies (vol-aprop-transport-public FALSE)))
-            (case 6 then (modify ?preferencies (vol-aprop-zones-comercials FALSE)))
-            (case 7 then (modify ?preferencies (vol-aprop-zones-esportives FALSE)))
-            (case 8 then (modify ?preferencies (vol-aprop-zones-verdes FALSE)))
+            (case 1 then (modify ?preferencies (vol-a-prop-centres-salut FALSE)))
+            (case 2 then (modify ?preferencies (vol-a-prop-hipermercats FALSE)))
+            (case 3 then (modify ?preferencies (vol-a-prop-oci-nocturn FALSE)))
+            (case 4 then (modify ?preferencies (vol-a-prop-supermercats FALSE)))
+            (case 5 then (modify ?preferencies (vol-a-prop-transport-public FALSE)))
+            (case 6 then (modify ?preferencies (vol-a-prop-zones-comercials FALSE)))
+            (case 7 then (modify ?preferencies (vol-a-prop-zones-esportives FALSE)))
+            (case 8 then (modify ?preferencies (vol-a-prop-zones-verdes FALSE)))
         )
     )
     (printout t crlf)
 )
 
-(defrule preguntes::preguntar-vol-aprop-localitzacions
+(defrule preguntes::preguntar-vol-a-prop-localitzacions
     (declare (salience 21))
-    ?fet <- (vol-aprop-localitzacions preguntar)
+    ?fet <- (vol-a-prop-localitzacions preguntar)
     ?preferencies <- (preferencies)
     =>
     (retract ?fet)
     (bind ?continua TRUE)
     (bind $?llista (create$))
     (while (eq ?continua TRUE)
-        (bind ?continua (preguntar-si-o-no "Vols indicar una nova localització concreta que vulguis tenir aprop? (escola, feina, ...)"))
+        (bind ?continua (preguntar-si-o-no "Vols indicar una nova localització concreta que vulguis tenir a prop? (escola, feina, ...)"))
         (if (eq ?continua TRUE)
             then 
             (printout t "Introdueix la latitud: ")
@@ -721,12 +721,14 @@
             (printout t "Introdueix la longitud: ")
             (bind ?longitud (read))
             (printout t crlf)
-            (assert (coordenades (latitud ?latitud) (longitud ?longitud)))
-            (bind ?llista (insert$ ?llista (+ (length$ ?llista) 1) coordenades))
+            (bind ?localitzacio (make-instance (sym-cat elementLocalitzable- (gensym)) of ElementLocalitzable))
+		    (send ?localitzacio put-latitud ?latitud)
+            (send ?localitzacio put-longitud ?longitud)
+            (bind ?llista (insert$ ?llista (+ (length$ ?llista) 1) ?localitzacio))
         )
     )
     (retract ?fet)
-    (modify ?preferencies (vol-aprop-localitzacions ?llista))
+    (modify ?preferencies (vol-a-prop-localitzacions ?llista))
     (printout t crlf)
 )
 
@@ -763,9 +765,9 @@
     (not (vol-mobles preguntar))
     (not (vol-traster preguntar))
     (not (vol-places-garatge preguntar))
-    (not (vol-aprop-punts-interes preguntar))
+    (not (vol-a-prop-punts-interes preguntar))
     (not (vol-lluny-punts-interes preguntar))
-    (not (vol-aprop-localitzacions preguntar))
+    (not (vol-a-prop-localitzacions preguntar))
     =>
     (printout t "Abstraient problema..." crlf)
     (focus abstraccio)
@@ -1018,29 +1020,34 @@
     (construccio concreta)
 )
 
-(defrule construccio::construir-restriccions-estat-obra
+(defrule construccio::construir-restriccions-estat-obra-bon-estat
     (declare (salience 50))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
     (restriccions (estat-obra-minim ?estat-obra-minim))
+    (test (eq ?estat-obra-minim BON-ESTAT))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?estat-obra-minim
-        (case BON-ESTAT then 
-            (if (eq (send ?habitatge get-estat_de_l_obra) PER-REFORMAR)
-                then 
-                    (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
-                    (bind ?justificacio "No satisfà la restricció d'estat de l'obra mínim")
-                    (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
-            )
-        )
-        (case NOVA then 
-            (if (not (eq (send ?habitatge get-estat_de_l_obra) NOVA))
-                then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la restricció d'estat de l'obra mínim")
-                (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (eq (send ?habitatge get-estat_de_l_obra) PER-REFORMAR)
+        then 
+            (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+            (bind ?justificacio "No satisfà la restricció d'estat de l'obra mínim")
+            (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-restriccions-estat-obra-nova
+    (declare (salience 50))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (restriccions (estat-obra-minim ?estat-obra-minim))
+    (test (eq ?estat-obra-minim NOVA))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (not (eq (send ?habitatge get-estat_de_l_obra) NOVA))
+        then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la restricció d'estat de l'obra mínim")
+        (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
     )
 )
 
@@ -1173,419 +1180,499 @@
     )
 )
 
-(defrule construccio::construir-preferencies-aprop-centres-salut
+(defrule construccio::construir-preferencies-a-prop-centres-salut-cert
     (declare (salience 40))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
-    (preferencies (vol-aprop-centres-salut ?vol-aprop-centres-salut))
+    (preferencies (vol-a-prop-centres-salut ?vol-a-prop-centres-salut))
+    (test (eq ?vol-a-prop-centres-salut TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-aprop-centres-salut
-        (case TRUE then 
-            (if (not (send ?oferta esta-aprop-centres-salut))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar aprop de centres de salut")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta esta-aprop-centres-salut)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar lluny de centres de salut")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?oferta esta-a-prop-centres-salut))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar a prop de centres de salut")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-aprop-hipermercats
+(defrule construccio::construir-preferencies-a-prop-centres-salut-fals
+    (declare (salience 40))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-a-prop-centres-salut ?vol-a-prop-centres-salut))
+    (test (eq ?vol-a-prop-centres-salut FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?oferta esta-a-prop-centres-salut)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar lluny de centres de salut")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-a-prop-hipermercats-cert
     (declare (salience 39))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
-    (preferencies (vol-aprop-hipermercats ?vol-aprop-hipermercats))
+    (preferencies (vol-a-prop-hipermercats ?vol-a-prop-hipermercats))
+    (test (eq ?vol-a-prop-hipermercats TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-aprop-hipermercats
-        (case TRUE then 
-            (if (not (send ?oferta esta-aprop-hipermercats))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar aprop d'hipermercats")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta esta-aprop-hipermercats)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar lluny d'hipermercats")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?oferta esta-a-prop-hipermercats))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar a prop d'hipermercats")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-aprop-localitzacions
-    (declare (salience 38))
+(defrule construccio::construir-preferencies-a-prop-hipermercats-fals
+    (declare (salience 39))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
-    (preferencies (vol-aprop-localitzacions ?vol-aprop-localitzacions))
+    (preferencies (vol-a-prop-hipermercats ?vol-a-prop-hipermercats))
+    (test (eq ?vol-a-prop-hipermercats FALSE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
-    (loop-for-count (?i 1 (length$ ?vol-aprop-localitzacions)) do
-        (bind ?localitzacio (nth$ ?i ?vol-aprop-localitzacions))
-        (if (not (send ?oferta esta-aprop ?localitzacio))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?oferta esta-a-prop-hipermercats)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar lluny d'hipermercats")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-a-prop-localitzacions
+    (declare (salience 38))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-a-prop-localitzacions $?vol-a-prop-localitzacions))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (loop-for-count (?i 1 (length$ ?vol-a-prop-localitzacions)) do
+        (bind ?localitzacio (nth$ ?i ?vol-a-prop-localitzacions))
+        (if (not (send ?oferta esta-a-prop ?localitzacio))
             then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-            (bind ?justificacio (format nil "No satisfà la preferència d'estar aprop de la localització amb coordenades %d %d" (send ?localitzacio get-latitud) (send ?localitzacio get-longitud)))
+            (bind ?justificacio (format nil "No satisfà la preferència d'estar a prop de la localització amb coordenades %f N %f E" (send ?localitzacio get-latitud) (send ?localitzacio get-longitud)))
             (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
         )
     )
 )
 
-(defrule construccio::construir-preferencies-aprop-oci-nocturn
+(defrule construccio::construir-preferencies-a-prop-oci-nocturn-cert
     (declare (salience 37))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
-    (preferencies (vol-aprop-oci-nocturn ?vol-aprop-oci-nocturn))
+    (preferencies (vol-a-prop-oci-nocturn ?vol-a-prop-oci-nocturn))
+    (test (eq ?vol-a-prop-oci-nocturn TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-aprop-oci-nocturn
-        (case TRUE then 
-            (if (not (send ?oferta esta-aprop-oci-nocturn))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar aprop de zones d'oci nocturn")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta esta-aprop-oci-nocturn)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar lluny de zones d'oci nocturn")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?oferta esta-a-prop-oci-nocturn))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar a prop de zones d'oci nocturn")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-aprop-supermercats
+(defrule construccio::construir-preferencies-a-prop-oci-nocturn-fals
+    (declare (salience 37))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-a-prop-oci-nocturn ?vol-a-prop-oci-nocturn))
+    (test (eq ?vol-a-prop-oci-nocturn FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?oferta esta-a-prop-oci-nocturn)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar lluny de zones d'oci nocturn")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-a-prop-supermercats-cert
     (declare (salience 36))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
-    (preferencies (vol-aprop-supermercats ?vol-aprop-supermercats))
+    (preferencies (vol-a-prop-supermercats ?vol-a-prop-supermercats))
+    (test (eq ?vol-a-prop-supermercats TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-aprop-supermercats
-        (case TRUE then 
-            (if (not (send ?oferta esta-aprop-supermercats))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar aprop de supermercats")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta esta-aprop-supermercats)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar lluny de supermercats")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?oferta esta-a-prop-supermercats))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar a prop de supermercats")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-aprop-transport-public
+(defrule construccio::construir-preferencies-a-prop-supermercats-fals
+    (declare (salience 36))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-a-prop-supermercats ?vol-a-prop-supermercats))
+    (test (eq ?vol-a-prop-supermercats FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?oferta esta-a-prop-supermercats)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar lluny de supermercats")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-a-prop-transport-public-cert
     (declare (salience 35))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
-    (preferencies (vol-aprop-transport-public ?vol-aprop-transport-public))
+    (preferencies (vol-a-prop-transport-public ?vol-a-prop-transport-public))
+    (test (eq ?vol-a-prop-transport-public TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-aprop-transport-public
-        (case TRUE then 
-            (if (not (send ?oferta esta-aprop-transport-public))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar aprop de parades de transport públic")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta esta-aprop-transport-public)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar lluny de parades de transport públic")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?oferta esta-a-prop-transport-public))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar a prop de parades de transport públic")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-aprop-zones-comercials
+(defrule construccio::construir-preferencies-a-prop-transport-public-fals
+    (declare (salience 35))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-a-prop-transport-public ?vol-a-prop-transport-public))
+    (test (eq ?vol-a-prop-transport-public FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?oferta esta-a-prop-transport-public)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar lluny de parades de transport públic")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-a-prop-zones-comercials-cert
     (declare (salience 34))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
-    (preferencies (vol-aprop-zones-comercials ?vol-aprop-zones-comercials))
+    (preferencies (vol-a-prop-zones-comercials ?vol-a-prop-zones-comercials))
+    (test (eq ?vol-a-prop-zones-comercials TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-aprop-zones-comercials
-        (case TRUE then 
-            (if (not (send ?oferta esta-aprop-zones-comercials))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar aprop de zones comercials")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta esta-aprop-zones-comercials)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar lluny de zones comercials")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?oferta esta-a-prop-zones-comercials))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar a prop de zones comercials")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-aprop-zones-esportives
+(defrule construccio::construir-preferencies-a-prop-zones-comercials-fals
+    (declare (salience 34))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-a-prop-zones-comercials ?vol-a-prop-zones-comercials))
+    (test (eq ?vol-a-prop-zones-comercials FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?oferta esta-a-prop-zones-comercials)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar lluny de zones comercials")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-a-prop-zones-esportives-cert
     (declare (salience 33))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
-    (preferencies (vol-aprop-zones-esportives ?vol-aprop-zones-esportives))
+    (preferencies (vol-a-prop-zones-esportives ?vol-a-prop-zones-esportives))
+    (test (eq ?vol-a-prop-zones-esportives TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-aprop-zones-esportives
-        (case TRUE then 
-            (if (not (send ?oferta esta-aprop-zones-esportives))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar aprop de zones esportives")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta esta-aprop-zones-esportives)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar lluny de zones esportives")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?oferta esta-a-prop-zones-esportives))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar a prop de zones esportives")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-aprop-zones-verdes
+(defrule construccio::construir-preferencies-a-prop-zones-esportives-fals
+    (declare (salience 33))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-a-prop-zones-esportives ?vol-a-prop-zones-esportives))
+    (test (eq ?vol-a-prop-zones-esportives FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?oferta esta-a-prop-zones-esportives)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar lluny de zones esportives")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-a-prop-zones-verdes-cert
     (declare (salience 32))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
-    (preferencies (vol-aprop-zones-verdes ?vol-aprop-zones-verdes))
+    (preferencies (vol-a-prop-zones-verdes ?vol-a-prop-zones-verdes))
+    (test (eq ?vol-a-prop-zones-verdes TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-aprop-zones-verdes
-        (case TRUE then 
-            (if (not (send ?oferta esta-aprop-zones-verdes))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar aprop de zones verdes")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta esta-aprop-zones-verdes)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència d'estar lluny de zones verdes")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?oferta esta-a-prop-zones-verdes))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar a prop de zones verdes")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-aire-condicionat
+(defrule construccio::construir-preferencies-a-prop-zones-verdes-fals
+    (declare (salience 32))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-a-prop-zones-verdes ?vol-a-prop-zones-verdes))
+    (test (eq ?vol-a-prop-zones-verdes FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?oferta esta-a-prop-zones-verdes)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència d'estar lluny de zones verdes")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-aire-condicionat-cert
     (declare (salience 31))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
     (preferencies (vol-aire-condicionat ?vol-aire-condicionat))
+    (test (eq ?vol-aire-condicionat TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-aire-condicionat
-        (case TRUE then 
-            (if (not (send ?oferta te-aire-condicionat))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de tenir aire condicionat")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta te-aire-condicionat)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de no tenir aire condicionat")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?habitatge get-te_aire_condicionat))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de tenir aire condicionat")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-ascensor
+(defrule construccio::construir-preferencies-aire-condicionat-fals
+    (declare (salience 31))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-aire-condicionat ?vol-aire-condicionat))
+    (test (eq ?vol-aire-condicionat FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?habitatge get-te_aire_condicionat)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de no tenir aire condicionat")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-ascensor-cert
     (declare (salience 30))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
     (preferencies (vol-ascensor ?vol-ascensor))
+    (test (eq ?vol-ascensor TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-ascensor
-        (case TRUE then 
-            (if (not (send ?oferta te-ascensor))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de tenir ascensor")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta te-ascensor)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de no tenir ascensor")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?habitatge get-te_ascensor))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de tenir ascensor")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-balco
+(defrule construccio::construir-preferencies-ascensor-fals
+    (declare (salience 30))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-ascensor ?vol-ascensor))
+    (test (eq ?vol-ascensor FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?habitatge get-te_ascensor)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de no tenir ascensor")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-balco-cert
     (declare (salience 29))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
     (preferencies (vol-balco ?vol-balco))
+    (test (eq ?vol-balco TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-balco
-        (case TRUE then 
-            (if (not (send ?oferta te-balco))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de tenir balcó")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta te-balco)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de no tenir balcó")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?habitatge get-te_balco))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de tenir balcó")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-calefaccio
+(defrule construccio::construir-preferencies-balco-fals
+    (declare (salience 29))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-balco ?vol-balco))
+    (test (eq ?vol-balco FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?habitatge get-te_balco)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de no tenir balcó")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-calefaccio-cert
     (declare (salience 28))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
     (preferencies (vol-calefaccio ?vol-calefaccio))
+    (test (eq ?vol-calefaccio TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-calefaccio
-        (case TRUE then 
-            (if (not (send ?oferta te-calefaccio))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de tenir calefacció")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta te-calefaccio)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de no tenir calefacció")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?habitatge get-te_calefaccio))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de tenir calefacció")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-electrodomestics
+(defrule construccio::construir-preferencies-calefaccio-fals
+    (declare (salience 28))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-calefaccio ?vol-calefaccio))
+    (test (eq ?vol-calefaccio FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?habitatge get-te_calefaccio)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de no tenir calefacció")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-electrodomestics-cert
     (declare (salience 27))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
     (preferencies (vol-electrodomestics ?vol-electrodomestics))
+    (test (eq ?vol-electrodomestics TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-electrodomestics
-        (case TRUE then 
-            (if (not (send ?oferta te-electrodomestics))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de tenir electrodomèstics")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta te-electrodomestics)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de no tenir electrodomèstics")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?oferta get-inclou_electrodomestics))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de tenir electrodomèstics")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-jardi
+(defrule construccio::construir-preferencies-electrodomestics-fals
+    (declare (salience 27))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-electrodomestics ?vol-electrodomestics))
+    (test (eq ?vol-electrodomestics FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?oferta get-inclou_electrodomestics)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de no tenir electrodomèstics")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-jardi-cert
     (declare (salience 26))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
     (preferencies (vol-jardi ?vol-jardi))
+    (test (eq ?vol-jardi TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-jardi
-        (case TRUE then 
-            (if (not (send ?oferta te-jardi))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de tenir jardí")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta te-jardi)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de no tenir jardí")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?habitatge get-te_jardi))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de tenir jardí")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-mobles
+(defrule construccio::construir-preferencies-jardi-fals
+    (declare (salience 26))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-jardi ?vol-jardi))
+    (test (eq ?vol-jardi FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?habitatge get-te_jardi)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de no tenir jardí")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-mobles-cert
     (declare (salience 25))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
     (preferencies (vol-mobles ?vol-mobles))
+    (test (eq ?vol-mobles TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-mobles
-        (case TRUE then 
-            (if (not (send ?oferta te-mobles))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de tenir mobles")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta te-mobles)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de no tenir mobles")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?oferta get-inclou_mobles))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de tenir mobles")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-piscina
-    (declare (salience 24))
+(defrule construccio::construir-preferencies-mobles-fals
+    (declare (salience 25))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
-    (preferencies (vol-piscina ?vol-piscina))
+    (preferencies (vol-mobles ?vol-mobles))
+    (test (eq ?vol-mobles FALSE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-piscina
-        (case TRUE then 
-            (if (not (send ?oferta te-piscina))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de tenir piscina")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta te-piscina)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de no tenir piscina")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (send ?oferta get-inclou_mobles)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de no tenir mobles")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-piscina-cert
+    (declare (salience 24))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-piscina ?vol-piscina))
+    (test (eq ?vol-piscina TRUE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (not (send ?habitatge get-te_piscina))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de tenir piscina")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-piscina-fals
+    (declare (salience 24))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-piscina ?vol-piscina))
+    (test (eq ?vol-piscina FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?habitatge get-te_piscina)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de no tenir piscina")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
@@ -1603,56 +1690,65 @@
     )
 )
 
-(defrule construccio::construir-preferencies-terrassa
+(defrule construccio::construir-preferencies-terrassa-cert
     (declare (salience 22))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
     (preferencies (vol-terrassa ?vol-terrassa))
+    (test (eq ?vol-terrassa TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-terrassa
-        (case TRUE then 
-            (if (not (send ?oferta te-terrassa))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de tenir terrassa")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta te-terrassa)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de no tenir terrassa")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?habitatge get-te_terrassa))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de tenir terrassa")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
-(defrule construccio::construir-preferencies-traster
+(defrule construccio::construir-preferencies-terrassa-fals
+    (declare (salience 22))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-terrassa ?vol-terrassa))
+    (test (eq ?vol-terrassa FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?habitatge get-te_terrassa)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de no tenir terrassa")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-preferencies-traster-cert
     (declare (salience 21))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
     (preferencies (vol-traster ?vol-traster))
+    (test (eq ?vol-traster TRUE))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (switch ?vol-traster
-        (case TRUE then 
-            (if (not (send ?oferta te-traster))
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de tenir traster")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
-        (case FALSE then 
-            (if (send ?oferta te-traster)
-                then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-                (bind ?justificacio "No satisfà la preferència de no tenir traster")
-                (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
-            )
-        )
+    (if (not (send ?habitatge get-te_traster))
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de tenir traster")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
     )
 )
 
+(defrule construccio::construir-preferencies-traster-fals
+    (declare (salience 21))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (preferencies (vol-traster ?vol-traster))
+    (test (eq ?vol-traster FALSE))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (send ?habitatge get-te_traster)
+        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la preferència de no tenir traster")
+        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    )
+)
 
 (defrule construccio::construir
     (declare (salience 10))
@@ -1697,9 +1793,14 @@
     ?restriccions <- (restriccions)
     (llista-recomanacions (recomanacions $?llista-ordenada))
     =>
-    (loop-for-count (?i 1 (length$ ?llista-ordenada)) do
-        (bind ?oferta-solucio (nth$ ?i ?llista-ordenada))
-        (send ?oferta-solucio imprimir ?i)
+    (if (> (length$ ?llista-ordenada) 0)
+        then
+            (loop-for-count (?i 1 (length$ ?llista-ordenada)) do
+                (bind ?oferta-solucio (nth$ ?i ?llista-ordenada))
+                (send ?oferta-solucio imprimir ?i)
+            )
+        else
+            (printout t "No hi ha cap oferta que satisfaci els teus criteris." crlf)
     )
     (assert (final))
 )
@@ -1724,7 +1825,7 @@
     ?resposta
 )
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-transport ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-a-prop-transport ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -1737,10 +1838,10 @@
                 )
         )
     )
-    (send ?self put-aprop-transport ?resposta)
+    (send ?self put-a-prop-transport ?resposta)
 )
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-zona-comercial  ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-a-prop-zona-comercial  ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -1753,10 +1854,10 @@
                 )
         )
     )
-    (send ?self put-aprop-zona-comercial ?resposta)
+    (send ?self put-a-prop-zona-comercial ?resposta)
 )
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-supermercat ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-a-prop-supermercat ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -1769,10 +1870,10 @@
                 )
         )
     )
-    (send ?self put-aprop-supermercat ?resposta)
+    (send ?self put-a-prop-supermercat ?resposta)
 )
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-hipermercat ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-a-prop-hipermercat ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -1785,10 +1886,10 @@
                 )
         )
     )
-    (send ?self put-aprop-hipermercat ?resposta)
+    (send ?self put-a-prop-hipermercat ?resposta)
 )
     
-(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-centre-educatiu ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-a-prop-centre-educatiu ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -1801,10 +1902,10 @@
                 )
         )
     )
-    (send ?self put-aprop-centre-educatiu ?resposta)
+    (send ?self put-a-prop-centre-educatiu ?resposta)
 )
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-centre-salut ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-a-prop-centre-salut ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -1817,11 +1918,11 @@
                 )
         )
     )
-    (send ?self put-aprop-centre-salut ?resposta)
+    (send ?self put-a-prop-centre-salut ?resposta)
 )
 
    
-(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-zona-verda ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-a-prop-zona-verda ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -1834,10 +1935,10 @@
                 )
         )
     )
-    (send ?self put-aprop-zona-verda ?resposta)
+    (send ?self put-a-prop-zona-verda ?resposta)
 )
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-esport ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-a-prop-esport ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -1850,10 +1951,10 @@
                 )
         )
     )
-    (send ?self put-aprop-esport ?resposta)
+    (send ?self put-a-prop-esport ?resposta)
 )
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-oci-nocturn ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-a-prop-oci-nocturn ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -1866,10 +1967,10 @@
                 )
         )
     )
-    (send ?self put-aprop-oci-nocturn ?resposta)
+    (send ?self put-a-prop-oci-nocturn ?resposta)
 )
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-aprop-transport ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-a-prop-transport ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -1882,7 +1983,7 @@
                 )
         )
     )
-    (send ?self put-aprop-transport ?resposta)
+    (send ?self put-a-prop-transport ?resposta)
 )
 
 (defmessage-handler MAIN::OfertaAbstracta calcula-puntuacio-mida-habitatge (?mida-habitatge-solicitant)
@@ -2013,13 +2114,13 @@
     (if (eq (send ?habitatge get-te_jardi) "true") then
         (bind ?punts (+ ?punts 4))
     )
-    (if (eq (send ?habitatge get-piscina) "true") then
+    (if (eq (send ?habitatge get-te_piscina) "true") then
         (bind ?punts (+ ?punts 4))
     )
-    (if (eq ?self:aprop-zona-verda TRUE) then
+    (if (eq ?self:a-prop-zona-verda TRUE) then
             (bind ?punts (+ ?punts 4))
     )
-    (if (eq ?self:aprop-zona-comercial TRUE) then
+    (if (eq ?self:a-prop-zona-comercial TRUE) then
             (bind ?punts (+ ?punts 2))
     )
     (if (or (not (eq ?no-adequat 0))
@@ -2053,16 +2154,16 @@
     (if (eq (send ?habitatge get-sol) "tot el dia")
         then (bind ?punts (+ ?punts 2)) )
 
-    (if (eq ?self:aprop-zona-verda TRUE) then
+    (if (eq ?self:a-prop-zona-verda TRUE) then
             (bind ?punts (+ ?punts 2))
     )
-    (if (eq ?self:aprop-centre-salut TRUE) then
+    (if (eq ?self:a-prop-centre-salut TRUE) then
             (bind ?punts (+ ?punts 3))
     )
-    (if (eq ?self:aprop-supermercat TRUE) then
+    (if (eq ?self:a-prop-supermercat TRUE) then
             (bind ?punts (+ ?punts 2))
     )
-    (if (eq ?self:aprop-oci-nocturn FALSE) then
+    (if (eq ?self:a-prop-oci-nocturn FALSE) then
             (bind ?punts (+ ?punts 1))
     )
     (if (< ?punts 10)
@@ -2092,13 +2193,13 @@
         (bind ?punts (+ ?punts 4))
     )
 
-    (if (eq ?self:aprop-oci-nocturn TRUE) then
+    (if (eq ?self:a-prop-oci-nocturn TRUE) then
             (bind ?punts (+ ?punts 2))
     )
-    (if (eq ?self:aprop-esport TRUE) then
+    (if (eq ?self:a-prop-esport TRUE) then
             (bind ?punts (+ ?punts 2))
     )
-    (if (eq ?self:aprop-transport TRUE) then
+    (if (eq ?self:a-prop-transport TRUE) then
             (bind ?punts (+ ?punts 3))
     )
     (if (or (not (eq ?no-adequat 0))
@@ -2122,7 +2223,7 @@
         (bind ?punts (+ ?punts 2))
     )
 
-    (if (eq (send ?habitatge get-piscina) "true") then
+    (if (eq (send ?habitatge get-te_piscina) "true") then
         (bind ?punts (+ ?punts 2))
     )
     (if (eq (send ?habitatge get-te_aire_condicionat) "true") then
@@ -2139,16 +2240,16 @@
         (bind ?punts (+ ?punts 3))
     )
 
-    (if (eq ?self:aprop-oci-nocturn TRUE) then
+    (if (eq ?self:a-prop-oci-nocturn TRUE) then
             (bind ?punts (+ ?punts 1))
     )
-    (if (eq ?self:aprop-esport TRUE) then
+    (if (eq ?self:a-prop-esport TRUE) then
             (bind ?punts (+ ?punts 3))
     )
-    (if (eq ?self:aprop-zona-comercial TRUE) then
+    (if (eq ?self:a-prop-zona-comercial TRUE) then
             (bind ?punts (+ ?punts 2))
     )
-    (if (eq ?self:aprop-transport TRUE) then
+    (if (eq ?self:a-prop-transport TRUE) then
             (bind ?punts (+ ?punts 2))
     )
 
@@ -2210,7 +2311,7 @@
         (case TRUE then (printout t "Té traster"  crlf))
         (case FALSE then (printout t "No té traster" crlf))
     )
-    (switch ?self:piscina
+    (switch ?self:te_piscina
         (case TRUE then (printout t "Té piscina" crlf))
         (case FALSE then (printout t "No té piscina" crlf))
     )
@@ -2245,7 +2346,7 @@
 ;;*  OfertaHandlers  *
 ;;********************
 
-(defmessage-handler MAIN::Oferta esta-aprop (?element-localitzable)
+(defmessage-handler MAIN::Oferta esta-a-prop (?element-localitzable)
     (bind ?latitud (send ?element-localitzable get-latitud))
     (bind ?longitud (send ?element-localitzable get-longitud))
     (bind ?habitatge ?self:ofereix_a)
@@ -2257,7 +2358,7 @@
     ?resposta
 )
 
-(defmessage-handler MAIN::Oferta esta-aprop-centres-salut ()
+(defmessage-handler MAIN::Oferta esta-a-prop-centres-salut ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -2273,7 +2374,7 @@
     ?resposta
 )
 
-(defmessage-handler MAIN::Oferta esta-aprop-hipermercats ()
+(defmessage-handler MAIN::Oferta esta-a-prop-hipermercats ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -2289,7 +2390,7 @@
     ?resposta
 )
 
-(defmessage-handler MAIN::Oferta esta-aprop-oci-nocturn ()
+(defmessage-handler MAIN::Oferta esta-a-prop-oci-nocturn ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -2305,7 +2406,7 @@
     ?resposta
 )
 
-(defmessage-handler MAIN::Oferta esta-aprop-supermercats ()
+(defmessage-handler MAIN::Oferta esta-a-prop-supermercats ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -2321,7 +2422,7 @@
     ?resposta
 )
 
-(defmessage-handler MAIN::Oferta esta-aprop-transport-public ()
+(defmessage-handler MAIN::Oferta esta-a-prop-transport-public ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -2337,7 +2438,7 @@
     ?resposta
 )
 
-(defmessage-handler MAIN::Oferta esta-aprop-zones-comercials ()
+(defmessage-handler MAIN::Oferta esta-a-prop-zones-comercials ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -2353,7 +2454,7 @@
     ?resposta
 )
 
-(defmessage-handler MAIN::Oferta esta-aprop-zones-esportives ()
+(defmessage-handler MAIN::Oferta esta-a-prop-zones-esportives ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -2369,7 +2470,7 @@
     ?resposta
 )
 
-(defmessage-handler MAIN::Oferta esta-aprop-zones-verdes ()
+(defmessage-handler MAIN::Oferta esta-a-prop-zones-verdes ()
     (bind ?resposta FALSE)
     (bind ?llista-punt-interes (find-all-instances ((?inst PuntDInteres)) TRUE))
     (bind ?punts (length$ ?llista-punt-interes))
@@ -2432,26 +2533,19 @@
     (printout t "= Adequació de l'oferta ===================================" crlf)
     (printout t crlf)
 
-    (bind ?nombre-restriccions-insatisfetes ?self:nombre-restriccions-insatisfetes)
-    (bind ?nombre-preferencies-insatisfetes ?self:nombre-preferencies-insatisfetes)
-    (bind ?nombre-extres ?self:nombre-extres)
-
-    (if (or (> ?nombre-restriccions-insatisfetes 0) (> ?nombre-preferencies-insatisfetes 2)) 
+    (if (or (> ?self:nombre-restriccions-insatisfetes 0) (> ?self:nombre-preferencies-insatisfetes 2)) 
         then (printout t "L'oferta no és adequada" crlf)
         else
-            (if (> ?nombre-preferencies-insatisfetes 0) 
+            (if (> ?self:nombre-preferencies-insatisfetes 0) 
                 then
                     (printout t "L'oferta és parcialment adequada" crlf)
                     (printout t crlf)
-                    (printout t "L'oferta no inclou: " crlf)
-                    (bind $?justificacions-preferencies ?self:justificacions-preferencies-insatisfetes)
-                    (loop-for-count (?i 1 (length$ ?justificacions-preferencies)) do
-                        (bind ?justificacio (nth$ ?i ?justificacions-preferencies))
+                    (loop-for-count (?i 1 (length$ ?self:justificacions-preferencies-insatisfetes)) do
+                        (bind ?justificacio (nth$ ?i ?self:justificacions-preferencies-insatisfetes))
                         (printout t ?justificacio crlf)
                     )
                 else
-                    (bind ?nombre-extres ?nombre-extres)
-                    (if (> ?nombre-extres 0) 
+                    (if (> ?self:nombre-extres 0) 
                         then
                             (printout t "L'oferta és molt recomanable" crlf)
                             (printout t crlf)
@@ -2459,22 +2553,12 @@
                         else (printout t "L'oferta és adequada" crlf)
                     )
             )
-            (if (> ?nombre-extres 0) 
-                then
-                    (printout t "Com a extra l'oferta inclou:" crlf)
-                    (bind $?justificacions-extres ?self:justificacions-extres)
-                    (loop-for-count (?i 1 (length$ $?justificacions-extres)) do
-                        (bind ?justificacio (nth$ ?i $?justificacions-extres))
-                        (printout t ?justificacio crlf)
-                    )
-            )
-
-
     )
     (printout t crlf)
     (printout t "-----------------------------------------------------------" crlf)
     (printout t crlf)
 )
+
 ;;*************************
 ;;*  ElementLocalitzable  *
 ;;*************************
@@ -2483,7 +2567,6 @@
     (bind ?latitud2 (send ?self get-latitud))
     (bind ?longitud2 (send ?self get-longitud))
 
-    ; magic numbers i formulas d'aqui: https://www.geeksforgeeks.org/program-distance-two-points-earth/
     (bind ?rad-lat1 (/ ?latitud 57.29577951))
     (bind ?rad-lat2 (/ ?latitud2 57.29577951))
 

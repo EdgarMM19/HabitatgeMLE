@@ -167,7 +167,8 @@
     (slot nombre-preferencies-insatisfetes (type INTEGER) (create-accessor read-write) (default 0))
     (slot nombre-extres (type INTEGER) (create-accessor read-write) (default 0))
 
-    (multislot justificacions-restriccions (type STRING) (create-accessor read-write))
+    (multislot justificacions-restriccions-insatisfetes (type STRING) (create-accessor read-write))
+    (multislot justificacions-preferencies-insatisfetes (type STRING) (create-accessor read-write))
     (multislot justificacions-extres (type STRING) (create-accessor read-write))
 )
 
@@ -1033,29 +1034,160 @@
     (construccio concreta)
 )
 
-(defrule construccio::construir-grandaria
-    (declare (salience 20))
+(defrule construccio::construir-restriccio-estat-obra
+    (declare (salience 50))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
     (restriccions (estat-obra-minim ?estat-obra-minim))
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    ; TODO(Maria) justificacions
     (switch ?estat-obra-minim
         (case BON-ESTAT then 
             (if (eq (send ?habitatge get-estat_de_l_obra) PER-REFORMAR)
-                then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+                then 
+                    (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+                    (bind ?justificacio "No satisfà la restricció d'estat de l'obra mínim")
+                    (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
             )
         )
         (case NOVA then 
             (if (not (eq (send ?habitatge get-estat_de_l_obra) NOVA))
                 then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+                (bind ?justificacio "No satisfà la restricció d'estat de l'obra mínim")
+                (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
             )
         )
     )
 )
 
+(defrule construccio::construir-restriccio-nombre-banys
+    (declare (salience 50))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (restriccions (nombre-banys-minim ?nombre-banys-minim))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (< (send ?habitatge get-nombre_de_banys) ?nombre-banys-minim)
+        then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la restricció del nombre de banys mínim")
+        (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
+    )
+)
 
+(defrule construccio::construir-restriccio-nombre-habitants
+    (declare (salience 50))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (restriccions (nombre-habitants ?nombre-habitants))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (< (send ?habitatge get-nombre_d_habitants_maxim) ?nombre-habitants)
+        then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la restricció del nombre d'habitants")
+        (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-restriccio-nombre-dormitoris-dobles
+    (declare (salience 50))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (restriccions (nombre-dormitoris-dobles ?nombre-dormitoris-dobles))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (< (send ?habitatge get-nombre_de_dormitoris_dobles) ?nombre-dormitoris-dobles)
+        then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la restricció del nombre de dormitoris dobles")
+        (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-restriccio-preu-maxim 
+    (declare (salience 50))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (informacio (preu-maxim-estricte ?preu-maxim-estricte))
+    (restriccions (preu-maxim ?preu-maxim))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (> (send ?oferta get-preu) ?preu-maxim)
+        then (if (or (eq ?preu-maxim-estricte TRUE) (> (send ?oferta get-preu) (* ?preu-maxim 1.25)))
+            then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+            (bind ?justificacio "No satisfà la restricció del preu màxim")
+            (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
+        )
+    )
+)
+
+(defrule construccio::construir-restriccio-preu-minim 
+    (declare (salience 50))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (restriccions (preu-minim ?preu-minim))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (< (send ?oferta get-preu) ?preu-minim)
+        then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la restricció del preu mínim")
+        (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-restriccio-superficie-habitable-maxima
+    (declare (salience 50))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (restriccions (superficie-habitable-maxima ?superficie-habitable-maxima))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (> (send ?habitatge get-superficie_habitable) ?superficie-habitable-maxima)
+        then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la restricció de la superfície habitable màxima")
+        (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-restriccio-superficie-habitable-minima
+    (declare (salience 50))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (restriccions (superficie-habitable-minima ?superficie-habitable-minima))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (> (send ?habitatge get-superficie_habitable) ?superficie-habitable-minima)
+        then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la restricció de la superfície habitable mínima")
+        (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-restriccio-mascotes
+    (declare (salience 50))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (restriccions (te-mascotes ?te-mascotes))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (and (not (send ?oferta get-admet_mascotes)) ?te-mascotes)
+        then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la restricció d'admetre mascotes'")
+        (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
+    )
+)
+
+(defrule construccio::construir-restriccio-mobilitat-reduida
+    (declare (salience 50))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (restriccions (te-mobilitat-reduida ?te-mobilitat-reduida))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    (if (and (not (send ?habitatge apte-mobilitat-reduida)) ?te-mobilitat-reduida)
+        then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+        (bind ?justificacio "No satisfà la restricció de ser apte per persones amb mobilitat reduïda'")
+        (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
+    )
+)
 
 (defrule construccio::construir
     (declare (salience 10))
@@ -1786,77 +1918,6 @@
     ?resposta
 )
 
-(defmessage-handler MAIN::Oferta comptar-restriccions-insatisfetes (?preu-maxim-estricte ?restriccions)
-    (bind ?comptador 0)
-    (bind ?habitatge ?self:ofereix_a)
-    ; restricció estat de l'obra
-    (bind ?estat-obra-minim (send ?restriccions get-estat-obra-minim))
-    (switch ?estat-obra-minim
-        (case BON-ESTAT then 
-            (if (eq (send ?habitatge get-estat_de_l_obra) PER-REFORMAR)
-                then (bind ?comptador (+ ?comptador 1))
-            )
-        )
-        (case NOVA then 
-            (if (not (eq (send ?habitatge get-estat_de_l_obra) NOVA))
-                then (bind ?comptador (+ ?comptador 1))
-            )
-        )
-    )
-    ; restricció nombre de banys
-    (bind ?nombre-banys-minim (send ?restriccions get-nombre-banys-minim))
-    (if (< (send ?habitatge get-nombre_de_banys) ?nombre-banys-minim)
-        then (bind ?comptador (+ ?comptador 1))
-    )
-    ; restricció nombre d'habitants
-    (bind ?nombre-habitants (send ?restriccions get-nombre-habitants))
-    (if (< (send ?habitatge get-nombre_d_habitants_maxim) ?nombre-habitants)
-        then (bind ?comptador (+ ?comptador 1))
-    )
-    ; restricció nombre de dormitoris dobles
-    (bind ?nombre-dormitoris-dobles (send ?restriccions get-nombre-dormitoris-dobles))
-    (if (< (send ?habitatge get-nombre_de_dormitoris_dobles) ?nombre-dormitoris-dobles)
-        then (bind ?comptador (+ ?comptador 1))
-    )
-    ; restriccions preu
-    (bind ?preu-maxim (send ?restriccions get-preu-maxim))
-    (if (> ?self:preu ?preu-maxim)
-        then (
-            if (eq preu-maxim-estricte TRUE)
-                then (bind ?comptador (+ ?comptador 1))
-                else 
-                    (if (> ?self:preu (* ?preu-maxim 1.25))
-                        then then (bind ?comptador (+ ?comptador 1))
-                    )
-        )
-    )
-    (bind ?preu-minim (send ?restriccions get-preu-minim))
-    (if (< ?self:preu ?preu-minim)
-        then (bind ?comptador (+ ?comptador 1))
-    )
-    ; restriccions superfície habitable
-    (bind ?superficie-habitable-maxima (send ?restriccions get-superficie-habitable-maxima))
-    (if (> (send ?habitatge get-superficie_habitable) ?superficie-habitable-maxima)
-        then (bind ?comptador (+ ?comptador 1))
-    )
-    (bind ?superficie-habitable-minima (send ?restriccions get-superficie-habitable-minima))
-    (if (< (send ?habitatge get-superficie_habitable) ?superficie-habitable-minima)
-        then (bind ?comptador (+ ?comptador 1))
-    )
-    ; restricció mascotes
-    (bind ?te-mascotes (send ?restriccions get-te-mascotes))
-    (if (and (not ?self:admet_mascotes) ?te-mascotes)
-        then (bind ?comptador (+ ?comptador 1))
-    )
-    ; restricció mobilitat reduïda
-    (bind ?te-mobilitat-reduida (send ?restriccions get-te-mobilitat-reduida))
-    (if (and (not (send ?habitatge apte-mobilitat-reduida)) ?te-mobilitat-reduida)
-        then (bind ?comptador (+ ?comptador 1))
-    )
-
-    ?comptador
-)
-
 (defmessage-handler MAIN::Oferta comptar-preferencies-insatisfetes (?preferencies)
     (bind ?comptador 0)
 
@@ -1969,7 +2030,8 @@
     (bind ?nombre-preferencies-insatisfetes 0)
     (bind ?nombre-extres 0)
 
-    (?informacio (preu-maxim-estricte ?preu-maxim-estricte))
+    ;TODO(maria): arreglar
+    (bind ?preu-maxim-estricte TRUE)
     (bind ?nombre-restriccions-insatisfetes (send ?self comptar-restriccions-insatisfetes ?preu-maxim-estricte ?restriccions))
     (bind ?nombre-preferencies-insatisfetes (send ?self comptar-preferencies-insatisfetes ?preferencies))
     (if (or (> ?nombre-restriccions-insatisfetes 0) (> ?nombre-preferencies-insatisfetes 2)) 

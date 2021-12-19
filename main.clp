@@ -159,6 +159,18 @@
 	(multislot justificacio-puntuacio (type STRING) (create-accessor read-write))
 )
 
+(defclass OfertaSolucio (is-a USER) (role concrete)
+    (slot oferta (type INSTANCE) (create-accessor read-write))
+
+    (slot posicio (type INTEGER) (create-accessor read-write))
+    (slot nombre-restriccions-insatisfetes (type INTEGER) (create-accessor read-write) (default 0))
+    (slot nombre-preferencies-insatisfetes (type INTEGER) (create-accessor read-write) (default 0))
+    (slot nombre-extres (type INTEGER) (create-accessor read-write) (default 0))
+
+    (multislot justificacions-restriccions (type STRING) (create-accessor read-write))
+    (multislot justificacions-extres (type STRING) (create-accessor read-write))
+)
+
 ;;****************************
 ;;* DEFFUNCTIONS - PREGUNTES *
 ;;****************************
@@ -260,6 +272,10 @@
 
 (deffunction comparar-ofertes (?oferta1 ?oferta2)
     (< (send ?oferta1 get-puntuacio) (send ?oferta2 get-puntuacio))
+)
+
+(deffunction comparar-ofertes-solucio (?oferta1 ?oferta2)
+    (< (send ?oferta1 get-posicio) (send ?oferta2 get-posicio))
 )
 
 ;;*****************
@@ -992,7 +1008,12 @@
         (send ?oferta-abstracta calcula-puntuacio-tipus-familia ?familia ?parella-sense-fills ?joves ?ancians)
     )
     (bind ?llista-ordenada (sort comparar-ofertes ?llista-ofertes-abstractes))
-    (assert (llista-recomanacions-abstractes (recomanacions ?llista-ordenada)))
+    (loop-for-count (?i 1 (length$ ?llista-ordenada)) do
+        (bind ?oferta-abstracta (nth$ ?i ?llista-ordenada))
+        (bind ?ofertaSolucio (make-instance (sym-cat OfertaSolucio- (gensym)) of OfertaSolucio))
+        (send ?ofertaSolucio put-oferta (send ?oferta-abstracta get-oferta))
+        (send ?ofertaSolucio put-posicio ?i)
+    )
     (retract ?fet)
 )
 
@@ -1012,24 +1033,42 @@
     (construccio concreta)
 )
 
+(defrule construccio::construir-grandaria
+    (declare (salience 20))
+    ?oferta-solucio <- (object (is-a OfertaSolucio))
+    (restriccions (estat-obra-minim ?estat-obra-minim))
+    =>
+    (bind ?oferta (send ?oferta-solucio get-oferta))
+    (bind ?habitatge (send ?oferta get-ofereix_a))
+    ; TODO(Maria) justificacions
+    (switch ?estat-obra-minim
+        (case BON-ESTAT then 
+            (if (eq (send ?habitatge get-estat_de_l_obra) PER-REFORMAR)
+                then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+            )
+        )
+        (case NOVA then 
+            (if (not (eq (send ?habitatge get-estat_de_l_obra) NOVA))
+                then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
+            )
+        )
+    )
+)
+
+
+
 (defrule construccio::construir
     (declare (salience 10))
     ?fet <- (construccio concreta)
     (informacio (nombre-recomanacions ?nombre-recomanacions))
+    (informacio (preu-maxim-estricte ?preu-maxim-estricte))
     (llista-recomanacions-abstractes (recomanacions $?llista-ordenada))
     =>
+    (bind ?nombre)
     (bind ?llista-concreta (create$))
-
-    (if (< (length$ ?llista-ordenada) ?nombre-recomanacions)
-        then (bind ?nombre-recomanacions (length$ ?llista-ordenada))
-    )
-    (loop-for-count (?i 1 ?nombre-recomanacions) do
-        (bind ?oferta-abstracta (nth$ ?i ?llista-ordenada))
-        (bind ?oferta (send ?oferta-abstracta get-oferta))
-        (if (eq 0 0)
-        then
-            (bind ?llista-concreta (insert$ ?llista-concreta (+ (length$ ?llista-concreta) 1) ?oferta))
-        )
+    (bind ?recomanacions-fetes 0)
+    (loop-for-count (?i 1 (length$ ?llista-ordenada)) do
+      
     )
     (assert (llista-recomanacions (recomanacions ?llista-concreta)))
     (retract ?fet)

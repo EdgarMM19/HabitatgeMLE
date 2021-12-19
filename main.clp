@@ -1138,7 +1138,7 @@
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (if (> (send ?habitatge get-superficie_habitable) ?superficie-habitable-minima)
+    (if (< (send ?habitatge get-superficie_habitable) ?superficie-habitable-minima)
         then (send ?oferta-solucio put-nombre-restriccions-insatisfetes (+ (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 1))
         (bind ?justificacio "No satisfà la restricció de la superfície habitable mínima")
         (slot-insert$ ?oferta-solucio justificacions-restriccions-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-restriccions-insatisfetes))) ?justificacio)
@@ -1700,7 +1700,6 @@
     (loop-for-count (?i 1 (length$ ?llista-ordenada)) do
         (bind ?oferta-solucio (nth$ ?i ?llista-ordenada))
         (send ?oferta-solucio imprimir ?i)
-        (printout t ?i)
     )
     (assert (final))
 )
@@ -2028,7 +2027,6 @@
         then (send ?self put-adequat-familia FALSE)
         else (send ?self put-adequat-familia TRUE)
     )
-    (printout t "DEBUG adecuat familia " (send ?self get-adequat-familia) " " ?punts crlf)
 )
 
 
@@ -2071,8 +2069,6 @@
         then (send ?self put-adequat-ancians FALSE)
         else (send ?self put-adequat-ancians TRUE)
     )
-
-    (printout t "DEBUG adecuat ancians " (send ?self get-adequat-ancians) " " ?punts crlf)
 )
 
 
@@ -2110,7 +2106,6 @@
         then (send ?self put-adequat-joves FALSE)
         else (send ?self put-adequat-joves TRUE)
     )
-    (printout t "DEBUG adecuat joves " (send ?self get-adequat-joves) " " ?punts crlf)
 )
 
 
@@ -2162,7 +2157,6 @@
         then (send ?self put-adequat-parelles FALSE)
         else (send ?self put-adequat-parelles TRUE)
     )
-    (printout t "DEBUG adecuat parelles " (send ?self get-adequat-parelles) " " ?punts crlf)
 )
 
 ;;***********************
@@ -2391,39 +2385,6 @@
     ?resposta
 )
 
-(defmessage-handler MAIN::Oferta comptar-preferencies-insatisfetes (?preferencies)
-    (bind ?comptador 0)
-
-    ; restricció aire condicionat
-    
-    ; restricció ascensor
-    ; restricció balcó
-    ; restricció calefacció
-    ; restricció electrodomèstics
-    ; restricció jardí
-    ; restricció mobles
-    ; restricció piscina
-    ; restricció places de garatge
-    ; restricció terrassa
-    ; restricció traster
-
-    ?comptador
-)
-
-(defmessage-handler MAIN::Oferta comptar-extres ()
-    (bind ?comptador 0)
-    ?comptador
-)
-
-(defmessage-handler MAIN::Oferta imprimir-preferencies-insatisfetes (?preferencies)
-)
-
-(defmessage-handler MAIN::Oferta imprimir-extres ()
-)
-
-(defmessage-handler MAIN::Oferta imprimir-justificacions (?informacio ?preferencies ?restriccions)
-)
-
 (defmessage-handler MAIN::Oferta imprimir ()
     (bind ?linia (format nil "%s" ?self:descripcio))
     (printout t ?linia crlf)
@@ -2489,7 +2450,7 @@
                         (printout t ?justificacio crlf)
                     )
                 else
-                    (bind ?nombre-extres (send ?self comptar-extres))
+                    (bind ?nombre-extres ?nombre-extres)
                     (if (> ?nombre-extres 0) 
                         then
                             (printout t "L'oferta és molt recomanable" crlf)

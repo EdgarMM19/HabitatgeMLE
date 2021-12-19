@@ -1,10 +1,3 @@
-;;; TODOS:
-;;; Vector de edats?
-;;; banys
-;;; abstreure a full
-;;; llocs
-;;; 
-
 ;;;======================================================
 ;;;     Cal executar CLIPS des del directori del projecte
 ;;;     i carregar-lo:

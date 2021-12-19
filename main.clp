@@ -115,10 +115,6 @@
     (slot vol-traster (type SYMBOL) (allowed-values TRUE FALSE NA) (default NA))
 )
 
-(deftemplate MAIN::llista-recomanacions-abstractes
-    (multislot recomanacions (type INSTANCE))
-)
-
 (deftemplate MAIN::llista-recomanacions
     (multislot recomanacions (type INSTANCE))
 )
@@ -1193,14 +1189,22 @@
     (declare (salience 10))
     ?fet <- (construccio concreta)
     (informacio (nombre-recomanacions ?nombre-recomanacions))
-    (informacio (preu-maxim-estricte ?preu-maxim-estricte))
-    (llista-recomanacions-abstractes (recomanacions $?llista-ordenada))
     =>
-    (bind ?nombre)
     (bind ?llista-concreta (create$))
     (bind ?recomanacions-fetes 0)
+
+    (bind ?llista-ofertes-solucio (find-all-instances ((?inst OfertaSolucio)) TRUE))
+    (bind ?llista-ordenada (sort comparar-ofertes-solucio ?llista-ofertes-solucio))
+    (printout t ?llista-ordenada crlf)
+
     (loop-for-count (?i 1 (length$ ?llista-ordenada)) do
-      
+        (if (eq ?recomanacions-fetes ?nombre-recomanacions) then
+        (break))
+        (bind ?oferta-solucio (nth$ ?i ?llista-ordenada))
+        (if (eq 0 (send ?oferta-solucio get-nombre-restriccions-insatisfetes)) then
+            (bind ?llista-concreta (insert$ ?llista-concreta (+ 1 (length$ ?llista-concreta)) ?oferta-solucio))
+            (bind ?recomanacions-fetes (+ 1 ?recomanacions-fetes))
+        )
     )
     (assert (llista-recomanacions (recomanacions ?llista-concreta)))
     (retract ?fet)
@@ -1208,6 +1212,7 @@
 
 (defrule construccio::passar-a-presentacio
     (declare (salience -10))
+    (llista-recomanacions (recomanacions $?))
     =>
     (printout t "Presentant resultats..." crlf)
     (focus presentacio)
@@ -1225,8 +1230,9 @@
     (llista-recomanacions (recomanacions $?llista-ordenada))
     =>
     (loop-for-count (?i 1 (length$ ?llista-ordenada)) do
-        (bind ?oferta (nth$ ?i ?llista-ordenada))
-        (send ?oferta imprimir ?i ?informacio ?preferencies ?restriccions)
+        (bind ?oferta-solucio (nth$ ?i ?llista-ordenada))
+        (bind ?oferta (send ?oferta-solucio get-oferta))
+        ; todo: imprimir tot
     )
     (assert (final))
 )
@@ -1689,7 +1695,6 @@
         else (send ?self put-adequat-parelles TRUE)
     )
     (printout t "DEBUG adecuat parelles " (send ?self get-adequat-parelles) " " ?punts crlf)
-    
 )
 
 ;;***********************
@@ -1784,7 +1789,7 @@
     (bind ?habitatge ?self:ofereix_a)
     (bind ?distancia (send ?habitatge distancia ?latitud ?longitud))
     (bind ?resposta FALSE)
-    (if (< ?distancia 500) then    
+    (if (< ?distancia 1000) then    
         (bind ?resposta TRUE)
     )
     ?resposta
@@ -2064,5 +2069,16 @@
 ;;*************************
 
 (defmessage-handler MAIN::ElementLocalitzable distancia (?latitud ?longitud)
-    0
+    (bind ?latitud2 (send ?self get-latitud))
+    (bind ?longitud2 (send ?self get-longitud))
+
+    ; magic numbers i formulas d'aqui: https://www.geeksforgeeks.org/program-distance-two-points-earth/
+    (bind ?rad-lat1 (/ ?latitud 57.29577951))
+    (bind ?rad-lat2 (/ ?latitud2 57.29577951))
+
+    (bind ?rad-lon1 (/ ?longitud 57.29577951))
+    (bind ?rad-lon2 (/ ?longitud2 57.29577951))
+    (bind ?distancia (* 3963.0 (acos (+ (* (sin ?rad-lat1) (sin ?rad-lat2)) (* (cos ?rad-lat1) (* (cos ?rad-lat2) (cos (- ?rad-lon2 ?rad-lon1))))))))
+    (bind ?distancia (* 1609.344 ?distancia))
+    ?distancia
 )

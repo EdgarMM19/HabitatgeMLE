@@ -1829,7 +1829,7 @@
         (if (eq ?recomanacions-fetes ?nombre-recomanacions) then
         (break))
         (bind ?oferta-solucio (nth$ ?i ?llista-ordenada))
-        (if (eq 0 (send ?oferta-solucio get-nombre-restriccions-insatisfetes)) then
+        (if (not (or (> (send ?oferta-solucio get-nombre-restriccions-insatisfetes) 0) (> (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 2))) then
             (bind ?llista-concreta (insert$ ?llista-concreta (+ 1 (length$ ?llista-concreta)) ?oferta-solucio))
             (bind ?recomanacions-fetes (+ 1 ?recomanacions-fetes))
         )

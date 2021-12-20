@@ -1471,10 +1471,12 @@
     =>
     (bind ?oferta (send ?oferta-solucio get-oferta))
     (bind ?habitatge (send ?oferta get-ofereix_a))
-    (if (eq (send ?habitatge get-te_ascensor) "false")
-        then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
-        (bind ?justificacio "No satisfà la preferència de tenir ascensor")
-        (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+    (if (eq (class ?habitatge) HabitatgeCol·lectiu)
+        then (if (and (> (send ?habitatge get-planta) 0) (eq (send ?habitatge get-te_ascensor) "false"))
+            then (send ?oferta-solucio put-nombre-preferencies-insatisfetes (+ (send ?oferta-solucio get-nombre-preferencies-insatisfetes) 1))
+            (bind ?justificacio "No satisfà la preferència de tenir ascensor")
+            (slot-insert$ ?oferta-solucio justificacions-preferencies-insatisfetes (+ 1 (length$ (send ?oferta-solucio get-justificacions-preferencies-insatisfetes))) ?justificacio)
+        )
     )
 )
 

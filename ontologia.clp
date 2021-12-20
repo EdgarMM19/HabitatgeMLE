@@ -2,7 +2,7 @@
 ;;; ontologia.clp
 ;;; Translated by owl2clips
 ;;; Translated to CLIPS from ontology ontologia.owl
-;;; :Date 19/12/2021 23:03:28
+;;; :Date 20/12/2021 23:18:55
 
 (defclass ElementLocalitzable
     (is-a USER)

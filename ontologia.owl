@@ -566,7 +566,7 @@
         <nombre_de_dormitoris_dobles rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</nombre_de_dormitoris_dobles>
         <nombre_de_dormitoris_simples rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</nombre_de_dormitoris_simples>
         <planta rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</planta>
-        <sol rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tot el dia</sol>
+        <sol rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mati</sol>
         <superficie_habitable rdf:datatype="http://www.w3.org/2001/XMLSchema#double">80.0</superficie_habitable>
         <te_aire_condicionat rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</te_aire_condicionat>
         <te_ascensor rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</te_ascensor>
@@ -899,7 +899,7 @@
         <nombre_de_dormitoris_dobles rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</nombre_de_dormitoris_dobles>
         <nombre_de_dormitoris_simples rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</nombre_de_dormitoris_simples>
         <planta rdf:datatype="http://www.w3.org/2001/XMLSchema#int">4</planta>
-        <sol rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tot el dia</sol>
+        <sol rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tarda</sol>
         <superficie_habitable rdf:datatype="http://www.w3.org/2001/XMLSchema#double">70.0</superficie_habitable>
         <te_aire_condicionat rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</te_aire_condicionat>
         <te_ascensor rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</te_ascensor>
@@ -927,7 +927,7 @@
         <nombre_de_dormitoris_dobles rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</nombre_de_dormitoris_dobles>
         <nombre_de_dormitoris_simples rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</nombre_de_dormitoris_simples>
         <planta rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</planta>
-        <sol rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tot el dia</sol>
+        <sol rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tarda</sol>
         <superficie_habitable rdf:datatype="http://www.w3.org/2001/XMLSchema#double">72.0</superficie_habitable>
         <te_aire_condicionat rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</te_aire_condicionat>
         <te_ascensor rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</te_ascensor>
@@ -983,7 +983,7 @@
         <nombre_de_dormitoris_dobles rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</nombre_de_dormitoris_dobles>
         <nombre_de_dormitoris_simples rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</nombre_de_dormitoris_simples>
         <planta rdf:datatype="http://www.w3.org/2001/XMLSchema#int">4</planta>
-        <sol rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tot el dia</sol>
+        <sol rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mati</sol>
         <superficie_habitable rdf:datatype="http://www.w3.org/2001/XMLSchema#double">115.0</superficie_habitable>
         <te_aire_condicionat rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</te_aire_condicionat>
         <te_ascensor rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</te_ascensor>
@@ -1038,7 +1038,7 @@
         <nombre_de_dormitoris rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</nombre_de_dormitoris>
         <nombre_de_dormitoris_dobles rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</nombre_de_dormitoris_dobles>
         <nombre_de_dormitoris_simples rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</nombre_de_dormitoris_simples>
-        <sol rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tot el dia</sol>
+        <sol rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mai</sol>
         <superficie_habitable rdf:datatype="http://www.w3.org/2001/XMLSchema#double">178.0</superficie_habitable>
         <te_aire_condicionat rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</te_aire_condicionat>
         <te_ascensor rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</te_ascensor>
@@ -1269,7 +1269,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge12"/>
         <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</admet_mascotes>
-        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Duplex a carrer Aragó</descripcio>
+        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Duplex a carrer Arago</descripcio>
         <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_electrodomestics>
         <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_mobles>
         <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</numero_de_places_de_garatge>
@@ -1299,7 +1299,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge14"/>
         <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</admet_mascotes>
-        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pis sense amoblar al carrer de Tuset</descripcio>
+        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pis sense moblar al carrer de Tuset</descripcio>
         <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_electrodomestics>
         <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</inclou_mobles>
         <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</numero_de_places_de_garatge>
@@ -1374,7 +1374,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge19"/>
         <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</admet_mascotes>
-        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string"> Lloguer de pis moblat a Sarria</descripcio>
+        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Lloguer de pis moblat a Sarria</descripcio>
         <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_electrodomestics>
         <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_mobles>
         <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</numero_de_places_de_garatge>
@@ -1389,7 +1389,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge2"/>
         <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</admet_mascotes>
-        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pis espaiós al carrer Mandri</descripcio>
+        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pis espaios al carrer Mandri</descripcio>
         <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</inclou_electrodomestics>
         <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</inclou_mobles>
         <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</numero_de_places_de_garatge>
@@ -1419,7 +1419,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge3"/>
         <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</admet_mascotes>
-        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Lloguer de pis al carrer de Sepúlveda</descripcio>
+        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Lloguer de pis al carrer de Sepulveda</descripcio>
         <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_electrodomestics>
         <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</inclou_mobles>
         <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</numero_de_places_de_garatge>
@@ -1494,7 +1494,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Oferta"/>
         <ofereix_a rdf:resource="http://www.semanticweb.org/maria/ontologies/2021/10/habitatges#Habitatge8"/>
         <admet_mascotes rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</admet_mascotes>
-        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pis amoblat al carrer Sabino de Arana</descripcio>
+        <descripcio rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pis moblat al carrer Sabino de Arana</descripcio>
         <inclou_electrodomestics rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_electrodomestics>
         <inclou_mobles rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</inclou_mobles>
         <numero_de_places_de_garatge rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</numero_de_places_de_garatge>

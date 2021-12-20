@@ -1747,18 +1747,6 @@
     )
 )
 
-(defrule construccio::construir-extra-preu-baix
-    (declare (salience 20))
-    ?oferta-solucio <- (object (is-a OfertaSolucio))
-    =>
-    (bind ?oferta (send ?oferta-solucio get-oferta))
-    (if (<= (send ?oferta get-preu) 1000)
-        then (send ?oferta-solucio put-nombre-extres (+ (send ?oferta-solucio get-nombre-extres) 1))
-        (bind ?justificacio "El preu de l'oferta és baix")
-        (slot-insert$ ?oferta-solucio justificacions-extres (+ 1 (length$ (send ?oferta-solucio get-justificacions-extres))) ?justificacio)
-    )
-)
-
 (defrule construccio::construir-extra-nombre-dormitoris
     (declare (salience 19))
     ?oferta-solucio <- (object (is-a OfertaSolucio))
@@ -1768,30 +1756,6 @@
     (if (>= (send ?habitatge get-nombre_de_dormitoris) 4)
         then (send ?oferta-solucio put-nombre-extres (+ (send ?oferta-solucio get-nombre-extres) 1))
         (bind ?justificacio "Té molts dormitoris")
-        (slot-insert$ ?oferta-solucio justificacions-extres (+ 1 (length$ (send ?oferta-solucio get-justificacions-extres))) ?justificacio)
-    )
-)
-
-(defrule construccio::construir-extra-a-prop-transport-public
-    (declare (salience 18))
-    ?oferta-solucio <- (object (is-a OfertaSolucio))
-    =>
-    (bind ?oferta (send ?oferta-solucio get-oferta))
-    (if (eq (send ?oferta esta-a-prop-transport-public) TRUE)
-        then (send ?oferta-solucio put-nombre-extres (+ (send ?oferta-solucio get-nombre-extres) 1))
-        (bind ?justificacio "Està aprop del transport públic")
-        (slot-insert$ ?oferta-solucio justificacions-extres (+ 1 (length$ (send ?oferta-solucio get-justificacions-extres))) ?justificacio)
-    )
-)
-
-(defrule construccio::construir-extra-a-prop-zones-verdes
-    (declare (salience 17))
-    ?oferta-solucio <- (object (is-a OfertaSolucio))
-    =>
-    (bind ?oferta (send ?oferta-solucio get-oferta))
-    (if (eq (send ?oferta esta-a-prop-zones-verdes) TRUE)
-        then (send ?oferta-solucio put-nombre-extres (+ (send ?oferta-solucio get-nombre-extres) 1))
-        (bind ?justificacio "Està aprop de zones verdes")
         (slot-insert$ ?oferta-solucio justificacions-extres (+ 1 (length$ (send ?oferta-solucio get-justificacions-extres))) ?justificacio)
     )
 )

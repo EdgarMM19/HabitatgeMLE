@@ -244,10 +244,10 @@
         (send ?ofertaAbstracta calcula-a-prop-zona-comercial)
         (send ?ofertaAbstracta calcula-a-prop-transport)
 
-        (send ?ofertaAbstracta calcula-adecuacio-familia)
-        (send ?ofertaAbstracta calcula-adecuacio-ancians)
-        (send ?ofertaAbstracta calcula-adecuacio-joves)
-        (send ?ofertaAbstracta calcula-adecuacio-parelles)
+        (send ?ofertaAbstracta calcula-adequacio-familia)
+        (send ?ofertaAbstracta calcula-adequacio-ancians)
+        (send ?ofertaAbstracta calcula-adequacio-joves)
+        (send ?ofertaAbstracta calcula-adequacio-parelles)
 	)
 )
 
@@ -2152,27 +2152,27 @@
     )
 )
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-adecuacio-familia ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-adequacio-familia ()
     (bind ?oferta ?self:oferta)
     (bind ?habitatge (send ?oferta get-ofereix_a))
     (bind ?punts 0)
     (bind ?no-adequat 0)
     (if (< (send ?habitatge get-nombre_de_banys) 2) then
-        (bind ?no-adecuat 1)
+        (bind ?no-adequat 1)
     )
     (bind ?punts (+ ?punts (send ?habitatge get-nombre_de_banys)))
 
     (if (< (send ?habitatge get-nombre_de_dormitoris_dobles) 1) then
-        (bind ?no-adecuat 1)
+        (bind ?no-adequat 1)
     )
 
     (if (< (send ?habitatge get-nombre_de_dormitoris_simples) 2) then
-        (bind ?no-adecuat 1)
+        (bind ?no-adequat 1)
     )
     (bind ?punts (+ ?punts (send ?habitatge get-nombre_de_dormitoris_simples)))
 
     (if (< (send ?habitatge get-nombre_d_habitants_maxim) 5) then
-        (bind ?no-adecuat 1)
+        (bind ?no-adequat 1)
     )
 
     (if (eq (send ?habitatge get-te_jardi) "true") then
@@ -2195,7 +2195,7 @@
 )
 
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-adecuacio-ancians ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-adequacio-ancians ()
     (bind ?oferta ?self:oferta)
     (bind ?habitatge (send ?oferta get-ofereix_a))
     (bind ?punts 0)
@@ -2237,7 +2237,7 @@
 )
 
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-adecuacio-joves ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-adequacio-joves ()
     (bind ?oferta ?self:oferta)
     (bind ?habitatge (send ?oferta get-ofereix_a))
     (bind ?punts 0)
@@ -2247,7 +2247,7 @@
     )
 
     (if (not (eq ?self:preu Barat)) then
-         (bind ?no-adecuat 1)
+         (bind ?no-adequat 1)
     )
 
     (bind ?punts (+ ?punts (* 2 (send ?habitatge get-nombre_de_dormitoris_simples))))
@@ -2274,14 +2274,14 @@
 )
 
 
-(defmessage-handler MAIN::OfertaAbstracta calcula-adecuacio-parelles ()
+(defmessage-handler MAIN::OfertaAbstracta calcula-adequacio-parelles ()
     (bind ?oferta ?self:oferta)
     (bind ?habitatge (send ?oferta get-ofereix_a))
     (bind ?punts 0)
     (bind ?no-adequat 0)
 
     (if (eq (send ?habitatge get-nombre_de_dormitoris_dobles) 0) then
-         (bind ?no-adecuat 1)
+         (bind ?no-adequat 1)
     )
     (if (not (eq ?self:preu Barat)) then
         (bind ?punts (+ ?punts 2))

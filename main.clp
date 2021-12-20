@@ -2400,7 +2400,7 @@
     )
     (if (eq (class ?self) HabitatgeUnifamiliar) 
         then (bind ?apte TRUE)
-        else (if (< (send ?self get-planta) 2)
+        else (if (< (send ?self get-planta) 1)
             then (bind ?apte TRUE))
     )
     ?apte

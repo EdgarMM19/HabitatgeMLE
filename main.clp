@@ -657,7 +657,7 @@
     (printout t "8 - Zones verdes" crlf)
     (bind ?punts-interes (preguntar-nombres 1 8))
     (loop-for-count (?i 1 (length$ ?punts-interes)) do
-        (switch ?i
+        (switch (nth$ ?i ?punts-interes)
             (case 1 then (modify ?preferencies (vol-a-prop-centres-salut TRUE)))
             (case 2 then (modify ?preferencies (vol-a-prop-hipermercats TRUE)))
             (case 3 then (modify ?preferencies (vol-a-prop-oci-nocturn TRUE)))
@@ -689,7 +689,7 @@
     (printout t "8 - Zones verdes" crlf)
     (bind ?punts-interes (preguntar-nombres 1 8))
     (loop-for-count (?i 1 (length$ ?punts-interes)) do
-        (switch ?i
+        (switch (nth$ ?i ?punts-interes)
             (case 1 then (modify ?preferencies (vol-a-prop-centres-salut FALSE)))
             (case 2 then (modify ?preferencies (vol-a-prop-hipermercats FALSE)))
             (case 3 then (modify ?preferencies (vol-a-prop-oci-nocturn FALSE)))

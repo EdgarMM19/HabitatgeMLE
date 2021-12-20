@@ -438,6 +438,7 @@
     ?informacio <- (informacio)
     =>
     (bind ?preu-maxim-estricte (preguntar-si-o-no "Estàs disposat a pagar més si és per una oferta molt bona?"))
+    (bind ?preu-maxim-estricte (not ?preu-maxim-estricte))
     (printout t crlf)
     (retract ?fet)
     (modify ?informacio (preu-maxim-estricte ?preu-maxim-estricte))
